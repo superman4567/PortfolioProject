@@ -9,7 +9,7 @@ public class AnimationEventHandler : MonoBehaviour
 
     private void Start()
     {
-        animationHandler.PlayAnimationDirectly("AN_Character_Idle_01");
+        animationHandler.PlayAnimationDirectly("AN_Character_MainMenu_Idle");
     }
 
     #region MainMenu

@@ -5,7 +5,20 @@ public class TransitionControllerMainMenu : MonoBehaviour
 {
     [SerializeField] private TransitionModel model;
     [SerializeField] private TransitionViewMainMenu view;
-    [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
+
+    [Space]
+
+    [SerializeField] private SceneHandlerMainMenuToUXUI sceneHandlerMainMenuToUXUI;
+    [SerializeField] private SceneHandlerMainMenuTo3D sceneHandlerMainMenuTo3D;
+    [SerializeField] private SceneHandlerMainMenuToProgramming sceneHandlerMainMenuToProgramming;
+    [SerializeField] private SceneHandlerMainMenuToVFX sceneHandlerMainMenuToVFX;
+
+    [Space]
+
+    [SerializeField] private GameObject camerasUXUI;
+    [SerializeField] private GameObject cameras3D;
+    [SerializeField] private GameObject camerasProgramming;
+    [SerializeField] private GameObject camerasVFX;
 
     const string TRANSITION_OUTRO_TO_UXUI =         "AN_Character_OutroTransition_To_UXUI";
     const string TRANSITION_OUTRO_TO_3D =           "AN_Character_OutroTransition_To_3D";
@@ -28,23 +41,45 @@ public class TransitionControllerMainMenu : MonoBehaviour
 
     public void MainMenuButtonClicked(EnumMainMenuChoices choice)
     {
-        StartCoroutine(sceneHandlerMainMenu.CameraSequence());
-
         currentScene = choice;
 
         switch (choice)
         {
             case EnumMainMenuChoices.UXUI:
                 model.PlayTransitionAnimation(TRANSITION_OUTRO_TO_UXUI, true);
+                StartCoroutine(sceneHandlerMainMenuToUXUI.CameraSequence());
+
+                camerasUXUI.SetActive(true);
+                cameras3D.SetActive(false);
+                camerasProgramming.SetActive(false);
+                camerasVFX.SetActive(false);
                 break;
             case EnumMainMenuChoices.ThreeDArt:
                 model.PlayTransitionAnimation(TRANSITION_OUTRO_TO_3D, true);
+                StartCoroutine(sceneHandlerMainMenuTo3D.CameraSequence());
+
+                camerasUXUI.SetActive(false);
+                cameras3D.SetActive(true);
+                camerasProgramming.SetActive(false);
+                camerasVFX.SetActive(false);
                 break;
             case EnumMainMenuChoices.Programming:
                 model.PlayTransitionAnimation(TRANSITION_OUTRO_TO_Programming, true);
+                StartCoroutine(sceneHandlerMainMenuToProgramming.CameraSequence());
+
+                camerasUXUI.SetActive(false);
+                cameras3D.SetActive(false);
+                camerasProgramming.SetActive(true);
+                camerasVFX.SetActive(false);
                 break;
             case EnumMainMenuChoices.VFX:
                 model.PlayTransitionAnimation(TRANSITION_OUTRO_TO_VFX, true);
+                StartCoroutine(sceneHandlerMainMenuToVFX.CameraSequence());
+
+                camerasUXUI.SetActive(false);
+                cameras3D.SetActive(false);
+                camerasProgramming.SetActive(false);
+                camerasVFX.SetActive(true);
                 break;
         }
     }

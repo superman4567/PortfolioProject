@@ -5,7 +5,7 @@ public class TransitionControllerUXUI : MonoBehaviour
 {
     [SerializeField] private TransitionModel model;
     [SerializeField] private TransitionViewUXUI view;
-    [SerializeField] private SceneHandlerUXUI sceneHandlerUXUI;
+    [SerializeField] private SceneHandlerMainMenuTo3D sceneHandlerUXUI;
 
     const string TRANSITION_INTRO = "AN_Character_IntroTransition_UXUI";
     const string TRANSITION_OUTRO = "AN_Character_OutroTransition_UXUI";
