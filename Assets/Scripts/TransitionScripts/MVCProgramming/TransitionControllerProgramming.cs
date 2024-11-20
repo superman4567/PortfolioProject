@@ -13,13 +13,11 @@ public class TransitionControllerProgramming : MonoBehaviour
     private void OnEnable()
     {
         view.OnBackToMainMenuButtonPressed += BackToMainMenuButtonClicked;
-        model.OnAnimationCallback += OnAnimationCallBack;
     }
 
     private void OnDisable()
     {
         view.OnBackToMainMenuButtonPressed -= BackToMainMenuButtonClicked;
-        model.OnAnimationCallback -= OnAnimationCallBack;
     }
 
     public void HandleIntro()
@@ -36,12 +34,8 @@ public class TransitionControllerProgramming : MonoBehaviour
         model.PlayTransitionAnimation(TRANSITION_OUTRO, true);
     }
 
-    //This is called based on the animation that is triggerd in the method above!
-    private void OnAnimationCallBack(string eventName)
+    private void LoadMainMenuScene()
     {
-        if (eventName != "AN_Character_OutroTransition_Programming")
-            return;
-
         SceneManager.LoadScene("MainMenuScene");
     }
 }

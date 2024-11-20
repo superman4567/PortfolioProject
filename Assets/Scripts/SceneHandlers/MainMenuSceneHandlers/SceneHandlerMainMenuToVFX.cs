@@ -3,10 +3,12 @@ using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 using System.Collections;
-using DG.Tweening;
 
-public class SceneHandlerMainMenuToProgramming : MonoBehaviour
+public class SceneHandlerMainMenuToVFX : MonoBehaviour
 {
+    public delegate void OnSequenceCompletedEvent(EnumMainMenuChoices choice);
+    public event OnSequenceCompletedEvent OnSequenceCompleted;
+
     [Header("Camera References")]
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
@@ -22,7 +24,6 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     [SerializeField] private float transitionDuration3 = 0.5f;
 
     [Header("External References")]
-    [SerializeField] private Canvas loginCanvas;
     [SerializeField] private GameObject building;
     [SerializeField] private Material material;
     [Space]
@@ -93,36 +94,18 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
         yield return new WaitForSeconds(transitionDuration3);
 
-        TransitionToCamera3();
+        StartCoroutine(TransitionToCamera3());
     }
 
-    private void TransitionToCamera3()
+    private IEnumerator TransitionToCamera3()
     {
         ActivateCamera(camera3);
 
         StartCoroutine(LerpMaterialProperty());
 
-        LerpLaptopCamera();
+        yield return new WaitForSeconds(transitionDuration3);
 
-        LerpLoginCanvas();
-    }
-
-    private void LerpLaptopCamera()
-    {
-        var transposer = camera3.GetCinemachineComponent<CinemachineFramingTransposer>();
-
-        float startValue = 1.25f;
-        float endValue = 0.25f;
-        float duration = 0.5f;
-
-        transposer.m_CameraDistance = startValue;
-
-        DOTween.To(
-            () => transposer.m_CameraDistance,
-            x => transposer.m_CameraDistance = x,
-            endValue,
-            duration
-        ).SetEase(Ease.InSine);
+        SequenceComplete();
     }
 
     private IEnumerator LerpMaterialProperty()
@@ -195,11 +178,6 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
         gradientSky.bottom.value = endColorBot;
     }
 
-    private IEnumerator LerpLoginCanvas()
-    {
-        yield return null;
-    }
-
     private void ActivateCamera(CinemachineVirtualCamera camera)
     {
         camera0.enabled = false;
@@ -208,5 +186,10 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
         camera3.enabled = false;
 
         camera.enabled = true;
+    }
+
+    private void SequenceComplete()
+    {
+        OnSequenceCompleted?.Invoke(EnumMainMenuChoices.VFX);
     }
 }

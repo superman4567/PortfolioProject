@@ -1,12 +1,17 @@
-using UnityEngine;
-using DG.Tweening;
 using Cinemachine;
+using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
-using System.Collections;
 using UnityEngine.Rendering;
+using System.Collections;
+using DG.Tweening;
+using UnityEngine.UI;
+using TMPro;
 
-public class SceneHandlerMainMenuToUXUI : MonoBehaviour
+public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 {
+    public delegate void OnSequenceCompletedEvent(EnumMainMenuChoices choice);
+    public event OnSequenceCompletedEvent OnSequenceCompleted;
+
     [Header("Camera References")]
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
@@ -20,6 +25,12 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
     [SerializeField] private float transitionDuration1 = 0.5f;
     [SerializeField] private float transitionDuration2 = 0.5f;
     [SerializeField] private float transitionDuration3 = 0.5f;
+
+    [Header("External References")]
+    [SerializeField] private CanvasGroup loginCanvasGroup;
+    [SerializeField] private Image logoFill;
+    [SerializeField] private TextMeshProUGUI loadingText;
+    [SerializeField] private AnimationCurve customCurve;
 
     [Header("External References")]
     [SerializeField] private GameObject building;
@@ -37,6 +48,9 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 
         material = building.GetComponent<MeshRenderer>().material;
         material.SetFloat("_BlackAmount", 0.5f);
+
+        loginCanvasGroup.alpha = 0f;
+        logoFill.fillAmount = 0f;
 
         volume.profile.TryGet<Fog>(out fog);
         volume.profile.TryGet<GradientSky>(out gradientSky);
@@ -100,7 +114,62 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
         ActivateCamera(camera3);
 
         StartCoroutine(LerpMaterialProperty());
-        
+
+        StartCoroutine(LerpLaptopCamera());
+    }
+
+    private IEnumerator LerpLaptopCamera()
+    {
+        var transposer = camera3.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+        float startValue = 1.25f;
+        float endValue = 0.25f;
+        float duration = 0.5f;
+
+        transposer.m_CameraDistance = startValue;
+
+        DOTween.To(
+            () => transposer.m_CameraDistance,
+            x => transposer.m_CameraDistance = x,
+            endValue,
+            duration
+        ).SetEase(Ease.InSine);
+
+        yield return new WaitForSeconds(transitionDuration3);
+
+        LerpLoginCanvas();
+    }
+
+    private void LerpLoginCanvas()
+    {
+        float startValue = 0f;
+        float endValue = 1f;
+        float duration = 3f;
+
+        DOTween.To(() => startValue, x =>
+        {
+            startValue = x;
+            UpdateCanvasGroup(startValue);
+        }, endValue, 0.2f);
+
+        DOTween.To(() => startValue, x =>
+        {
+            startValue = x;
+            UpdateLogoAndText(startValue);
+        }, endValue, duration)
+         .SetEase(customCurve)
+         .OnComplete(SequenceComplete);
+    }
+
+    private void UpdateCanvasGroup(float value)
+    {
+        loginCanvasGroup.alpha = value;
+    }
+
+    private void UpdateLogoAndText(float value)
+    {
+       logoFill.fillAmount = value;
+       loadingText.text = $"LOADING GITHUB PROJECTS  -  {Mathf.RoundToInt(value * 100) + "%"}";
     }
 
     private IEnumerator LerpMaterialProperty()
@@ -181,5 +250,10 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
         camera3.enabled = false;
 
         camera.enabled = true;
+    }
+
+    private void SequenceComplete()
+    {
+        OnSequenceCompleted?.Invoke(EnumMainMenuChoices.Programming);
     }
 }

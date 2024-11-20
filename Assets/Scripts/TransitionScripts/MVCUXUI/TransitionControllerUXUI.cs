@@ -5,7 +5,9 @@ public class TransitionControllerUXUI : MonoBehaviour
 {
     [SerializeField] private TransitionModel model;
     [SerializeField] private TransitionViewUXUI view;
-    [SerializeField] private SceneHandlerMainMenuTo3D sceneHandlerUXUI;
+
+    [SerializeField] private SceneHandlerUXUIIntro sceneHandlerIntroUXUI;
+    [SerializeField] private SceneHandlerUXUIOutro sceneHandlerOutroUXUI;
 
     const string TRANSITION_INTRO = "AN_Character_IntroTransition_UXUI";
     const string TRANSITION_OUTRO = "AN_Character_OutroTransition_UXUI";
@@ -13,35 +15,36 @@ public class TransitionControllerUXUI : MonoBehaviour
     private void OnEnable()
     {
         view.OnBackToMainMenuButtonPressed += BackToMainMenuButtonClicked;
-        model.OnAnimationCallback += OnAnimationCallBack;
+        sceneHandlerOutroUXUI.OnSequenceCompleted += LoadMainMenuScene;
     }
 
     private void OnDisable()
     {
         view.OnBackToMainMenuButtonPressed -= BackToMainMenuButtonClicked;
-        model.OnAnimationCallback -= OnAnimationCallBack;
+        sceneHandlerOutroUXUI.OnSequenceCompleted -= LoadMainMenuScene;
+    }
+
+    private void Start()
+    {
+        HandleIntro();
     }
 
     public void HandleIntro()
     {
-        //StartCoroutine(sceneHandlerUXUI.CameraSequence());
+        StartCoroutine(sceneHandlerIntroUXUI.CameraSequence());
 
         model.PlayTransitionAnimation(TRANSITION_INTRO, true);
     }
 
     public void BackToMainMenuButtonClicked()
     {
-        //StartCoroutine(sceneHandlerUXUI.CameraSequence());
+        StartCoroutine(sceneHandlerOutroUXUI.CameraSequence());
 
         model.PlayTransitionAnimation(TRANSITION_OUTRO, true);
     }
 
-    //This is called based on the animation that is triggerd in the method above!
-    private void OnAnimationCallBack(string eventName)
+    private void LoadMainMenuScene()
     {
-        if (eventName != "AN_Character_OutroTransition_UXUI")
-            return;
-
         SceneManager.LoadScene("MainMenuScene");
     }
 }

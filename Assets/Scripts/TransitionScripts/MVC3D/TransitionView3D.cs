@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TransitionViewUXUI : MonoBehaviour
+public class TransitionView3D : MonoBehaviour
 {
     public delegate void BackToMainMenuButtonEvent();
     public event BackToMainMenuButtonEvent OnBackToMainMenuButtonPressed;
@@ -19,7 +17,6 @@ public class TransitionViewUXUI : MonoBehaviour
     {
         returnToMainMenuButton.onClick.RemoveAllListeners();
     }
-
 
     private void SetUpButton(Button button)
     {

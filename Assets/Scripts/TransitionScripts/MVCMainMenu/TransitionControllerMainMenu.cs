@@ -30,13 +30,21 @@ public class TransitionControllerMainMenu : MonoBehaviour
     private void OnEnable()
     {
         view.OnMainMenuButtonPressed += MainMenuButtonClicked;
-        model.OnAnimationCallback += OnAnimationCallBack;
+
+        sceneHandlerMainMenuToUXUI.OnSequenceCompleted += LoadScene;
+        sceneHandlerMainMenuTo3D.OnSequenceCompleted += LoadScene;
+        sceneHandlerMainMenuToProgramming.OnSequenceCompleted += LoadScene;
+        sceneHandlerMainMenuToVFX.OnSequenceCompleted += LoadScene;
     }
 
     private void OnDisable()
     {
         view.OnMainMenuButtonPressed -= MainMenuButtonClicked;
-        model.OnAnimationCallback -= OnAnimationCallBack;
+
+        sceneHandlerMainMenuToUXUI.OnSequenceCompleted -= LoadScene;
+        sceneHandlerMainMenuTo3D.OnSequenceCompleted -= LoadScene;
+        sceneHandlerMainMenuToProgramming.OnSequenceCompleted -= LoadScene;
+        sceneHandlerMainMenuToVFX.OnSequenceCompleted -= LoadScene;
     }
 
     public void MainMenuButtonClicked(EnumMainMenuChoices choice)
@@ -84,13 +92,9 @@ public class TransitionControllerMainMenu : MonoBehaviour
         }
     }
 
-    //This is called based on the animation that is triggerd in the method above!
-    private void OnAnimationCallBack(string eventName)
+    private void LoadScene(EnumMainMenuChoices choice)
     {
-        if (eventName != "AnimationEnd") 
-            return;
-
-        string name = currentScene switch
+        string name = choice switch
         {
             EnumMainMenuChoices.MainMenu => "MainMenuScene",
             EnumMainMenuChoices.UXUI => "UXUIScene",
@@ -102,5 +106,7 @@ public class TransitionControllerMainMenu : MonoBehaviour
         };
 
         SceneManager.LoadScene(name);
+
+        Debug.Log(name);
     }
 }

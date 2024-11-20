@@ -1795,7 +1795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 359842688}
   m_Layer: 5
-  m_Name: PressPlayToStart
+  m_Name: UXUIParent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4409,7 +4409,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationHandler: {fileID: 7492335505655612301}
-  animationEventHandler: {fileID: 7492335505655612299}
 --- !u!114 &959347601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4422,7 +4421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26f004fc0a99694bb96568c46f64347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  returnToMainMenuButton: {fileID: 0}
+  returnToMainMenuButton: {fileID: 1307146211}
 --- !u!114 &959347602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4437,7 +4436,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 959347600}
   view: {fileID: 959347601}
-  sceneHandlerUXUI: {fileID: 1484731209}
+  sceneHandlerIntroUXUI: {fileID: 1484731209}
+  sceneHandlerOutroUXUI: {fileID: 1484731210}
 --- !u!1 &969888616
 GameObject:
   m_ObjectHideFlags: 0
@@ -5409,7 +5409,7 @@ GameObject:
   - component: {fileID: 1307146210}
   - component: {fileID: 1307146209}
   m_Layer: 5
-  m_Name: BackButton
+  m_Name: ReturnToMainMenuButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5450,7 +5450,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 1307146211}
   buttonText: {fileID: 791045413}
-  fontSizeTweenDuration: 0.2
   colorTweenDuration: 0.2
 --- !u!114 &1307146210
 MonoBehaviour:
@@ -5785,6 +5784,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1484731208}
   - component: {fileID: 1484731209}
+  - component: {fileID: 1484731210}
   m_Layer: 0
   m_Name: SceneHandler
   m_TagString: Untagged
@@ -5816,9 +5816,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1484731206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8961eee4767fad84193a071e4eae1380, type: 3}
+  m_Script: {fileID: 11500000, guid: 7cb2ebfa50fd142459d2fa87a3263b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cineBrain: {fileID: 1823688469}
+--- !u!114 &1484731210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484731206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ffd32a825633044b8268130a145c18b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cineBrain: {fileID: 1823688469}
 --- !u!1 &1499642382
 GameObject:
   m_ObjectHideFlags: 0
@@ -6444,7 +6458,7 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 1
+    m_Style: 0
     m_Time: 2
     m_CustomCurve:
       serializedVersion: 2
@@ -7566,18 +7580,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f, type: 3}
---- !u!114 &7492335505655612299 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1470524251367654370, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7492335505655612298}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03485d115f15af14f8dc00c08fefec1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &7492335505655612301 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2521872732857610544, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,

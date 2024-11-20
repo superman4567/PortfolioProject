@@ -1,11 +1,15 @@
-using Cinemachine;
 using UnityEngine;
+using DG.Tweening;
+using Cinemachine;
 using UnityEngine.Rendering.HighDefinition;
-using UnityEngine.Rendering;
 using System.Collections;
+using UnityEngine.Rendering;
 
-public class SceneHandlerMainMenuTo3D : MonoBehaviour
+public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 {
+    public delegate void OnSequenceCompletedEvent (EnumMainMenuChoices choice);
+    public event OnSequenceCompletedEvent OnSequenceCompleted;
+
     [Header("Camera References")]
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
@@ -19,6 +23,9 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     [SerializeField] private float transitionDuration1 = 0.5f;
     [SerializeField] private float transitionDuration2 = 0.5f;
     [SerializeField] private float transitionDuration3 = 0.5f;
+    [Space]
+    [SerializeField] private float loadsceneBuffer = 0.5f;
+    [SerializeField] private AnimationCurve customCurve;
 
     [Header("External References")]
     [SerializeField] private GameObject building;
@@ -92,6 +99,10 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
         yield return new WaitForSeconds(transitionDuration3);
 
         TransitionToCamera3();
+
+        yield return new WaitForSeconds(loadsceneBuffer);
+
+        SequenceComplete();
     }
 
     private void TransitionToCamera3()
@@ -100,6 +111,25 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
         StartCoroutine(LerpMaterialProperty());
 
+        LerpCamera3();
+    }
+
+    private void LerpCamera3()
+    {
+        var transposer = camera3.GetCinemachineComponent<CinemachineFramingTransposer>();
+
+        float startValue = 3f;
+        float endValue = 5f;
+        float duration = .8f;
+
+        transposer.m_CameraDistance = startValue;
+
+        DOTween.To(
+            () => transposer.m_CameraDistance,
+            x => transposer.m_CameraDistance = x,
+            endValue,
+            duration
+        ).SetEase(customCurve);
     }
 
     private IEnumerator LerpMaterialProperty()
@@ -180,5 +210,10 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
         camera3.enabled = false;
 
         camera.enabled = true;
+    }
+
+    private void SequenceComplete()
+    {
+        OnSequenceCompleted?.Invoke(EnumMainMenuChoices.UXUI);
     }
 }

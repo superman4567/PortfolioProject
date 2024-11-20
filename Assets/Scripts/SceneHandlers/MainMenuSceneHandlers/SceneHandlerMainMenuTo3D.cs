@@ -4,8 +4,11 @@ using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 using System.Collections;
 
-public class SceneHandlerMainMenuToVFX : MonoBehaviour
+public class SceneHandlerMainMenuTo3D : MonoBehaviour
 {
+    public delegate void OnSequenceCompletedEvent(EnumMainMenuChoices choice);
+    public event OnSequenceCompletedEvent OnSequenceCompleted;
+
     [Header("Camera References")]
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
@@ -19,6 +22,8 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
     [SerializeField] private float transitionDuration1 = 0.5f;
     [SerializeField] private float transitionDuration2 = 0.5f;
     [SerializeField] private float transitionDuration3 = 0.5f;
+    [Space]
+    [SerializeField] private float loadsceneBuffer = 0.5f;
 
     [Header("External References")]
     [SerializeField] private GameObject building;
@@ -91,15 +96,18 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
 
         yield return new WaitForSeconds(transitionDuration3);
 
-        TransitionToCamera3();
+        StartCoroutine(TransitionToCamera3());    
     }
 
-    private void TransitionToCamera3()
+    private IEnumerator TransitionToCamera3()
     {
         ActivateCamera(camera3);
 
         StartCoroutine(LerpMaterialProperty());
 
+        yield return new WaitForSeconds(loadsceneBuffer);
+
+        SequenceComplete();
     }
 
     private IEnumerator LerpMaterialProperty()
@@ -180,5 +188,10 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
         camera3.enabled = false;
 
         camera.enabled = true;
+    }
+
+    private void SequenceComplete()
+    {
+        OnSequenceCompleted?.Invoke(EnumMainMenuChoices.ThreeDArt);
     }
 }

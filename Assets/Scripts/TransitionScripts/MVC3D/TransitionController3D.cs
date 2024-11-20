@@ -4,8 +4,10 @@ using UnityEngine.SceneManagement;
 public class TransitionController3D : MonoBehaviour
 {
     [SerializeField] private TransitionModel model;
-    [SerializeField] private TransitionViewUXUI view;
-    [SerializeField] private SceneHandlerMainMenuTo3D sceneHandlerUXUI;
+    [SerializeField] private TransitionView3D view;
+
+    [SerializeField] private SceneHandler3DIntro sceneHandlerIntro3D;
+    [SerializeField] private SceneHandler3DOutro sceneHandlerOutro3D;
 
     const string TRANSITION_INTRO = "AN_Character_IntroTransition_3D";
     const string TRANSITION_OUTRO = "AN_Character_OutroTransition_3D";
@@ -13,35 +15,36 @@ public class TransitionController3D : MonoBehaviour
     private void OnEnable()
     {
         view.OnBackToMainMenuButtonPressed += BackToMainMenuButtonClicked;
-        model.OnAnimationCallback += OnAnimationCallBack;
+        sceneHandlerOutro3D.OnSequenceCompleted += LoadMainMenuScene;
     }
 
     private void OnDisable()
     {
         view.OnBackToMainMenuButtonPressed -= BackToMainMenuButtonClicked;
-        model.OnAnimationCallback -= OnAnimationCallBack;
+        sceneHandlerOutro3D.OnSequenceCompleted += LoadMainMenuScene;
+    }
+
+    private void Start()
+    {
+        HandleIntro();
     }
 
     public void HandleIntro()
     {
-        //StartCoroutine(sceneHandlerUXUI.CameraSequence());
+        StartCoroutine(sceneHandlerIntro3D.CameraSequence());
 
         model.PlayTransitionAnimation(TRANSITION_INTRO, true);
     }
 
     public void BackToMainMenuButtonClicked()
     {
-        //StartCoroutine(sceneHandlerUXUI.CameraSequence());
+        StartCoroutine(sceneHandlerOutro3D.CameraSequence());
 
         model.PlayTransitionAnimation(TRANSITION_OUTRO, true);
     }
 
-    //This is called based on the animation that is triggerd in the method above!
-    private void OnAnimationCallBack(string eventName)
+    private void LoadMainMenuScene()
     {
-        if (eventName != "AN_Character_OutroTransition_UXUI")
-            return;
-
         SceneManager.LoadScene("MainMenuScene");
     }
 }
