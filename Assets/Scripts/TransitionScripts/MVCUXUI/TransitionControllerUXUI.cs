@@ -15,13 +15,17 @@ public class TransitionControllerUXUI : MonoBehaviour
     private void OnEnable()
     {
         view.OnBackToMainMenuButtonPressed += BackToMainMenuButtonClicked;
-        sceneHandlerOutroUXUI.OnSequenceCompleted += LoadMainMenuScene;
+        sceneHandlerIntroUXUI.OnIntroSequenceCompleted += ShowUI;
+        sceneHandlerOutroUXUI.OnHideUI += HideUI;
+        sceneHandlerOutroUXUI.OnOutroSequenceCompleted += LoadMainMenuScene;
     }
 
     private void OnDisable()
     {
         view.OnBackToMainMenuButtonPressed -= BackToMainMenuButtonClicked;
-        sceneHandlerOutroUXUI.OnSequenceCompleted -= LoadMainMenuScene;
+        sceneHandlerIntroUXUI.OnIntroSequenceCompleted -= ShowUI;
+        sceneHandlerOutroUXUI.OnHideUI -= HideUI;
+        sceneHandlerOutroUXUI.OnOutroSequenceCompleted -= LoadMainMenuScene;
     }
 
     private void Start()
@@ -38,9 +42,19 @@ public class TransitionControllerUXUI : MonoBehaviour
 
     public void BackToMainMenuButtonClicked()
     {
-        StartCoroutine(sceneHandlerOutroUXUI.CameraSequence());
+        sceneHandlerOutroUXUI.CameraSequence();
 
         model.PlayTransitionAnimation(TRANSITION_OUTRO, true);
+    }
+
+    private void ShowUI()
+    {
+        view.ShowUI();
+    }
+
+    private void HideUI()
+    {
+        view.HideUI();
     }
 
     private void LoadMainMenuScene()
