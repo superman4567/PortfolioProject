@@ -30,6 +30,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     [SerializeField] private Material material;
     [Space]
     [SerializeField] private Volume volume;
+    [SerializeField] private SplineFollower[] ravens;
     private Fog fog;
     private GradientSky gradientSky;
 
@@ -92,7 +93,6 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
         ActivateCamera(camera2);
 
         StartCoroutine(LerpFogColor());
-        StartCoroutine(LerpSkyColors());
 
         yield return new WaitForSeconds(transitionDuration3);
 
@@ -103,7 +103,16 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     {
         ActivateCamera(camera3);
 
+        yield return new WaitForSeconds(0.2f);
+
+        foreach (var raven in ravens) 
+        {
+            yield return new WaitForSeconds(0.05f);
+            raven.isLooping = true;
+        }
+
         StartCoroutine(LerpMaterialProperty());
+        StartCoroutine(LerpSkyColors());
 
         yield return new WaitForSeconds(loadsceneBuffer);
 
@@ -112,7 +121,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private IEnumerator LerpMaterialProperty()
     {
-        float lerpDuration = 2f; // Adjust as needed
+        float lerpDuration = 1.2f; // Adjust as needed
         float startValue = 0.5f;
         float endValue = -40f;
         float elapsedTime = 0f;
@@ -130,7 +139,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private IEnumerator LerpFogColor()
     {
-        float lerpDuration = 2f;
+        float lerpDuration = 1.2f;
         Color startColor = new Color(113f / 255f, 113f / 255f, 113f / 255f);
         Color endColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
         float elapsedTime = 0f;
@@ -149,7 +158,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private IEnumerator LerpSkyColors()
     {
-        float lerpDuration = 2f; // Adjust as needed
+        float lerpDuration = 1.2f; // Adjust as needed
         Color startColorTop = new Color(0f / 255f, 0f / 255f, 0f / 255f);
         Color startColorMid = new Color(34f / 255f, 34f / 255f, 34f / 255f);
         Color startColorBot = new Color(159f / 255f, 159f / 255f, 159f / 255f);
