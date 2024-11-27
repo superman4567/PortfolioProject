@@ -15,13 +15,13 @@ public class TransitionController3D : MonoBehaviour
     private void OnEnable()
     {
         view.OnBackToMainMenuButtonPressed += BackToMainMenuButtonClicked;
-        sceneHandlerOutro3D.OnSequenceCompleted += LoadMainMenuScene;
+        sceneHandlerOutro3D.OnOutroSequenceCompleted += LoadMainMenuScene;
     }
 
     private void OnDisable()
     {
         view.OnBackToMainMenuButtonPressed -= BackToMainMenuButtonClicked;
-        sceneHandlerOutro3D.OnSequenceCompleted += LoadMainMenuScene;
+        sceneHandlerOutro3D.OnOutroSequenceCompleted += LoadMainMenuScene;
     }
 
     private void Start()

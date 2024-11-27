@@ -17,6 +17,7 @@ public class SceneHandlerMainMenu : MonoBehaviour
     private void Start()
     {
         categoriesCanvasGroup.alpha = 0;
+        categoriesCanvasGroup.interactable = false;
         
         AnimatePressSpaceToStartCanvasGroup();
     }
@@ -45,6 +46,8 @@ public class SceneHandlerMainMenu : MonoBehaviour
 
         categoriesCanvasGroup.DOFade(1, duration2)
             .SetEase(animationCurve2);
+
+        categoriesCanvasGroup.interactable = true;
     }
 
     public void AnimateOutCategoryCanvasGroup()
@@ -53,5 +56,7 @@ public class SceneHandlerMainMenu : MonoBehaviour
 
         categoriesCanvasGroup.DOFade(0, duration2)
             .SetEase(animationCurve2);
+
+        categoriesCanvasGroup.interactable = false;
     }
 }

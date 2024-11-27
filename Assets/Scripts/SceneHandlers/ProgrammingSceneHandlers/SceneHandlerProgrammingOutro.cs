@@ -20,6 +20,7 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
     [Space]
 
     public Transform cam1Start;
+    public Transform cam1End;
     [Space]
 
     public Transform cam3Start;
@@ -65,6 +66,7 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
         ActivateCamera(cam1);
 
         cam1.transform.position = cam1Start.position;
+        cam1.transform.DOMove(cam1End.position, delayPart1).SetEase(Ease.InOutSine);
 
         yield return new WaitForSeconds(delayPart1);
 
