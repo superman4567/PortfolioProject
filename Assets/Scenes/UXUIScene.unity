@@ -2555,7 +2555,7 @@ MonoBehaviour:
   priority: 100
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 8ba92e2dd7f884a0f88b98fa2d235fe7, type: 2}
+  sharedProfile: {fileID: 11400000, guid: 3bb98c5602382ca4c95f956b22d6af42, type: 2}
 --- !u!4 &432432461
 Transform:
   m_ObjectHideFlags: 0
@@ -6317,6 +6317,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8196390316899074584, guid: d53c005665d4092458a4c8c4150db64c,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3409224b366ec9f4a8fb512b78f9d99c, type: 2}
     - target: {fileID: -6857588161309688547, guid: d53c005665d4092458a4c8c4150db64c,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -6862,7 +6867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1552748659
 Transform:
   m_ObjectHideFlags: 0
@@ -9418,6 +9423,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 2282695124986880933, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2425414065215171362, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
         type: 3}
