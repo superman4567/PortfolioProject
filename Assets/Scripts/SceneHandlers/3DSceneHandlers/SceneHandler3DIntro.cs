@@ -10,6 +10,7 @@ public class SceneHandler3DIntro : MonoBehaviour
 
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private AccessoiryShower accessoiryShower;
 
     [Space]
 
@@ -28,10 +29,18 @@ public class SceneHandler3DIntro : MonoBehaviour
     [Space]
     
     public Transform cam3Start;
+    public Transform cam3End;
     [Space]
     
     public Transform cam4Start;
     public Transform cam4End;
+
+    [Space]
+
+    public float delayBeforeShot = 0.4f;
+    public GameObject bullet;
+    public Transform bulletStartPOS;
+    public Transform bulletEndPOS;
 
     [Space]
 
@@ -55,9 +64,12 @@ public class SceneHandler3DIntro : MonoBehaviour
     {
         environment_UXUI_Intro.SetActive(true);
         environment_UXUI_Outro.SetActive(false);
+        bullet.SetActive(false);
 
         introCameras.SetActive(true);
         outroCameras.SetActive(false);
+
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Sniper);
     }
 
     public IEnumerator CameraSequence()
@@ -89,7 +101,17 @@ public class SceneHandler3DIntro : MonoBehaviour
     {
         ActivateCamera(cam3);
         cam3.transform.position = cam3Start.position;
-        yield return new WaitForSeconds(delayPart2);
+        cam3.transform.rotation = cam3Start.rotation;
+
+        yield return new WaitForSeconds(delayBeforeShot);
+        bullet.SetActive(true);
+        bullet.transform.position = bulletStartPOS.transform.position;
+        bullet.transform.rotation = bulletStartPOS.transform.rotation;
+        bullet.transform.DOMove(bulletEndPOS.position, delayPart3 - delayBeforeShot).SetEase(Ease.InOutSine);
+        bullet.transform.DORotate(bulletEndPOS.rotation.eulerAngles, delayPart3 - delayBeforeShot).SetEase(Ease.InOutSine);
+
+        cam3.transform.DORotate(cam3End.rotation.eulerAngles, delayPart3 - delayBeforeShot).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(delayPart3 - delayBeforeShot);
         StartCoroutine(TransitionToPart4());
     }
 

@@ -13,6 +13,7 @@ public class SceneHandler3DOutro : MonoBehaviour
 
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private AccessoiryShower accessoiryShower;
 
     [Space]
     [SerializeField] private CinemachineVirtualCamera cam1;
@@ -62,6 +63,8 @@ public class SceneHandler3DOutro : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Vector);
+
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.OutroThreeDArt);
         OnHideUI?.Invoke();
         animator.SetTrigger("ParkourAreaAnimation");
