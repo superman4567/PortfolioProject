@@ -43,7 +43,7 @@ public class TransitionViewUXUI : MonoBehaviour
 
     public void HideUI()
     {
-        float duration = 1f;
+        float duration = 0.4f;
         canvasgroup.alpha = 1;
         canvasgroup.DOFade(0, duration).SetEase(Ease.InOutSine);
 

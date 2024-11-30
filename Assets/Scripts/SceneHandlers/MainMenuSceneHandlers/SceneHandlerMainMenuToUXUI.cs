@@ -13,6 +13,7 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
     [Header("Camera References")]
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private TimeScaleController timeScaleController;
     [Space]
     [SerializeField] private CinemachineVirtualCamera mmCamera;
     [SerializeField] private CinemachineVirtualCamera camera0;
@@ -64,8 +65,8 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
+        timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryUXUI);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
-
         yield return StartCoroutine(TransitionToCamera0());
     }
 
@@ -108,9 +109,7 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
     private void TransitionToCamera3()
     {
         ActivateCamera(camera3);
-
         StartCoroutine(LerpMaterialProperty());
-
         LerpCamera3();
     }
 

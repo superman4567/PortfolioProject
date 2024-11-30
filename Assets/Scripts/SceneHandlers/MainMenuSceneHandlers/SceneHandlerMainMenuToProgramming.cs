@@ -15,6 +15,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     [Header("Camera References")]
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private TimeScaleController timeScaleController;
     [Space]
     [SerializeField] private CinemachineVirtualCamera mmCamera;
     [SerializeField] private CinemachineVirtualCamera camera0;
@@ -72,8 +73,8 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
+        timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryProgramming);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
-
         yield return StartCoroutine(TransitionToCamera0());
     }
 
@@ -158,7 +159,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
             UpdateLogoAndText(startValue);
         }, endValue, duration)
          .SetEase(customCurve)
-         .OnComplete(SequenceComplete);
+         .OnComplete(ScreenToBlack);
     }
 
     private void UpdateCanvasGroup(float value)
@@ -252,8 +253,22 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
         camera.enabled = true;
     }
 
+    private void ScreenToBlack()
+    {
+        float startValue = 1f;
+        float endValue = 0f;
+
+        DOTween.To(() => startValue, x =>
+        {
+            startValue = x;
+            UpdateCanvasGroup(startValue);
+        }, endValue, 0.4f)
+        .OnComplete(SequenceComplete);
+    }
+
     private void SequenceComplete()
     {
+        
         OnSequenceCompleted?.Invoke(EnumMainMenuChoices.Programming);
     }
 }

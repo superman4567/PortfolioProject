@@ -15,13 +15,17 @@ public class TransitionController3D : MonoBehaviour
     private void OnEnable()
     {
         view.OnBackToMainMenuButtonPressed += BackToMainMenuButtonClicked;
+        sceneHandlerIntro3D.OnIntroSequenceCompleted += ShowUI;
+        sceneHandlerOutro3D.OnHideUI += HideUI;
         sceneHandlerOutro3D.OnOutroSequenceCompleted += LoadMainMenuScene;
     }
 
     private void OnDisable()
     {
         view.OnBackToMainMenuButtonPressed -= BackToMainMenuButtonClicked;
-        sceneHandlerOutro3D.OnOutroSequenceCompleted += LoadMainMenuScene;
+        sceneHandlerIntro3D.OnIntroSequenceCompleted -= ShowUI;
+        sceneHandlerOutro3D.OnHideUI -= HideUI;
+        sceneHandlerOutro3D.OnOutroSequenceCompleted -= LoadMainMenuScene;
     }
 
     private void Start()
@@ -33,14 +37,24 @@ public class TransitionController3D : MonoBehaviour
     {
         StartCoroutine(sceneHandlerIntro3D.CameraSequence());
 
-        model.PlayTransitionAnimation(TRANSITION_INTRO, true);
+        model.PlayTransitionAnimation(TRANSITION_INTRO, false);
     }
 
     public void BackToMainMenuButtonClicked()
     {
         StartCoroutine(sceneHandlerOutro3D.CameraSequence());
 
-        model.PlayTransitionAnimation(TRANSITION_OUTRO, true);
+        model.PlayTransitionAnimation(TRANSITION_OUTRO, false);
+    }
+
+    private void ShowUI()
+    {
+        view.ShowUI();
+    }
+
+    private void HideUI()
+    {
+        view.HideUI();
     }
 
     private void LoadMainMenuScene()

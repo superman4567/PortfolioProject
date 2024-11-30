@@ -12,6 +12,7 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
     [Header("Camera References")]
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private TimeScaleController timeScaleController;
     [Space]
     [SerializeField] private CinemachineVirtualCamera mmCamera;
     [SerializeField] private CinemachineVirtualCamera camera0;
@@ -36,10 +37,8 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
     private void Start()
     {
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
-
         material = building.GetComponent<MeshRenderer>().material;
         material.SetFloat("_BlackAmount", 0.5f);
-
         volume.profile.TryGet<Fog>(out fog);
         volume.profile.TryGet<GradientSky>(out gradientSky);
     }
@@ -49,10 +48,8 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && !passedScreen)
         {
             passedScreen = true;
-
             sceneHandlerMainMenu.AnimateInCategoryCanvasGroup();
             sceneHandlerMainMenu.StopPressSpaceAnimation();
-
             mmCamera.Priority = 0;
             camera0.Priority = 1;
         }
@@ -60,51 +57,40 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
+        timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryVFX);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
-
         yield return StartCoroutine(TransitionToCamera0());
     }
 
     private IEnumerator TransitionToCamera0()
     {
         ActivateCamera(camera0);
-
         sceneHandlerMainMenu.AnimateOutCategoryCanvasGroup();
-
         yield return new WaitForSeconds(transitionDuration1);
-
         StartCoroutine(TransitionToCamera1());
     }
 
     private IEnumerator TransitionToCamera1()
     {
         ActivateCamera(camera1);
-
         yield return new WaitForSeconds(transitionDuration2);
-
         StartCoroutine(TransitionToCamera2());
     }
 
     private IEnumerator TransitionToCamera2()
     {
         ActivateCamera(camera2);
-
         StartCoroutine(LerpFogColor());
         StartCoroutine(LerpSkyColors());
-
         yield return new WaitForSeconds(transitionDuration3);
-
         StartCoroutine(TransitionToCamera3());
     }
 
     private IEnumerator TransitionToCamera3()
     {
         ActivateCamera(camera3);
-
         StartCoroutine(LerpMaterialProperty());
-
         yield return new WaitForSeconds(transitionDuration3);
-
         SequenceComplete();
     }
 

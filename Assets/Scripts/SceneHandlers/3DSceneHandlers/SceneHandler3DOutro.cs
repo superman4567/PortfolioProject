@@ -12,6 +12,9 @@ public class SceneHandler3DOutro : MonoBehaviour
     public event OnHideUIEvent OnHideUI;
 
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private TimeScaleController timeScaleController;
+
+    [Space]
     [SerializeField] private CinemachineVirtualCamera cam1;
     [SerializeField] private CinemachineVirtualCamera cam2;
     [SerializeField] private CinemachineVirtualCamera cam3;
@@ -20,11 +23,17 @@ public class SceneHandler3DOutro : MonoBehaviour
     [Space]
 
     public Transform cam1Start;
-    public Transform cam1End;
+
+    [Space]
+
+    public Transform cam2Start;
+    public Transform cam2End;
+
     [Space]
 
     public Transform cam3Start;
     public Transform cam3End;
+
     [Space]
 
     public Transform cam4Start;
@@ -45,63 +54,53 @@ public class SceneHandler3DOutro : MonoBehaviour
     [SerializeField] private float delayPart1 = 1f;
     [SerializeField] private float delayPart2 = 1f;
     [SerializeField] private float delayPart3 = 1f;
+    [SerializeField] private float delayPart4 = 1f;
+
+    [Space]
+
+    [SerializeField] private Animator animator;
 
     public IEnumerator CameraSequence()
     {
+        timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.OutroThreeDArt);
         OnHideUI?.Invoke();
-
+        animator.SetTrigger("ParkourAreaAnimation");
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
-
         yield return StartCoroutine(TransitionToPart1());
     }
 
     private IEnumerator TransitionToPart1()
     {
         ActivateCamera(cam1);
-
         cam1.transform.position = cam1Start.position;
-        cam1.transform.DOMove(cam1End.position, delayPart1).SetEase(Ease.InOutSine);
-
         yield return new WaitForSeconds(delayPart1);
-
         StartCoroutine(TransitionToPart2());
     }
 
     private IEnumerator TransitionToPart2()
     {
         ActivateCamera(cam2);
-
-        var transposer = cam2.GetCinemachineComponent<CinemachineFramingTransposer>();
-        DOTween.To(() => 1.2f, value => transposer.m_CameraDistance = value, 3f, delayPart2).SetEase(Ease.InOutSine);
-
+        cam2.transform.rotation = cam2Start.rotation;
+        cam2.transform.DORotate(cam2End.rotation.eulerAngles, delayPart2).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart2);
-
         StartCoroutine(TransitionToPart3());
     }
 
     private IEnumerator TransitionToPart3()
     {
         ActivateCamera(cam3);
-
         cam3.transform.position = cam3Start.position;
         cam3.transform.DOMove(cam3End.position, delayPart3).SetEase(Ease.InOutSine);
-
         yield return new WaitForSeconds(delayPart3);
-
         StartCoroutine(TransitionToPart4());
     }
 
     private IEnumerator TransitionToPart4()
     {
         ActivateCamera(cam4);
-
-        float delay = 1f;
-
         cam4.transform.position = cam4Start.position;
-        cam4.transform.DOMove(cam4End.position, delay).SetEase(Ease.InOutSine);
-
-        yield return new WaitForSeconds(delay);
-
+        cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(delayPart4);
         SequenceComplete();
     }
 
