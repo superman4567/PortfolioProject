@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class SceneHandlerMainMenu : MonoBehaviour
 {
+    [Header("Accessory Shower")]
+    [SerializeField] private AccessoiryShower accessoiryShower;
+
     [Header("Press Space To Start References")]
     [SerializeField] private CanvasGroup pressSpaceToStartCanvasGroup;
     [SerializeField] private AnimationCurve animationCurve0;
@@ -16,9 +19,9 @@ public class SceneHandlerMainMenu : MonoBehaviour
 
     private void Start()
     {
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Katana);
         categoriesCanvasGroup.alpha = 0;
         categoriesCanvasGroup.interactable = false;
-        
         AnimatePressSpaceToStartCanvasGroup();
     }
 

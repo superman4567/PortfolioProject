@@ -28,12 +28,7 @@ public class AccessoiryShower : MonoBehaviour
 
     public void SetActiveWeapon(WeaponType weapon)
     {
-        // Disable all weapons
-        katana.SetActive(false);
-        mobilePhone.SetActive(false);
-        sniper.SetActive(false);
-        vector.SetActive(false);
-        laptop.SetActive(false);
+        HideAll();
 
         // Enable the specified weapon
         switch (weapon)
@@ -54,8 +49,18 @@ public class AccessoiryShower : MonoBehaviour
                 laptop.SetActive(true);
                 break;
             case WeaponType.Nothing:
-                // Ensure no weapon is enabled
+                HideAll();
                 break;
         }
+    }
+
+    private void HideAll()
+    {
+        // Disable all weapons
+        katana.SetActive(false);
+        mobilePhone.SetActive(false);
+        sniper.SetActive(false);
+        vector.SetActive(false);
+        laptop.SetActive(false);
     }
 }

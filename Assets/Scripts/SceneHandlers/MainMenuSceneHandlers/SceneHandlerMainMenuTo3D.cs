@@ -10,8 +10,9 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     public event OnSequenceCompletedEvent OnSequenceCompleted;
 
     [Header("Camera References")]
-    [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
+    [SerializeField] private AccessoiryShower accessoiryShower;
     [SerializeField] private TimeScaleController timeScaleController;
     [Space]
     [SerializeField] private CinemachineVirtualCamera mmCamera;
@@ -60,6 +61,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Katana);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryThreeDArt);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         yield return StartCoroutine(TransitionToCamera0());

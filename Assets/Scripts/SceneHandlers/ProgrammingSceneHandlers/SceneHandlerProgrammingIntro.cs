@@ -9,6 +9,11 @@ public class SceneHandlerProgrammingIntro : MonoBehaviour
     public event OnSequenceCompletedEvent OnIntroSequenceCompleted;
 
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private AccessoiryShower accessoiryShower;
+    [SerializeField] private TimeScaleController timeScaleController;
+
+    [Space]
+
     [SerializeField] private CinemachineVirtualCamera cam1;
     [SerializeField] private CinemachineVirtualCamera cam2;
     [SerializeField] private CinemachineVirtualCamera cam3;
@@ -46,6 +51,7 @@ public class SceneHandlerProgrammingIntro : MonoBehaviour
     [SerializeField] private float delayPart1;
     [SerializeField] private float delayPart2;
     [SerializeField] private float delayPart3;
+    [SerializeField] private float delayPart4;
 
     private void Start()
     {
@@ -58,15 +64,15 @@ public class SceneHandlerProgrammingIntro : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Laptop);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
-
         yield return StartCoroutine(TransitionToPart1());
     }
 
     private IEnumerator TransitionToPart1()
     {
         ActivateCamera(cam1);
-
+        timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.IntroProgramming);
         cam1.transform.position = cam1Start.position;
         cam1.transform.DOMove(cam1End.position, delayPart1).SetEase(Ease.InOutSine);
 
@@ -103,12 +109,10 @@ public class SceneHandlerProgrammingIntro : MonoBehaviour
     {
         ActivateCamera(cam4);
 
-        float delay = 1f;
-
         cam4.transform.position = cam4Start.position;
-        cam4.transform.DOMove(cam4End.position, delay).SetEase(Ease.InOutSine);
+        cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
 
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(delayPart4);
 
         SequenceComplete();
     }

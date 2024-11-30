@@ -12,6 +12,11 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
     public event OnHideUIEvent OnHideUI;
 
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private AccessoiryShower accessoiryShower;
+    [SerializeField] private TimeScaleController timeScaleController;
+
+    [Space]
+
     [SerializeField] private CinemachineVirtualCamera cam1;
     [SerializeField] private CinemachineVirtualCamera cam2;
     [SerializeField] private CinemachineVirtualCamera cam3;
@@ -32,6 +37,13 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     [Space]
 
+    public GameObject bullet;
+    public Transform bulletStartPOS;
+    public Transform bulletEndPOS;
+    public float shootDelay = 1f;
+
+    [Space]
+
     [SerializeField] private GameObject environment_Programming_Intro;
     [SerializeField] private GameObject environment_Programming_Outro;
 
@@ -45,69 +57,73 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
     [SerializeField] private float delayPart1 = 1f;
     [SerializeField] private float delayPart2 = 1f;
     [SerializeField] private float delayPart3 = 1f;
+    [SerializeField] private float delayPart4 = 1f;
 
     [Space]
 
     [SerializeField] private Animator animator;
 
+    private void Start()
+    {
+        bullet.SetActive(false);
+    }
+
     public IEnumerator CameraSequence()
     {
+        bullet.SetActive(true);
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Sniper);
+       
         animator.SetTrigger("GlassdoorAnimation");
-
         OnHideUI?.Invoke();
-
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
-
         yield return StartCoroutine(TransitionToPart1());
     }
 
     private IEnumerator TransitionToPart1()
     {
         ActivateCamera(cam1);
-
+        timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.OutroProgramming);
         cam1.transform.position = cam1Start.position;
         cam1.transform.DOMove(cam1End.position, delayPart1).SetEase(Ease.InOutSine);
-
         yield return new WaitForSeconds(delayPart1);
-
         StartCoroutine(TransitionToPart2());
     }
 
     private IEnumerator TransitionToPart2()
     {
         ActivateCamera(cam2);
-
         var transposer = cam2.GetCinemachineComponent<CinemachineFramingTransposer>();
         DOTween.To(() => 1.2f, value => transposer.m_CameraDistance = value, 3f, delayPart2).SetEase(Ease.InOutSine);
-
         yield return new WaitForSeconds(delayPart2);
-
         StartCoroutine(TransitionToPart3());
     }
 
     private IEnumerator TransitionToPart3()
     {
         ActivateCamera(cam3);
-
         cam3.transform.position = cam3Start.position;
         cam3.transform.DOMove(cam3End.position, delayPart3).SetEase(Ease.InOutSine);
-
         yield return new WaitForSeconds(delayPart3);
-
         StartCoroutine(TransitionToPart4());
     }
 
     private IEnumerator TransitionToPart4()
     {
         ActivateCamera(cam4);
-
-        float delay = 1f;
-
+        
         cam4.transform.position = cam4Start.position;
-        cam4.transform.DOMove(cam4End.position, delay).SetEase(Ease.InOutSine);
+        cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
 
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(shootDelay);
 
+        bullet.SetActive(true);
+
+        var transposer = cam4.GetCinemachineComponent<CinemachineFramingTransposer>();
+        DOTween.To(() => 1f, value => transposer.m_CameraDistance = value, 0.5f, delayPart2).SetEase(Ease.InOutSine);
+
+        bullet.transform.position = bulletStartPOS.position;
+        bullet.transform.DOMove(bulletEndPOS.position, delayPart4).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(delayPart4 - shootDelay);
         SequenceComplete();
     }
 

@@ -13,8 +13,9 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     public event OnSequenceCompletedEvent OnSequenceCompleted;
 
     [Header("Camera References")]
-    [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private CinemachineBrain cineBrain;
+    [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
+    [SerializeField] private AccessoiryShower accessoiryShower;
     [SerializeField] private TimeScaleController timeScaleController;
     [Space]
     [SerializeField] private CinemachineVirtualCamera mmCamera;
@@ -73,6 +74,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Nothing);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryProgramming);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         yield return StartCoroutine(TransitionToCamera0());
