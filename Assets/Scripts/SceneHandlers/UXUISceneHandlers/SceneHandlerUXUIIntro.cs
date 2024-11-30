@@ -10,6 +10,7 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
 
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private AccessoiryShower accessoiryShower;
 
     [Space]
 
@@ -61,6 +62,7 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
 
     private void Start()
     {
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Nothing);
         environment_UXUI_Intro.SetActive(true);
         environment_UXUI_Outro.SetActive(false);
         introCAmeras.SetActive(true);

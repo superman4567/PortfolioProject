@@ -70,9 +70,7 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
-        bullet.SetActive(true);
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Sniper);
-       
         animator.SetTrigger("GlassdoorAnimation");
         OnHideUI?.Invoke();
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
@@ -102,6 +100,7 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
     {
         ActivateCamera(cam3);
         cam3.transform.position = cam3Start.position;
+        cam3.transform.rotation = cam3Start.rotation;
         cam3.transform.DOMove(cam3End.position, delayPart3).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart3);
         StartCoroutine(TransitionToPart4());
@@ -114,15 +113,12 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
         cam4.transform.position = cam4Start.position;
         cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
 
-        yield return new WaitForSeconds(shootDelay);
-
-        bullet.SetActive(true);
-
         var transposer = cam4.GetCinemachineComponent<CinemachineFramingTransposer>();
-        DOTween.To(() => 1f, value => transposer.m_CameraDistance = value, 0.5f, delayPart2).SetEase(Ease.InOutSine);
-
+        DOTween.To(() => 2f, value => transposer.m_CameraDistance = value, 0.2f, (delayPart4 + 0.3f)).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(shootDelay);
+        bullet.SetActive(true);
         bullet.transform.position = bulletStartPOS.position;
-        bullet.transform.DOMove(bulletEndPOS.position, delayPart4).SetEase(Ease.InOutSine);
+        bullet.transform.DOMove(bulletEndPOS.position, (delayPart4 - shootDelay)).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart4 - shootDelay);
         SequenceComplete();
     }

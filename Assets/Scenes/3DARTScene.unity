@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 758.1453, g: 758.1453, b: 758.1453, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -534,8 +534,8 @@ MonoBehaviour:
   activeWeapon: 0
   katana: {fileID: 42396074}
   mobilePhone: {fileID: 2014978707}
-  sniper: {fileID: 1441287312}
-  vector: {fileID: 727743177}
+  sniper: {fileID: 1786292526}
+  vector: {fileID: 745004846}
   laptop: {fileID: 2068246183}
 --- !u!1 &113059176
 GameObject:
@@ -3491,12 +3491,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1912836623}
   m_LocalEulerAnglesHint: {x: 9.658, y: -90, z: 0}
---- !u!1 &727743177 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8680418427873538275, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7492335505655612298}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &735058715
 GameObject:
   m_ObjectHideFlags: 3
@@ -3603,6 +3597,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &745004846 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4791159104799946371, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7492335505655612298}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &809559587
 GameObject:
   m_ObjectHideFlags: 3
@@ -6172,12 +6172,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1422678563}
   m_CullTransparentMesh: 1
---- !u!1 &1441287312 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4497785935486670616, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
-    type: 3}
-  m_PrefabInstance: {fileID: 7492335505655612298}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1443205145
 GameObject:
   m_ObjectHideFlags: 0
@@ -7541,6 +7535,12 @@ Transform:
   - {fileID: 1991984207}
   m_Father: {fileID: 1231368651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1786292526 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5767106299139152943, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7492335505655612298}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1823688464
 GameObject:
   m_ObjectHideFlags: 0
@@ -7783,7 +7783,7 @@ MonoBehaviour:
   m_UpdateMethod: 2
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 0
+    m_Style: 1
     m_Time: 2
     m_CustomCurve:
       serializedVersion: 2
@@ -8950,7 +8950,7 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.66948265
+        time: 0.59158134
         value: 0.985127
         inSlope: 0.005207248
         outSlope: -7.3635573
@@ -8959,17 +8959,26 @@ MonoBehaviour:
         inWeight: 0.11253059
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.7753063
-        value: 0.044163655
-        inSlope: -0.08161009
-        outSlope: -0.08161009
+        time: 0.655006
+        value: 0.050694417
+        inSlope: 0.063801855
+        outSlope: 0.063801855
         tangentMode: 0
         weightedMode: 0
         inWeight: 0.2418065
-        outWeight: 0.77140194
+        outWeight: 0.16947998
       - serializedVersion: 3
-        time: 0.9542102
-        value: 0.31908074
+        time: 0.8832322
+        value: 0.10955201
+        inSlope: 1.0475224
+        outSlope: 1.0475224
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.9317054
+        value: 0.6979161
         inSlope: 5.4438086
         outSlope: 5.4438086
         tangentMode: 0
@@ -8979,8 +8988,8 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 14.870552
-        outSlope: 14.870552
+        inSlope: 4.4232483
+        outSlope: 4.4232483
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334

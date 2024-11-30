@@ -47,7 +47,6 @@ public class TimeScaleController : MonoBehaviour
                     StopCoroutine(activeCoroutine);
                 }
                 activeCoroutine = StartCoroutine(PlayCurveCoroutine(timeCurve.curve, timeCurve.duration));
-                Debug.Log($"Starting animation curve '{category}' for {timeCurve.duration:F2}s.");
                 return;
             }
         }
@@ -63,14 +62,10 @@ public class TimeScaleController : MonoBehaviour
             float normalizedTime = elapsedTime / duration;
             float currentValue = curve.Evaluate(normalizedTime);
             Time.timeScale = currentValue;
-
-            Debug.Log($"Time: {elapsedTime:F2}s, Normalized Time: {normalizedTime:F2}, Curve Value: {currentValue:F2}");
-
             yield return null; // Wait for the next frame
         }
 
         Time.timeScale = 1.0f;
-        Debug.Log("Animation curve completed. Time scale reset to 1.0.");
         activeCoroutine = null;
     }
 }

@@ -37,14 +37,14 @@ public class TransitionControllerUXUI : MonoBehaviour
     {
         StartCoroutine(sceneHandlerIntroUXUI.CameraSequence());
 
-        model.PlayTransitionAnimation(TRANSITION_INTRO, true);
+        model.PlayTransitionAnimation(TRANSITION_INTRO, false);
     }
 
     public void BackToMainMenuButtonClicked()
     {
         sceneHandlerOutroUXUI.CameraSequence();
 
-        model.PlayTransitionAnimation(TRANSITION_OUTRO, true);
+        model.PlayTransitionAnimation(TRANSITION_OUTRO, false);
     }
 
     private void ShowUI()

@@ -13,6 +13,7 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private AccessoiryShower accessoiryShower;
 
     [Space]
 
@@ -51,6 +52,7 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
     [SerializeField] private float delayPart1 = 1f;
     [SerializeField] private float delayPart2 = 1f;
     [SerializeField] private float delayPart3 = 1f;
+    [SerializeField] private float delayPart4 = 1f;
 
     [Space]
 
@@ -59,6 +61,7 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     public void CameraSequence()
     {
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.MobilePhone);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.OutroUXUI);
         environment_UXUI_Outro.SetActive(true);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
@@ -99,10 +102,9 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
     private IEnumerator TransitionToPart4()
     {
         ActivateCamera(cam4);
-        float delay = 3f;
         cam4.transform.position = cam4Start.position;
-        cam4.transform.DOMove(cam4End.position, delay).SetEase(Ease.InOutSine);
-        yield return new WaitForSeconds(delay);
+        cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
+        yield return new WaitForSeconds(delayPart4);
         SequenceComplete();
     }
 
