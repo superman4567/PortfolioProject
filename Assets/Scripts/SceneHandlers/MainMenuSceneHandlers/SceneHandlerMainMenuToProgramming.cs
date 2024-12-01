@@ -125,8 +125,8 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     {
         var transposer = camera3.GetCinemachineComponent<CinemachineFramingTransposer>();
 
-        float startValue = 1.25f;
-        float endValue = 0.25f;
+        float startValue = 1f;
+        float endValue = 0.1f;
         float duration = 0.5f;
 
         transposer.m_CameraDistance = startValue;

@@ -93,11 +93,10 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     private IEnumerator TransitionToCamera3()
     {
         ActivateCamera(camera3);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.4f);
 
         foreach (var raven in ravens) 
         {
-            yield return new WaitForSeconds(0.05f);
             raven.isLooping = true;
         }
 
