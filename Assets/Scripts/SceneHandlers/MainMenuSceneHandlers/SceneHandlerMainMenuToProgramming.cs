@@ -74,7 +74,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
     public IEnumerator CameraSequence()
     {
-        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Nothing);
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Katana);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryProgramming);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         yield return StartCoroutine(TransitionToCamera0());
