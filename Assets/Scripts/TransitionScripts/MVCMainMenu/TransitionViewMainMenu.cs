@@ -14,6 +14,7 @@ public class TransitionViewMainMenu : MonoBehaviour
     [SerializeField] private Button programmingButton;
     [SerializeField] private Button vfxButton;
 
+
     private Button[] buttons;
 
     private void OnEnable()

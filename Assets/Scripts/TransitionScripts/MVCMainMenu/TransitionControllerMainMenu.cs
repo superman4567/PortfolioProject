@@ -27,6 +27,8 @@ public class TransitionControllerMainMenu : MonoBehaviour
 
     private EnumMainMenuChoices currentScene;
 
+    [SerializeField] private bool hasEnteredMainMenu = false;
+
     private void OnEnable()
     {
         view.OnMainMenuButtonPressed += MainMenuButtonClicked;
@@ -35,6 +37,8 @@ public class TransitionControllerMainMenu : MonoBehaviour
         sceneHandlerMainMenuTo3D.OnSequenceCompleted += LoadScene;
         sceneHandlerMainMenuToProgramming.OnSequenceCompleted += LoadScene;
         sceneHandlerMainMenuToVFX.OnSequenceCompleted += LoadScene;
+
+        hasEnteredMainMenu = PlayerPrefs.GetInt("IsFeatureEnabled", 0) == 1;
     }
 
     private void OnDisable()
@@ -107,6 +111,14 @@ public class TransitionControllerMainMenu : MonoBehaviour
 
         SceneManager.LoadScene(name);
 
-        Debug.Log(name);
+        hasEnteredMainMenu = true;
+        
+        PlayerPrefs.SetInt("IsFeatureEnabled", hasEnteredMainMenu ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public bool GetHasPlayerEnteredMainMenu()
+    {
+        return hasEnteredMainMenu;
     }
 }

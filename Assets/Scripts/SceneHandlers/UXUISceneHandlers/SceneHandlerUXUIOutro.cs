@@ -85,7 +85,11 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
         ActivateCamera(cam2);
         cam2.transform.position = cam2Start.position;
         cam2.transform.DOMove(cam2End.position, delayPart2).SetEase(Ease.InOutSine);
-        yield return new WaitForSeconds(delayPart2);
+
+        float phoneDleay = 0.3f;
+        yield return new WaitForSeconds(phoneDleay);
+        accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Nothing);
+        yield return new WaitForSeconds(delayPart2 - phoneDleay);
         StartCoroutine(TransitionToPart3());
     }
 

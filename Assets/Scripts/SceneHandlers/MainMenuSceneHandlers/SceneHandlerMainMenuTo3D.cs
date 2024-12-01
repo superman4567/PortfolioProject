@@ -29,7 +29,10 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     [Header("External References")]
     [SerializeField] private GameObject building;
-    [SerializeField] private Material material;
+    [SerializeField] private Material materialEnvironment;
+
+    [SerializeField] private GameObject laptop;
+    [SerializeField] private Material materialLaptop;
     [Space]
     [SerializeField] private Volume volume;
     [SerializeField] private SplineFollower[] ravens;
@@ -41,8 +44,8 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     private void Start()
     {
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
-        material = building.GetComponent<MeshRenderer>().material;
-        material.SetFloat("_BlackAmount", 0.5f);
+        materialEnvironment = building.GetComponent<MeshRenderer>().material;
+        materialLaptop = laptop.GetComponent<MeshRenderer>().material;
         volume.profile.TryGet<Fog>(out fog);
         volume.profile.TryGet<GradientSky>(out gradientSky);
     }
@@ -108,20 +111,29 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private IEnumerator LerpMaterialProperty()
     {
-        float lerpDuration = 1.2f; // Adjust as needed
-        float startValue = 0.5f;
-        float endValue = -40f;
+        float lerpDuration = 2f;
         float elapsedTime = 0f;
+
+        float startValueBuilding = 0.5f;
+        float endValueBuilding = -40f;
+
+        float startValueLapatop = 1f;
+        float endValueLaptop = -40f;
 
         while (elapsedTime < lerpDuration)
         {
-            float value = Mathf.Lerp(startValue, endValue, elapsedTime / lerpDuration);
-            material.SetFloat("_BlackAmount", value);
+            float value = Mathf.Lerp(startValueBuilding, endValueBuilding, elapsedTime / lerpDuration);
+            materialEnvironment.SetFloat("_BlackAmount", value);
+
+            float valueLaptop = Mathf.Lerp(startValueLapatop, endValueLaptop, elapsedTime / lerpDuration);
+            materialLaptop.SetFloat("_BlackAmount", valueLaptop);
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        material.SetFloat("_BlackAmount", endValue); // Ensure the final value is set
+        materialEnvironment.SetFloat("_BlackAmount", endValueBuilding);
+        materialLaptop.SetFloat("_BlackAmount", endValueLaptop);
     }
 
     private IEnumerator LerpFogColor()

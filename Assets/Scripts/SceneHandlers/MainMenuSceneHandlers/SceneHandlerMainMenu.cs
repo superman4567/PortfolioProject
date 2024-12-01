@@ -1,10 +1,19 @@
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 
 public class SceneHandlerMainMenu : MonoBehaviour
 {
-    [Header("Accessory Shower")]
+    [Header("References")]
+    [SerializeField] private TransitionControllerMainMenu transitionControllerMainMenu;
     [SerializeField] private AccessoiryShower accessoiryShower;
+    [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
+
+    [Space]
+
+    [SerializeField] private CinemachineVirtualCamera mmCamera1;
+    [SerializeField] private Transform mmCameraStartPOS;
+    [SerializeField] private Transform mmCameraEndPOS;
 
     [Header("Press Space To Start References")]
     [SerializeField] private CanvasGroup pressSpaceToStartCanvasGroup;
@@ -19,10 +28,31 @@ public class SceneHandlerMainMenu : MonoBehaviour
 
     private void Start()
     {
+        mmCamera1.Priority = 1;
+        mmCamera1.enabled = true;
+
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Katana);
         categoriesCanvasGroup.alpha = 0;
         categoriesCanvasGroup.interactable = false;
         AnimatePressSpaceToStartCanvasGroup();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && !transitionControllerMainMenu.GetHasPlayerEnteredMainMenu())
+        {
+            AnimateInCategoryCanvasGroup();
+            sceneHandlerMainMenu.StopPressSpaceAnimation();
+
+            mmCamera1.transform.position = mmCameraStartPOS.position;
+            mmCamera1.transform.DOMove(mmCameraEndPOS.position, 1f).SetEase(Ease.InOutSine).OnComplete(SetCameraPriority);
+        }
+    }
+
+    private void SetCameraPriority()
+    {
+        mmCamera1.enabled = false;
+        mmCamera1.Priority = 0;
     }
 
     public void StopPressSpaceAnimation()
@@ -36,30 +66,22 @@ public class SceneHandlerMainMenu : MonoBehaviour
 
     public void AnimatePressSpaceToStartCanvasGroup()
     {
-        pressSpaceToStartCanvasGroup.alpha = 0;
-
-        alphaTween = pressSpaceToStartCanvasGroup.DOFade(1, duration1)
-            .SetEase(animationCurve0)
-            .SetLoops(-1, LoopType.Yoyo);
+       pressSpaceToStartCanvasGroup.alpha = 0;
+       alphaTween = pressSpaceToStartCanvasGroup.DOFade(1, duration1).SetEase(animationCurve0).SetLoops(-1, LoopType.Yoyo);
+       
     }
 
     public void AnimateInCategoryCanvasGroup()
     {
         categoriesCanvasGroup.alpha = 0;
-
-        categoriesCanvasGroup.DOFade(1, duration2)
-            .SetEase(animationCurve2);
-
+        categoriesCanvasGroup.DOFade(1, duration2).SetEase(animationCurve2);
         categoriesCanvasGroup.interactable = true;
     }
 
     public void AnimateOutCategoryCanvasGroup()
     {
         categoriesCanvasGroup.alpha = 1;
-
-        categoriesCanvasGroup.DOFade(0, duration2)
-            .SetEase(animationCurve2);
-
+        categoriesCanvasGroup.DOFade(0, duration2).SetEase(animationCurve2);
         categoriesCanvasGroup.interactable = false;
     }
 }

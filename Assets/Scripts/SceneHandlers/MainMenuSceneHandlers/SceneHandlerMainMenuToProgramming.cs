@@ -18,7 +18,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     [SerializeField] private AccessoiryShower accessoiryShower;
     [SerializeField] private TimeScaleController timeScaleController;
     [Space]
-    [SerializeField] private CinemachineVirtualCamera mmCamera;
+    
     [SerializeField] private CinemachineVirtualCamera camera0;
     [SerializeField] private CinemachineVirtualCamera camera1;
     [SerializeField] private CinemachineVirtualCamera camera2;
@@ -56,20 +56,6 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
         volume.profile.TryGet<Fog>(out fog);
         volume.profile.TryGet<GradientSky>(out gradientSky);
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && !passedScreen)
-        {
-            passedScreen = true;
-
-            sceneHandlerMainMenu.AnimateInCategoryCanvasGroup();
-            sceneHandlerMainMenu.StopPressSpaceAnimation();
-
-            mmCamera.Priority = 0;
-            camera0.Priority = 1;
-        }
     }
 
     public IEnumerator CameraSequence()
