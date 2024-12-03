@@ -13,22 +13,6 @@ public class ThreeDClipButtonHandler : MonoBehaviour, IPointerEnterHandler, IPoi
     [SerializeField] private RawImage videoPreview;
     [SerializeField] private VideoPlayer videoPlayer;
 
-    private ThreeDProjectsSO threeDProjectsSO;
-
-    public void Initialize(ThreeDProjectsSO threeDProjectsSO, int index)
-    {
-        this.buttonText.text = threeDProjectsSO.projectName;
-        this.threeDProjectsSO = threeDProjectsSO;
-        this.thumbnail.sprite = threeDProjectsSO.projectThumbnail;
-
-        if (threeDProjectsSO.videos != null && threeDProjectsSO.videos.Count > 0)
-        {
-            videoPlayer.clip = threeDProjectsSO.videos[index];
-        }
-
-        button.onClick.AddListener(OnClick);
-    }
-
     public void OnPointerEnter(PointerEventData eventData)
     {
         thumbnail.enabled = false;
@@ -64,7 +48,7 @@ public class ThreeDClipButtonHandler : MonoBehaviour, IPointerEnterHandler, IPoi
             videoPlayer.Stop(); // Restart the video from the beginning
             videoPlayer.Play();
 
-            // Optional: Handle full-screen UI (like toggling a dedicated video panel)
+            // Optional: Handle full-screen UI (like toggling a dedicated video panelWithImages)
             // Example:
             // fullscreenPanel.SetActive(true);
         }

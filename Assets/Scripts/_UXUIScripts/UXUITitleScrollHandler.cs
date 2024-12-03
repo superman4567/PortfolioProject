@@ -8,7 +8,7 @@ using System;
 
 public class UXUITitleScrollHandler : MonoBehaviour
 {
-    public event Action<int> OnChangeActiveProject;
+    [SerializeField] private UXUIButtonHandler uXUIButtonHandler;
 
     public List<Image> imagesList;
     public List<Transform> positions;
@@ -27,11 +27,11 @@ public class UXUITitleScrollHandler : MonoBehaviour
 
     private void Start()
     {
-        InitialzieList();
+        InitialziTitlesList();
         Invoke(nameof(UpdateVisibleButtons), 0.1f);
     }
 
-    private void InitialzieList()
+    private void InitialziTitlesList()
     {
         foreach (Transform child in projectsTitlesContainer)
         {
@@ -100,7 +100,8 @@ public class UXUITitleScrollHandler : MonoBehaviour
 
             if (positionIndex == 2)
             {
-                OnChangeActiveProject?.Invoke(i);
+                var targetPanel = uXUIButtonHandler.buttonPanelPairs[i].panel;
+                uXUIButtonHandler.ActivatePanel(targetPanel);
             }
 
             if (positionIndex != -1)
@@ -118,6 +119,8 @@ public class UXUITitleScrollHandler : MonoBehaviour
             }
         }
     }
+
+    #region Tweening stuff
 
     private void AnimateButtonToPosition(Image image, Transform targetPosition)
     {
@@ -165,4 +168,6 @@ public class UXUITitleScrollHandler : MonoBehaviour
 
         canvasGroup.DOFade(0f, transitionDuration).OnComplete(() => button.gameObject.SetActive(false));
     }
+
+    #endregion
 }

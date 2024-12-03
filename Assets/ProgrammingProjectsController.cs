@@ -17,7 +17,7 @@ public class ProgrammingProjectsController : MonoBehaviour
     {
         foreach (var pair in buttonPanelPairs)
         {
-            // Cache the reference for the panel to avoid using closures
+            // Cache the reference for the panelWithImages to avoid using closures
             var panelToActivate = pair.panel;
 
             // Assign onClick listener for each button
@@ -34,7 +34,7 @@ public class ProgrammingProjectsController : MonoBehaviour
                 pair.panel.SetActive(false);
         }
 
-        // Activate the selected panel
+        // Activate the selected panelWithImages
         if (panelToActivate != null)
             panelToActivate.SetActive(true);
     }

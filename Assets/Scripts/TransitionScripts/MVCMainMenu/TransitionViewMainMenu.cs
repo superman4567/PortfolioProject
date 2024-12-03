@@ -21,7 +21,7 @@ public class TransitionViewMainMenu : MonoBehaviour
     {
         buttons = new Button[] { uxuiButton, threeDArtButton, programmingButton, vfxButton };
 
-        // Set up imagesList' hover functionality
+        // Set up projectButtons' hover functionality
         SetUpButton(uxuiButton, EnumMainMenuChoices.UXUI);
         SetUpButton(threeDArtButton, EnumMainMenuChoices.ThreeDArt);
         SetUpButton(programmingButton, EnumMainMenuChoices.Programming);

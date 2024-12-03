@@ -14,8 +14,8 @@ public class TabSystem : MonoBehaviour
     }
 
     public List<Tab> tabs;             // List of tabs
-    public Color activeColor = Color.green;  // Color for active tab imagesList
-    public Color normalColor = Color.white;  // Color for inactive tab imagesList
+    public Color activeColor = Color.green;  // Color for active tab projectButtons
+    public Color normalColor = Color.white;  // Color for inactive tab projectButtons
     public Color activeTextColor = Color.black; // Text color for the active tab
     public Color normalTextColor = Color.gray;  // Text color for inactive tabs
 

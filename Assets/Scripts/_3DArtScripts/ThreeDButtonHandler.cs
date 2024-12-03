@@ -1,40 +1,76 @@
-using DG.Tweening;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ThreeDButtonHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
-
-    [SerializeField] private TextMeshProUGUI buttonText;
-    [SerializeField] private Button button;
-    [SerializeField] private Image thubmnail;
-
-    private ThreeDProjectsSO threeDProjectsSO;
-    private ThreeDProjectThumbnailHandler threeDProjectThumbnailHandler;
-
-    public void Initialize(ThreeDProjectsSO threeDProjectsSO, ThreeDProjectThumbnailHandler handler)
+public class ThreeDButtonHandler : MonoBehaviour
+{
+    [System.Serializable]
+    public class ButtonPanelPair
     {
-        this.buttonText.text = threeDProjectsSO.projectName;
-        this.threeDProjectsSO = threeDProjectsSO;
-        this.thubmnail.sprite = threeDProjectsSO.projectThumbnail;
-        this.threeDProjectThumbnailHandler = handler;
-
-        button.onClick.AddListener(OnClick);
+        public Button button;
+        public GameObject modelPrefab;
+        public GameObject panelWithImages;
+        public GameObject panelWithSpecs;
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public List<ButtonPanelPair> buttonPanelPairs;
+    public Button swapButton;
+
+    private ButtonPanelPair currentActivePair;
+
+    private void Start()
     {
-        
+        if (buttonPanelPairs.Count > 0)
+        {
+            currentActivePair = buttonPanelPairs[0];
+            ActivatePanel(currentActivePair);
+        }
+
+        foreach (var pair in buttonPanelPairs)
+        {
+            var currentPair = pair;
+            pair.button.onClick.AddListener(() => ActivatePanel(currentPair));
+        }
+
+        swapButton.onClick.AddListener(SwapPanels);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void ActivatePanel(ButtonPanelPair selectedPair)
     {
-       
+        foreach (var pair in buttonPanelPairs)
+        {
+            if (pair.panelWithImages != null)
+                pair.panelWithImages.SetActive(false);
+
+            if (pair.panelWithSpecs != null)
+                pair.panelWithSpecs.SetActive(false);
+        }
+
+        if (selectedPair.modelPrefab == null)
+        {
+            if (selectedPair.panelWithImages != null)
+                selectedPair.panelWithImages.SetActive(true);
+        }
+        else
+        {
+            if (selectedPair.panelWithSpecs != null)
+                selectedPair.panelWithSpecs.SetActive(true);
+        }
+
+        currentActivePair = selectedPair;
     }
 
-    private void OnClick()
+    public void SwapPanels()
     {
-        threeDProjectThumbnailHandler.HandleButtonClick(threeDProjectsSO);
+        if (currentActivePair == null) return;
+
+        bool isImagesActive = currentActivePair.panelWithImages != null && currentActivePair.panelWithImages.activeSelf;
+        bool isSpecsActive = currentActivePair.panelWithSpecs != null && currentActivePair.panelWithSpecs.activeSelf;
+
+        if (currentActivePair.panelWithImages != null)
+            currentActivePair.panelWithImages.SetActive(!isImagesActive);
+
+        if (currentActivePair.panelWithSpecs != null)
+            currentActivePair.panelWithSpecs.SetActive(!isSpecsActive);
     }
 }
