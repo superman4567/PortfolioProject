@@ -15,6 +15,7 @@ public class TransitionViewUXUI : MonoBehaviour
         SetUpButton(returnToMainMenuButton);
 
         canvasgroup.interactable = false;
+        canvasgroup.alpha = 0f;
     }
 
     private void OnDisable()

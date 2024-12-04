@@ -15,6 +15,7 @@ public class TransitionViewProgramming : MonoBehaviour
         SetUpButton(returnToMainMenuButton);
 
         canvasgroup.interactable = false;
+        canvasgroup.alpha = 0;
     }
 
     private void OnDisable()
