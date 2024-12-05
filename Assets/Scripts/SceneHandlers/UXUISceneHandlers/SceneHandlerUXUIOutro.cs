@@ -14,6 +14,7 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private TimeScaleController timeScaleController;
     [SerializeField] private AccessoiryShower accessoiryShower;
+    [SerializeField] private LoadingOverlayHandler loadingOverlayHandler;
 
     [Space]
 
@@ -59,8 +60,20 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject playerModel;
 
+    private bool isActive;
+    private bool stopCoroutines =false;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X) && isActive)
+        {
+            SkipSequence();
+        }
+    }
+
     public void CameraSequence()
     {
+        isActive = true;
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.MobilePhone);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.OutroUXUI);
         environment_UXUI_Outro.SetActive(true);
@@ -71,8 +84,10 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart1()
     {
-        ActivateCamera(cam1);
+        if (stopCoroutines) yield break;
 
+        ActivateCamera(cam1);if (stopCoroutines) yield break;
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam1.transform.position = cam1Start.position;
         cam1.transform.DOMove(cam1End.position, delayPart1).SetEase(Ease.InOutSine);
         animator.SetTrigger("DriftAnimation");
@@ -82,7 +97,10 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart2()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam2);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam2.transform.position = cam2Start.position;
         cam2.transform.DOMove(cam2End.position, delayPart2).SetEase(Ease.InOutSine);
 
@@ -95,8 +113,11 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart3()
     {
+        if (stopCoroutines) yield break;
+
         playerModel.SetActive(false);
         ActivateCamera(cam3);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam3.transform.position = cam3Start.position;
         cam3.transform.DOMove(cam3End.position, delayPart3).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart3);
@@ -105,7 +126,10 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart4()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam4);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam4.transform.position = cam4Start.position;
         cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart4);
@@ -122,8 +146,18 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
         camera.enabled = true;
     }
 
+    private void SkipSequence()
+    {
+        isActive= false;
+        stopCoroutines = true;
+        StopAllCoroutines();
+        DOTween.KillAll();
+        SequenceComplete();
+    }
+
     private void SequenceComplete()
     {
+        loadingOverlayHandler.FillLoadingAmount(1f);
         OnOutroSequenceCompleted?.Invoke();
 
         environment_UXUI_Intro.SetActive(false);
@@ -133,5 +167,7 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
         cam2.enabled = false;
         cam3.enabled = false;
         cam4.enabled = false;
+
+        isActive = false;
     }
 }

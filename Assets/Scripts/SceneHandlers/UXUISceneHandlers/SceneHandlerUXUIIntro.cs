@@ -11,6 +11,7 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private TimeScaleController timeScaleController;
     [SerializeField] private AccessoiryShower accessoiryShower;
+    [SerializeField] private LoadingOverlayHandler loadingOverlayHandler;
 
     [Space]
 
@@ -60,6 +61,9 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    private bool isActive = false;
+    private bool stopCoroutines = false;
+
     private void Start()
     {
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Nothing);
@@ -70,8 +74,17 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
         animator.SetTrigger("DeskAnimation");
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X) && isActive)
+        {
+            SkipSequence();
+        }
+    }
+
     public IEnumerator CameraSequence()
     {
+        isActive = true;
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.IntroUXUI);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         yield return StartCoroutine(TransitionToPart1());
@@ -79,7 +92,10 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
 
     private IEnumerator TransitionToPart1()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam1);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam1.transform.position = cam1Start.position;
         cam1.transform.DOMove(cam1End.position, delayPart1).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart1);
@@ -88,7 +104,10 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
 
     private IEnumerator TransitionToPart2()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam2);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam2.transform.position = cam2Start.position;
         cam2.transform.DOMove(cam2End.position, delayPart2).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart2);
@@ -97,7 +116,10 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
 
     private IEnumerator TransitionToPart3()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam3);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam3.transform.position = cam3Start.position;
         cam3.transform.DOMove(cam3End.position, delayPart3).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart2);
@@ -106,7 +128,10 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
 
     private IEnumerator TransitionToPart4()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam4);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam4.transform.position = cam4Start.position;
         cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
         cam4.m_Lens.FieldOfView = 60f;
@@ -125,8 +150,18 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
         camera.enabled = true;
     }
 
+    private void SkipSequence()
+    {
+        isActive = false;
+        stopCoroutines = true;
+        StopAllCoroutines();
+        DOTween.KillAll();
+        SequenceComplete();
+    }
+
     private void SequenceComplete()
     {
+        loadingOverlayHandler.FillLoadingAmount(1f);
         OnIntroSequenceCompleted?.Invoke();
 
         introCAmeras.SetActive(false);

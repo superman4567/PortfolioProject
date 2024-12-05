@@ -14,6 +14,7 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private AccessoiryShower accessoiryShower;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private LoadingOverlayHandler loadingOverlayHandler;
 
     [Space]
 
@@ -63,13 +64,25 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    private bool isActive = false;
+    private bool stopCoroutines = false;
+
     private void Start()
     {
         bullet.SetActive(false);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X) && isActive)
+        {
+            SkipSequence();
+        }
+    }
+
     public IEnumerator CameraSequence()
     {
+        isActive = true;
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Sniper);
         animator.SetTrigger("GlassdoorAnimation");
         OnHideUI?.Invoke();
@@ -79,7 +92,10 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart1()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam1);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.OutroProgramming);
         cam1.transform.position = cam1Start.position;
         cam1.transform.DOMove(cam1End.position, delayPart1).SetEase(Ease.InOutSine);
@@ -89,7 +105,10 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart2()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam2);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         var transposer = cam2.GetCinemachineComponent<CinemachineFramingTransposer>();
         DOTween.To(() => 1.2f, value => transposer.m_CameraDistance = value, 3f, delayPart2).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart2);
@@ -98,7 +117,10 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart3()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam3);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam3.transform.position = cam3Start.position;
         cam3.transform.rotation = cam3Start.rotation;
         cam3.transform.DOMove(cam3End.position, delayPart3).SetEase(Ease.InOutSine);
@@ -108,8 +130,10 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     private IEnumerator TransitionToPart4()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(cam4);
-        
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         cam4.transform.position = cam4Start.position;
         cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
 
@@ -131,6 +155,15 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
         cam4.enabled = false;
 
         camera.enabled = true;
+    }
+
+    private void SkipSequence()
+    {
+        isActive = false;
+        stopCoroutines = true;
+        StopAllCoroutines();
+        DOTween.KillAll();
+        SequenceComplete();
     }
 
     private void SequenceComplete()

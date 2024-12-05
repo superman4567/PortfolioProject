@@ -17,6 +17,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private AccessoiryShower accessoiryShower;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private LoadingOverlayHandler loadingOverlayHandler;
     [Space]
     
     [SerializeField] private CinemachineVirtualCamera camera0;
@@ -42,7 +43,8 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     private Fog fog;
     private GradientSky gradientSky;
 
-    private bool passedScreen = false;
+    private bool isActive = false;
+    private bool stopCoroutines = false;
 
     private void Start()
     {
@@ -58,8 +60,17 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
         volume.profile.TryGet<GradientSky>(out gradientSky);
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X) && isActive)
+        {
+            SkipSequence();
+        }
+    }
+
     public IEnumerator CameraSequence()
     {
+        isActive = true;
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Katana);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryProgramming);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
@@ -68,42 +79,44 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
     private IEnumerator TransitionToCamera0()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera0);
-
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         sceneHandlerMainMenu.AnimateOutCategoryCanvasGroup();
-
         yield return new WaitForSeconds(transitionDuration1);
-
         StartCoroutine(TransitionToCamera1());
     }
 
     private IEnumerator TransitionToCamera1()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera1);
-
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         yield return new WaitForSeconds(transitionDuration2);
-
         StartCoroutine(TransitionToCamera2());
     }
 
     private IEnumerator TransitionToCamera2()
     {
-        ActivateCamera(camera2);
+        if (stopCoroutines) yield break;
 
+        ActivateCamera(camera2);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         StartCoroutine(LerpFogColor());
         StartCoroutine(LerpSkyColors());
-
         yield return new WaitForSeconds(transitionDuration3);
-
-        TransitionToCamera3();
+        StartCoroutine(TransitionToCamera3());
     }
 
-    private void TransitionToCamera3()
+    private IEnumerator TransitionToCamera3()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera3);
-
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         StartCoroutine(LerpMaterialProperty());
-
         StartCoroutine(LerpLaptopCamera());
     }
 
@@ -252,6 +265,15 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
             UpdateCanvasGroup(startValue);
         }, endValue, 0.4f)
         .OnComplete(SequenceComplete);
+    }
+
+    private void SkipSequence()
+    {
+        isActive = false;
+        stopCoroutines = true;
+        StopAllCoroutines();
+        DOTween.KillAll();
+        SequenceComplete();
     }
 
     private void SequenceComplete()

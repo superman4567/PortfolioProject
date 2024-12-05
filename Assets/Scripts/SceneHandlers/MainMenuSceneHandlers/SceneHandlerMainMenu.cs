@@ -14,6 +14,7 @@ public class SceneHandlerMainMenu : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera mmCamera1;
     [SerializeField] private Transform mmCameraStartPOS;
     [SerializeField] private Transform mmCameraEndPOS;
+    [SerializeField] private float cameraDuration = 1f;
 
     [Header("Press Space To Start References")]
     [SerializeField] private CanvasGroup pressSpaceToStartCanvasGroup;
@@ -39,17 +40,17 @@ public class SceneHandlerMainMenu : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !transitionControllerMainMenu.GetHasPlayerEnteredMainMenu())
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             AnimateInCategoryCanvasGroup();
             sceneHandlerMainMenu.StopPressSpaceAnimation();
 
             mmCamera1.transform.position = mmCameraStartPOS.position;
-            mmCamera1.transform.DOMove(mmCameraEndPOS.position, 1f).SetEase(Ease.InOutSine).OnComplete(SetCameraPriority);
+            mmCamera1.transform.DOMove(mmCameraEndPOS.position, cameraDuration).SetEase(Ease.InOutSine);
         }
     }
 
-    private void SetCameraPriority()
+    public void SetCameraPriorityToNull()
     {
         mmCamera1.enabled = false;
         mmCamera1.Priority = 0;

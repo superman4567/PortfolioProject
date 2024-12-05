@@ -16,6 +16,7 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private AccessoiryShower accessoiryShower;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private LoadingOverlayHandler loadingOverlayHandler;
     [Space]
     [SerializeField] private CinemachineVirtualCamera mmCamera;
     [SerializeField] private CinemachineVirtualCamera camera0;
@@ -42,7 +43,8 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
     private Fog fog;
     private GradientSky gradientSky;
 
-    private bool passedScreen = false;
+    private bool isActive = false;
+    private bool stopCoroutines = false;
 
     private void Start()
     {
@@ -57,20 +59,15 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !passedScreen)
+        if (Input.GetKeyDown(KeyCode.X) && isActive)
         {
-            passedScreen = true;
-
-            sceneHandlerMainMenu.AnimateInCategoryCanvasGroup();
-            sceneHandlerMainMenu.StopPressSpaceAnimation();
-
-            mmCamera.Priority = 0;
-            camera0.Priority = 1;
+            SkipSequence(); 
         }
     }
 
     public IEnumerator CameraSequence()
     {
+        isActive = true;
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Nothing);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryUXUI);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
@@ -79,43 +76,45 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 
     private IEnumerator TransitionToCamera0()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera0);
-
         sceneHandlerMainMenu.AnimateOutCategoryCanvasGroup();
-
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         yield return new WaitForSeconds(transitionDuration1);
-
         StartCoroutine(TransitionToCamera1());
     }
 
     private IEnumerator TransitionToCamera1()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera1);
-
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         yield return new WaitForSeconds(transitionDuration2);
-
         StartCoroutine(TransitionToCamera2());
     }
 
     private IEnumerator TransitionToCamera2()
     {
-        ActivateCamera(camera2);
+        if (stopCoroutines) yield break;
 
+        ActivateCamera(camera2);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         StartCoroutine(LerpFogColor());
         StartCoroutine(LerpSkyColors());
-
         yield return new WaitForSeconds(transitionDuration3);
-
-        TransitionToCamera3();
-
+        StartCoroutine(TransitionToCamera3());
         yield return new WaitForSeconds(loadsceneBuffer);
-
         SequenceComplete();
     }
 
-    private void TransitionToCamera3()
+    private IEnumerator TransitionToCamera3()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera3);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         StartCoroutine(LerpMaterialProperty());
         LerpCamera3();
     }
@@ -227,8 +226,18 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
         camera.enabled = true;
     }
 
+    private void SkipSequence()
+    {
+        isActive = true;
+        stopCoroutines = true;
+        StopAllCoroutines();
+        DOTween.KillAll();
+        SequenceComplete();
+    }
+
     private void SequenceComplete()
     {
+        loadingOverlayHandler.FillLoadingAmount(1f);
         OnSequenceCompleted?.Invoke(EnumMainMenuChoices.UXUI);
     }
 }

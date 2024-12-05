@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.Rendering;
 using System.Collections;
+using DG.Tweening;
 
 public class SceneHandlerMainMenuTo3D : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private AccessoiryShower accessoiryShower;
     [SerializeField] private TimeScaleController timeScaleController;
+    [SerializeField] private LoadingOverlayHandler loadingOverlayHandler;
     [Space]
     [SerializeField] private CinemachineVirtualCamera mmCamera;
     [SerializeField] private CinemachineVirtualCamera camera0;
@@ -39,7 +41,8 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     private Fog fog;
     private GradientSky gradientSky;
 
-    private bool passedScreen = false;
+    private bool isActive = false;
+    private bool stopCoroutines = false;
 
     private void Start()
     {
@@ -52,18 +55,15 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !passedScreen)
+        if (Input.GetKeyDown(KeyCode.X) && isActive)
         {
-            passedScreen = true;
-            sceneHandlerMainMenu.AnimateInCategoryCanvasGroup();
-            sceneHandlerMainMenu.StopPressSpaceAnimation();
-            mmCamera.Priority = 0;
-            camera0.Priority = 1;
+            SkipSequence();
         }
     }
 
     public IEnumerator CameraSequence()
     {
+        isActive = true;
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Katana);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryThreeDArt);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
@@ -72,7 +72,10 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private IEnumerator TransitionToCamera0()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera0);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         sceneHandlerMainMenu.AnimateOutCategoryCanvasGroup();
         yield return new WaitForSeconds(transitionDuration1);
         StartCoroutine(TransitionToCamera1());
@@ -80,14 +83,20 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private IEnumerator TransitionToCamera1()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera1);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         yield return new WaitForSeconds(transitionDuration2);
         StartCoroutine(TransitionToCamera2());
     }
 
     private IEnumerator TransitionToCamera2()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera2);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         StartCoroutine(LerpFogColor());
         yield return new WaitForSeconds(transitionDuration3);
         StartCoroutine(TransitionToCamera3());    
@@ -95,7 +104,10 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
     private IEnumerator TransitionToCamera3()
     {
+        if (stopCoroutines) yield break;
+
         ActivateCamera(camera3);
+        loadingOverlayHandler.FillLoadingAmount(.25f);
         yield return new WaitForSeconds(0.4f);
 
         foreach (var raven in ravens) 
@@ -196,6 +208,15 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
         camera3.enabled = false;
 
         camera.enabled = true;
+    }
+
+    private void SkipSequence()
+    {
+        isActive = false;
+        stopCoroutines = true;
+        StopAllCoroutines();
+        DOTween.KillAll();
+        SequenceComplete();
     }
 
     private void SequenceComplete()
