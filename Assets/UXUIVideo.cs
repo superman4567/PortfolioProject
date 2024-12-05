@@ -23,6 +23,6 @@ public class UXUIVideo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void StopPlayingClip()
     {
-        videoPlayer.Stop();
+        videoPlayer.Pause();
     }
 }

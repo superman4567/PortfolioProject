@@ -10,6 +10,7 @@ public class ContentPiece : MonoBehaviour
 
     public void InitImage(MediaItem item)
     {
+        image.gameObject.SetActive(true);
         videoPlayer.gameObject.SetActive(false);
         image.sprite = item.Image;
     }
@@ -18,6 +19,7 @@ public class ContentPiece : MonoBehaviour
     public void InitVideo(MediaItem  item)
     {
         image.gameObject.SetActive(false);
+        videoPlayer.gameObject.SetActive(true);
         videoPlayer.clip = item.Video;
     }
 }
