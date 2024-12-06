@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
-[CreateAssetMenu(fileName = "ProjectContentSO", menuName = "Scriptable Objects/ProjectContentSO")]
-public class ProjectContentSO : ScriptableObject
+[CreateAssetMenu(fileName = "ProjectContent3DSO", menuName = "Scriptable Objects/ProjectContent3DSO")]
+public class ProjectContent3DSO : ScriptableObject
 {
     [System.Serializable]
     public class MediaItem
@@ -20,5 +19,5 @@ public class ProjectContentSO : ScriptableObject
         public VideoClip Video;
     }
 
-    public List<MediaItem> MediaItems = new List<MediaItem>();
+    public List<MediaItem> MediaItems = new();
 }

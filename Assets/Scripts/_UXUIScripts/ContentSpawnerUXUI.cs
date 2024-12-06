@@ -1,9 +1,9 @@
 using UnityEngine;
-using static ProjectContentSO;
+using static ProjectContentUXUISO;
 
-public class ContentSpawner : MonoBehaviour
+public class ContentSpawnerUXUI : MonoBehaviour
 {
-    [SerializeField] private ProjectContentSO projectContent;
+    [SerializeField] private ProjectContentUXUISO projectContent;
     [SerializeField] private GameObject UXUIImageprefab;
     [SerializeField] private GameObject UXUIVideoprefab;
     [SerializeField] private RectTransform parent;
@@ -30,12 +30,12 @@ public class ContentSpawner : MonoBehaviour
         if (value == 0)
         {
             GameObject uxuiImage = Instantiate(UXUIImageprefab, parent);
-            uxuiImage.GetComponent<ContentPiece>().InitImage(item);  
+            uxuiImage.GetComponent<ContentPieceUXUI>().InitImage(item);  
         }
         else
         {
             GameObject uxuiVideo = Instantiate(UXUIVideoprefab, parent);
-            uxuiVideo.GetComponent<ContentPiece>().InitVideo(item);
+            uxuiVideo.GetComponent<ContentPieceUXUI>().InitVideo(item);
 
         }
     }

@@ -1,4 +1,6 @@
+using DG.Tweening;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +17,11 @@ public class ThreeDButtonHandler : MonoBehaviour
 
     public List<ButtonPanelPair> buttonPanelPairs;
     public Button swapButton;
+    public RectTransform swapButtonRect;
+    public TextMeshProUGUI buttonText;
 
+    private const string imageState = "Preview Model Data";
+    private const string modelState = "Preview Project Gallery";
     private ButtonPanelPair currentActivePair;
 
     private void Start()
@@ -33,6 +39,7 @@ public class ThreeDButtonHandler : MonoBehaviour
         }
 
         swapButton.onClick.AddListener(SwapPanels);
+        swapButton.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void ActivatePanel(ButtonPanelPair selectedPair)
@@ -49,12 +56,26 @@ public class ThreeDButtonHandler : MonoBehaviour
         if (selectedPair.modelPrefab == null)
         {
             if (selectedPair.panelWithImages != null)
+            {
                 selectedPair.panelWithImages.SetActive(true);
+                buttonText.text = imageState;
+
+                Vector2 newPosition = swapButtonRect.anchoredPosition;
+                newPosition.x = -220f; 
+                swapButtonRect.anchoredPosition = newPosition;
+            }
         }
         else
         {
             if (selectedPair.panelWithSpecs != null)
+            {
                 selectedPair.panelWithSpecs.SetActive(true);
+                buttonText.text = modelState;
+
+                Vector2 newPosition = swapButtonRect.anchoredPosition;
+                newPosition.x = 0f;
+                swapButtonRect.anchoredPosition = newPosition;
+            }
         }
 
         currentActivePair = selectedPair;
@@ -67,10 +88,16 @@ public class ThreeDButtonHandler : MonoBehaviour
         bool isImagesActive = currentActivePair.panelWithImages != null && currentActivePair.panelWithImages.activeSelf;
         bool isSpecsActive = currentActivePair.panelWithSpecs != null && currentActivePair.panelWithSpecs.activeSelf;
 
+        // Toggle panels
         if (currentActivePair.panelWithImages != null)
             currentActivePair.panelWithImages.SetActive(!isImagesActive);
 
         if (currentActivePair.panelWithSpecs != null)
             currentActivePair.panelWithSpecs.SetActive(!isSpecsActive);
+
+        float targetX = isImagesActive ? 0f : -220f; // Adjust based on active state
+        swapButtonRect.DOAnchorPosX(targetX, 0.1f);
+
+        buttonText.text = isImagesActive ? modelState : imageState;
     }
 }

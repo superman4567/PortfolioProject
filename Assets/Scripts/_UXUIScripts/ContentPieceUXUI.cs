@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
-using static ProjectContentSO;
+using static ProjectContentUXUISO;
 
-public class ContentPiece : MonoBehaviour
+public class ContentPieceUXUI : MonoBehaviour
 {
     [SerializeField] private Image image;
     [SerializeField] private VideoPlayer videoPlayer;
