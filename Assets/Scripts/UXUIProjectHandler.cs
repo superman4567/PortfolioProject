@@ -7,64 +7,117 @@ public class UXUIProjectHandler : MonoBehaviour
     [SerializeField] private Mask mask;
     [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
     [SerializeField] private RectTransform parentRectTransform;
-    [SerializeField] private float spacing = 10f; // Spacing between child objects
-    private List<UXUIImage> childUXUIImages = new();
+    [SerializeField] private float rowSpacing = 10f;
+    [SerializeField] private float childSpacing = 10f;
+    private readonly List<UXUIImage> childUXUIImages = new();
 
-    private void OnEnable()
-    {
-        mask.enabled = true;
-    }
+    private void OnEnable() => mask.enabled = true;
 
     private void Start()
     {
         foreach (Transform child in parentRectTransform)
         {
-            UXUIImage item = child.GetComponent<UXUIImage>();
-            if (item != null)
-            {
+            if (child.TryGetComponent(out UXUIImage item))
                 childUXUIImages.Add(item);
-            }
         }
-
-        Invoke(nameof(ArrangeChildrenVertically),0.2f);
+        Invoke(nameof(ArrangeChildrenVertically), 0.2f);
     }
 
-    void ArrangeChildrenVertically()
+    private void ArrangeChildrenVertically()
     {
-        float parentWidth = parentRectTransform.rect.width; // Get the parent width
+        float parentWidth = parentRectTransform.rect.width;
+        float currentY = 0f;
+        float rowHeight = 0f;
+        List<RectTransform> currentRow = new();
 
-        float currentY = 0f; // Tracks the Y position for placing children
-
-        foreach (UXUIImage childUXUIImage in childUXUIImages)
+        foreach (UXUIImage child in childUXUIImages)
         {
-            float nativeWidth = childUXUIImage.GetOriginalWidth();
-            float nativeHeight = childUXUIImage.GetOriginalHeight();
+            float nativeWidth = child.GetOriginalWidth();
+            float nativeHeight = child.GetOriginalHeight();
+            if (nativeWidth <= 0 || nativeHeight <= 0) continue;
 
-            if (nativeWidth > 0)
+            RectTransform childRect = child.GetComponent<RectTransform>();
+
+            if (nativeWidth < nativeHeight)
             {
-                // Calculate the scale factor and adjusted sizes
-                float scaleFactor = parentWidth / nativeWidth;
-                float newWidth = nativeWidth * scaleFactor;
-                float newHeight = nativeHeight * scaleFactor;
-
-                // Adjust the RectTransform size
-                RectTransform childRect = childUXUIImage.GetComponent<RectTransform>();
-                childRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newWidth);
-                childRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, newHeight);
-
-                // Position the child vertically
-                childRect.anchoredPosition = new Vector2(0, -currentY); // Offset vertically
-                currentY += newHeight + spacing; // Increment Y position by height and spacing
+                currentRow.Add(childRect);
+                if (currentRow.Count == 2)
+                {
+                    FitRowToParent(currentRow, parentWidth, ref currentY, ref rowHeight);
+                    currentRow.Clear();
+                }
             }
             else
             {
-                Debug.LogWarning($"Native width is zero or invalid for child: {childUXUIImage.gameObject.name}");
+                if (currentRow.Count > 0)
+                {
+                    FitRowToParent(currentRow, parentWidth, ref currentY, ref rowHeight);
+                    currentRow.Clear();
+                }
+
+                ScaleAndPositionChild(childRect, nativeWidth, nativeHeight, parentWidth, ref currentY);
             }
         }
 
-        float totalHeight = currentY - spacing; // Subtract the extra spacing after the last child
-        parentRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, totalHeight);
+        if (currentRow.Count > 0)
+            FitRowToParent(currentRow, parentWidth, ref currentY, ref rowHeight);
 
-        verticalLayoutGroup.enabled= true;
+        parentRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, currentY);
+        verticalLayoutGroup.enabled = true;
+    }
+
+    private void FitRowToParent(List<RectTransform> row, float parentWidth, ref float currentY, ref float rowHeight)
+    {
+        if (row.Count == 0) return;
+
+        GameObject newParent = new GameObject("RowGroup");
+        RectTransform newParentRect = newParent.AddComponent<RectTransform>();
+        newParent.transform.SetParent(parentRectTransform);
+        newParentRect.anchorMin = newParentRect.anchorMax = newParentRect.pivot = new Vector2(0, 1);
+        newParentRect.localScale = Vector3.one;
+
+        float totalNativeWidth = 0f;
+        foreach (RectTransform child in row)
+            totalNativeWidth += child.GetComponent<UXUIImage>().GetOriginalWidth();
+
+        float scaleFactor = (parentWidth - childSpacing) / totalNativeWidth;
+        float xOffset = 0f;
+
+        foreach (RectTransform child in row)
+        {
+            float nativeWidth = child.GetComponent<UXUIImage>().GetOriginalWidth();
+            float nativeHeight = child.GetComponent<UXUIImage>().GetOriginalHeight();
+
+            float newWidth = nativeWidth * scaleFactor;
+            float newHeight = nativeHeight * scaleFactor;
+
+            child.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newWidth);
+            child.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, newHeight);
+            child.SetParent(newParentRect);
+            child.anchoredPosition = new Vector2(xOffset, 0);
+
+            xOffset += newWidth + childSpacing;
+            rowHeight = Mathf.Max(rowHeight, newHeight);
+        }
+
+        newParentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, parentWidth);
+        newParentRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, rowHeight);
+        newParentRect.anchoredPosition = new Vector2(0, -currentY);
+
+        currentY += rowHeight + rowSpacing;
+        rowHeight = 0f;
+    }
+
+    private void ScaleAndPositionChild(RectTransform childRect, float nativeWidth, float nativeHeight, float parentWidth, ref float currentY)
+    {
+        float scaleFactor = parentWidth / nativeWidth;
+        float newWidth = nativeWidth * scaleFactor;
+        float newHeight = nativeHeight * scaleFactor;
+
+        childRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, newWidth);
+        childRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, newHeight);
+        childRect.anchoredPosition = new Vector2(0, -currentY);
+
+        currentY += newHeight + rowSpacing;
     }
 }

@@ -164,9 +164,6 @@ public class SceneHandlerUXUIIntro : MonoBehaviour
         loadingOverlayHandler.FillLoadingAmount(1f);
         OnIntroSequenceCompleted?.Invoke();
 
-        introCAmeras.SetActive(false);
-        outroCameras.SetActive(true);
-
         cam1.enabled = false;
         cam2.enabled = false;
         cam3.enabled = false;

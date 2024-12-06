@@ -35,7 +35,7 @@ public class TransitionViewUXUI : MonoBehaviour
 
     public void ShowUI()
     {
-        float duration = 0.4f;
+        float duration = 0.2f;
         canvasgroup.alpha = 0;
         canvasgroup.DOFade(1, duration).SetEase(Ease.InOutSine);
 
@@ -44,7 +44,7 @@ public class TransitionViewUXUI : MonoBehaviour
 
     public void HideUI()
     {
-        float duration = 0.4f;
+        float duration = 0.2f;
         canvasgroup.alpha = 1;
         canvasgroup.DOFade(0, duration).SetEase(Ease.InOutSine);
 

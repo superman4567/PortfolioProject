@@ -8,12 +8,18 @@ public class UXUIVideo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (!videoPlayer.gameObject.activeSelf)
+            return;
+
         StartPlayingClip();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        StopPlayingClip();
+        if (!videoPlayer.gameObject.activeSelf)
+            return;
+
+        PausePlayingClip();
     }
 
     private void StartPlayingClip()
@@ -21,7 +27,7 @@ public class UXUIVideo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         videoPlayer.Play();
     }
 
-    private void StopPlayingClip()
+    private void PausePlayingClip()
     {
         videoPlayer.Pause();
     }

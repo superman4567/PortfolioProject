@@ -61,7 +61,7 @@ public class UXUITitleScrollHandler : MonoBehaviour
     {
         if (canScroll)
         {
-            activeIndex = (activeIndex + 1) % imagesList.Count;
+            activeIndex = (activeIndex - 1 + imagesList.Count) % imagesList.Count;
             UpdateVisibleButtons();
             StartCoroutine(ScrollCooldown());
         }
@@ -71,7 +71,7 @@ public class UXUITitleScrollHandler : MonoBehaviour
     {
         if (canScroll)
         {
-            activeIndex = (activeIndex - 1 + imagesList.Count) % imagesList.Count;
+            activeIndex = (activeIndex + 1) % imagesList.Count;
             UpdateVisibleButtons();
             StartCoroutine(ScrollCooldown());
         }

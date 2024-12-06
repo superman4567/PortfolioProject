@@ -50,6 +50,11 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     [Space]
 
+    [SerializeField] private GameObject introCAmeras;
+    [SerializeField] private GameObject outroCameras;
+
+    [Space]
+
     [SerializeField] private float delayPart1 = 1f;
     [SerializeField] private float delayPart2 = 1f;
     [SerializeField] private float delayPart3 = 1f;
@@ -73,6 +78,9 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
 
     public void CameraSequence()
     {
+        introCAmeras.SetActive(false);
+        outroCameras.SetActive(true);
+
         isActive = true;
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.MobilePhone);
         timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.OutroUXUI);
