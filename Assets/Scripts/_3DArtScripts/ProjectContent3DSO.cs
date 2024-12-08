@@ -25,6 +25,8 @@ public class ProjectContent3DSO : ScriptableObject
     public string modelStyle;
     public string modelDescription;
 
+    public GameObject modelPrefab;
+
     public int modelFaces;
     public int modelVerts;
 

@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,22 +6,23 @@ using UnityEngine.UI;
 public class ThreeDButtonHandler : MonoBehaviour
 {
     [System.Serializable]
-    private class ButtonPanelPair
+    private class ButtonGameObjectPair
     {
         [SerializeField] private Button button;
-        [SerializeField] private GameObject modelPrefab;
+        public GameObject associatedObject;
+        public GameObject model;
 
         public Button Button => button;
-        public GameObject ModelPrefab => modelPrefab;
+        public GameObject AssociatedObject => associatedObject;
     }
 
-    [SerializeField] private List<ButtonPanelPair> buttonPanelPairs;
+    [SerializeField] private ButtonGameObjectPair[] buttonGameObjectPairs;
 
     [Space]
 
-    [SerializeField] private RectTransform threeDModelGallery;
-    [SerializeField] private RectTransform characterSelectContainer;
-    [SerializeField] private RectTransform threeDModelSpecs;
+    [SerializeField] private RectTransform projectSelectContainer;
+    private RectTransform threeDModelGallery;
+    private RectTransform threeDModelSpecs;
 
     [Space]
 
@@ -31,7 +31,6 @@ public class ThreeDButtonHandler : MonoBehaviour
 
     [Space]
 
-    [SerializeField] private Transform activeProjectHolder;
     [SerializeField] private Color inactiveButtonColor = new Color(0.7f, 0.7f, 0.7f);
 
     private const float modelGalleryDefaultPosY = 0f;
@@ -44,80 +43,122 @@ public class ThreeDButtonHandler : MonoBehaviour
     private const string imageState = "Preview Model Data";
     private const string modelState = "Preview Project Gallery";
 
-    private ButtonPanelPair currentActivePair;
+    private ButtonGameObjectPair currentActivePair;
     private bool isGalleryVisible = true;
 
     private void Start()
     {
-        if (buttonPanelPairs.Count > 0)
+        if (buttonGameObjectPairs.Length > 0)
         {
-            currentActivePair = buttonPanelPairs[0];
-            UpdateUI(currentActivePair);
+            currentActivePair = buttonGameObjectPairs[0];
+            SetActivePair(currentActivePair);
         }
 
-        foreach (var pair in buttonPanelPairs)
+        foreach (var pair in buttonGameObjectPairs)
         {
             var currentPair = pair;
-            currentPair.Button.onClick.AddListener(() => UpdateUI(currentPair));
+            currentPair.Button.onClick.AddListener(() => OnButtonClicked(currentPair));
         }
 
         toggleButton.onClick.AddListener(ToggleGallery);
+
+        GetCorrectChilds();
+
+        Show3DModelUI();
         buttonText.text = modelState;
     }
 
-    private void UpdateUI(ButtonPanelPair selectedPair)
+    private void OnButtonClicked(ButtonGameObjectPair clickedPair)
     {
-        currentActivePair = selectedPair;
+        SetActivePair(clickedPair);
+    }
 
-        foreach (var pair in buttonPanelPairs)
+    private void SetActivePair(ButtonGameObjectPair pairToActivate)
+    {
+        foreach (var pair in buttonGameObjectPairs)
         {
-            if (pair.Button == currentActivePair.Button)
-            {
-                var colors = pair.Button.colors;
-                colors.normalColor = Color.white; 
-                pair.Button.colors = colors;
-            }
-            else
-            {
-                var colors = pair.Button.colors;
-                colors.normalColor = inactiveButtonColor; 
-                pair.Button.colors = colors;
-            }
+            var colors = pair.Button.colors;
+            colors.normalColor = pair == pairToActivate ? Color.white : inactiveButtonColor;
+            pair.Button.colors = colors;
+
+            pair.AssociatedObject.SetActive(pair == pairToActivate);
         }
+
+        currentActivePair = pairToActivate;
+
+        GetCorrectChilds();
+
+        Show3DModelUI();
     }
 
     private void ToggleGallery()
     {
         if (isGalleryVisible)
         {
-            MoveGallery(modelGalleryDefaultPosY);
-            MoveCharacterSelect(projectSelectHiddenPosX);
-            MoveModelSpecs(threeDModelSpecsHiddenPosX);
-            buttonText.text = imageState;
+            ShowGallery();
+            Toggle3DModel(false);
         }
         else
         {
-            MoveGallery(modelGalleryHiddenXPosY);
-            MoveCharacterSelect(projectSelectDefaultPosX);
-            MoveModelSpecs(threeDModelSpecsDefaultPosX);
-            buttonText.text = modelState;
+            Show3DModelUI();
+            Toggle3DModel(true);
         }
 
         isGalleryVisible = !isGalleryVisible;
     }
 
-    private void MoveGallery(float targetYPos)
+    private void GetCorrectChilds()
     {
-        threeDModelGallery.DOAnchorPosY(targetYPos, 0.5f);
+        RectTransform parentGallery = currentActivePair.AssociatedObject.transform.GetChild(0) as RectTransform;
+        threeDModelGallery = parentGallery.transform.GetChild(2) as RectTransform;
+
+
+        RectTransform parentSpecs = currentActivePair.AssociatedObject.transform.GetChild(0) as RectTransform;
+        threeDModelSpecs = parentSpecs.transform.GetChild(1) as RectTransform;
     }
 
-    private void MoveCharacterSelect(float targetXPos)
+    private void Show3DModelUI()
     {
-        characterSelectContainer.DOAnchorPosX(targetXPos, 0.5f);
+        MoveGallery(modelGalleryHiddenXPosY);
+        MoveProjectSelect(projectSelectDefaultPosX);
+        MoveModelSpecs(threeDModelSpecsDefaultPosX);
+        buttonText.text = modelState;
+    }
+
+    private void ShowGallery()
+    {
+        MoveGallery(modelGalleryDefaultPosY);
+        MoveProjectSelect(projectSelectHiddenPosX);
+        MoveModelSpecs(threeDModelSpecsHiddenPosX);
+        buttonText.text = imageState;
+    }
+
+    private void MoveGallery(float targetYPos)
+    {
+       
+        threeDModelGallery.DOAnchorPosY(targetYPos, 0.2f);
+    }
+
+    private void MoveProjectSelect(float targetXPos)
+    {
+        projectSelectContainer.DOAnchorPosX(targetXPos, 0.2f);
     }
 
     private void MoveModelSpecs(float targetXPos)
     {
-        threeDModelSpecs.DOAnchorPosX(targetXPos, 0.5f);
+        
+        threeDModelSpecs.DOAnchorPosX(targetXPos, 0.2f);
+    }
+
+    private void Toggle3DModel(bool value)
+    {
+        if (value)
+        {
+            currentActivePair.model.SetActive(true);
+        }
+        else
+        {
+            currentActivePair.model.SetActive(false);
+        }
     }
 }
