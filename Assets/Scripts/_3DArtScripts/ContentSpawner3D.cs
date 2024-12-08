@@ -2,15 +2,33 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using static ProjectContent3DSO;
+using TMPro;
 
 public class ContentSpawner3D : MonoBehaviour
 {
-    [SerializeField] private ProjectContent3DSO projectContent; // ScriptableObject holding MediaItems
-    [SerializeField] private GameObject imagePrefab; // Prefab for each media item
-    [SerializeField] private Image previewImage; // UI Image for preview
-    [SerializeField] private RectTransform parent; // Parent for spawned prefabs
+    [SerializeField] private ProjectContent3DSO projectContent;
+    [SerializeField] private GameObject imagePrefab; 
+    [SerializeField] private Image previewImage;
+    [SerializeField] private RectTransform parent;
 
-    private List<GameObject> spawnedPrefabs = new List<GameObject>(); // List of spawned prefabs
+    [Space]
+
+    [SerializeField] private TextMeshProUGUI modelName;
+    [SerializeField] private TextMeshProUGUI modelStyle;
+    [SerializeField] private TextMeshProUGUI modelDescription;
+
+    [SerializeField] private TextMeshProUGUI modelFaces;
+    [SerializeField] private TextMeshProUGUI modelVerts;
+
+    [SerializeField] private Image albedoTexture;
+    [SerializeField] private Image normalMapTexture;
+    [SerializeField] private Image emmisionMapTexture;
+    [SerializeField] private Image roughnessMapTexture;
+
+    [SerializeField] private Image uVLayoutTexture;
+
+
+    private List<GameObject> spawnedPrefabs = new();
     private GameObject activePrefab; // Current active prefab
 
     private void OnEnable()
@@ -25,6 +43,7 @@ public class ContentSpawner3D : MonoBehaviour
     private void Start()
     {
         SpawnAllContentItems();
+        SetSpecRelatedData();
     }
 
     private void SpawnAllContentItems()
@@ -70,4 +89,38 @@ public class ContentSpawner3D : MonoBehaviour
     {
         previewImage.sprite = image; // Update the preview image
     }
+
+    private void SetSpecRelatedData()
+    {
+        if (this.modelName != null && projectContent != null)
+            this.modelName.text = projectContent.modelName;
+
+        if (this.modelStyle != null && projectContent != null)
+            this.modelStyle.text = projectContent.modelStyle;
+
+        if (this.modelDescription != null && projectContent != null)
+            this.modelDescription.text = projectContent.modelDescription;
+
+        if (this.modelFaces != null && projectContent != null)
+            this.modelFaces.text = projectContent.modelFaces.ToString();
+
+        if (this.modelVerts != null && projectContent != null)
+            this.modelVerts.text = projectContent.modelVerts.ToString();
+
+        if (this.albedoTexture != null && projectContent != null)
+            this.albedoTexture.sprite = projectContent.albedoTexture;
+
+        if (this.normalMapTexture != null && projectContent != null)
+            this.normalMapTexture.sprite = projectContent.normalMapTexture;
+
+        if (this.emmisionMapTexture != null && projectContent != null)
+            this.emmisionMapTexture.sprite = projectContent.emmisionMapTexture;
+
+        if (this.roughnessMapTexture != null && projectContent != null)
+            this.roughnessMapTexture.sprite = projectContent.RoughnessMapTexture;
+
+        if (this.uVLayoutTexture != null && projectContent != null)
+            this.uVLayoutTexture.sprite = projectContent.uVLayoutTexture;
+    }
+
 }

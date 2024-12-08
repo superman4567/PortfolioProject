@@ -7,97 +7,117 @@ using UnityEngine.UI;
 public class ThreeDButtonHandler : MonoBehaviour
 {
     [System.Serializable]
-    public class ButtonPanelPair
+    private class ButtonPanelPair
     {
-        public Button button;
-        public GameObject modelPrefab;
-        public GameObject panelWithImages;
-        public GameObject panelWithSpecs;
+        [SerializeField] private Button button;
+        [SerializeField] private GameObject modelPrefab;
+
+        public Button Button => button;
+        public GameObject ModelPrefab => modelPrefab;
     }
 
-    public List<ButtonPanelPair> buttonPanelPairs;
-    public Button swapButton;
-    public RectTransform swapButtonRect;
-    public TextMeshProUGUI buttonText;
+    [SerializeField] private List<ButtonPanelPair> buttonPanelPairs;
+
+    [Space]
+
+    [SerializeField] private RectTransform threeDModelGallery;
+    [SerializeField] private RectTransform characterSelectContainer;
+    [SerializeField] private RectTransform threeDModelSpecs;
+
+    [Space]
+
+    [SerializeField] private Button toggleButton;
+    [SerializeField] private TextMeshProUGUI buttonText;
+
+    [Space]
+
+    [SerializeField] private Transform activeProjectHolder;
+    [SerializeField] private Color inactiveButtonColor = new Color(0.7f, 0.7f, 0.7f);
+
+    private const float modelGalleryDefaultPosY = 0f;
+    private const float modelGalleryHiddenXPosY = -1100f;
+    private const float projectSelectDefaultPosX = 32f;
+    private const float projectSelectHiddenPosX = -400f;
+    private const float threeDModelSpecsDefaultPosX = 0f;
+    private const float threeDModelSpecsHiddenPosX = 400f;
 
     private const string imageState = "Preview Model Data";
     private const string modelState = "Preview Project Gallery";
+
     private ButtonPanelPair currentActivePair;
+    private bool isGalleryVisible = true;
 
     private void Start()
     {
         if (buttonPanelPairs.Count > 0)
         {
             currentActivePair = buttonPanelPairs[0];
-            ActivatePanel(currentActivePair);
+            UpdateUI(currentActivePair);
         }
 
         foreach (var pair in buttonPanelPairs)
         {
             var currentPair = pair;
-            pair.button.onClick.AddListener(() => ActivatePanel(currentPair));
+            currentPair.Button.onClick.AddListener(() => UpdateUI(currentPair));
         }
 
-        swapButton.onClick.AddListener(SwapPanels);
-        swapButton.GetComponentInChildren<TextMeshProUGUI>();
+        toggleButton.onClick.AddListener(ToggleGallery);
+        buttonText.text = modelState;
     }
 
-    public void ActivatePanel(ButtonPanelPair selectedPair)
+    private void UpdateUI(ButtonPanelPair selectedPair)
     {
+        currentActivePair = selectedPair;
+
         foreach (var pair in buttonPanelPairs)
         {
-            if (pair.panelWithImages != null)
-                pair.panelWithImages.SetActive(false);
-
-            if (pair.panelWithSpecs != null)
-                pair.panelWithSpecs.SetActive(false);
-        }
-
-        if (selectedPair.modelPrefab == null)
-        {
-            if (selectedPair.panelWithImages != null)
+            if (pair.Button == currentActivePair.Button)
             {
-                selectedPair.panelWithImages.SetActive(true);
-                buttonText.text = imageState;
-
-                Vector2 newPosition = swapButtonRect.anchoredPosition;
-                newPosition.x = -220f; 
-                swapButtonRect.anchoredPosition = newPosition;
+                var colors = pair.Button.colors;
+                colors.normalColor = Color.white; 
+                pair.Button.colors = colors;
             }
+            else
+            {
+                var colors = pair.Button.colors;
+                colors.normalColor = inactiveButtonColor; 
+                pair.Button.colors = colors;
+            }
+        }
+    }
+
+    private void ToggleGallery()
+    {
+        if (isGalleryVisible)
+        {
+            MoveGallery(modelGalleryDefaultPosY);
+            MoveCharacterSelect(projectSelectHiddenPosX);
+            MoveModelSpecs(threeDModelSpecsHiddenPosX);
+            buttonText.text = imageState;
         }
         else
         {
-            if (selectedPair.panelWithSpecs != null)
-            {
-                selectedPair.panelWithSpecs.SetActive(true);
-                buttonText.text = modelState;
-
-                Vector2 newPosition = swapButtonRect.anchoredPosition;
-                newPosition.x = 0f;
-                swapButtonRect.anchoredPosition = newPosition;
-            }
+            MoveGallery(modelGalleryHiddenXPosY);
+            MoveCharacterSelect(projectSelectDefaultPosX);
+            MoveModelSpecs(threeDModelSpecsDefaultPosX);
+            buttonText.text = modelState;
         }
 
-        currentActivePair = selectedPair;
+        isGalleryVisible = !isGalleryVisible;
     }
 
-    public void SwapPanels()
+    private void MoveGallery(float targetYPos)
     {
-        if (currentActivePair == null) return;
+        threeDModelGallery.DOAnchorPosY(targetYPos, 0.5f);
+    }
 
-        bool isImagesActive = currentActivePair.panelWithImages != null && currentActivePair.panelWithImages.activeSelf;
-        bool isSpecsActive = currentActivePair.panelWithSpecs != null && currentActivePair.panelWithSpecs.activeSelf;
+    private void MoveCharacterSelect(float targetXPos)
+    {
+        characterSelectContainer.DOAnchorPosX(targetXPos, 0.5f);
+    }
 
-        // Toggle panels
-        if (currentActivePair.panelWithImages != null)
-            currentActivePair.panelWithImages.SetActive(!isImagesActive);
-
-        if (currentActivePair.panelWithSpecs != null)
-            currentActivePair.panelWithSpecs.SetActive(!isSpecsActive);
-
-        float targetX = isImagesActive ? 0f : -220f; // Adjust based on active state
-        swapButtonRect.DOAnchorPosX(targetX, 0.1f);
-
-        buttonText.text = isImagesActive ? modelState : imageState;
+    private void MoveModelSpecs(float targetXPos)
+    {
+        threeDModelSpecs.DOAnchorPosX(targetXPos, 0.5f);
     }
 }
