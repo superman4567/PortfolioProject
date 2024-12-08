@@ -38,8 +38,6 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     [Space]
     [SerializeField] private Volume volume;
     [SerializeField] private SplineFollower[] ravens;
-    private Fog fog;
-    private GradientSky gradientSky;
 
     private bool isActive = false;
     private bool stopCoroutines = false;
@@ -49,8 +47,6 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
         materialEnvironment = building.GetComponent<MeshRenderer>().material;
         materialLaptop = laptop.GetComponent<MeshRenderer>().material;
-        volume.profile.TryGet<Fog>(out fog);
-        volume.profile.TryGet<GradientSky>(out gradientSky);
     }
 
     private void Update()
@@ -97,7 +93,6 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
         ActivateCamera(camera2);
         loadingOverlayHandler.FillLoadingAmount(.25f);
-        StartCoroutine(LerpFogColor());
         yield return new WaitForSeconds(transitionDuration3);
         StartCoroutine(TransitionToCamera3());    
     }
@@ -116,7 +111,6 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
         }
 
         StartCoroutine(LerpMaterialProperty());
-        StartCoroutine(LerpSkyColors());
         yield return new WaitForSeconds(loadsceneBuffer);
         SequenceComplete();
     }
@@ -146,58 +140,6 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
         materialEnvironment.SetFloat("_BlackAmount", endValueBuilding);
         materialLaptop.SetFloat("_BlackAmount", endValueLaptop);
-    }
-
-    private IEnumerator LerpFogColor()
-    {
-        float lerpDuration = 1.2f;
-        Color startColor = new Color(113f / 255f, 113f / 255f, 113f / 255f);
-        Color endColor = new Color(0f / 255f, 0f / 255f, 0f / 255f);
-        float elapsedTime = 0f;
-
-        while (elapsedTime < lerpDuration)
-        {
-            Color currentColor = Color.Lerp(startColor, endColor, elapsedTime / lerpDuration);
-            fog.tint.value = currentColor;
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure the final color is set
-        fog.tint.value = endColor;
-    }
-
-    private IEnumerator LerpSkyColors()
-    {
-        float lerpDuration = 1.2f; // Adjust as needed
-        Color startColorTop = new Color(0f / 255f, 0f / 255f, 0f / 255f);
-        Color startColorMid = new Color(34f / 255f, 34f / 255f, 34f / 255f);
-        Color startColorBot = new Color(159f / 255f, 159f / 255f, 159f / 255f);
-
-        Color endColorTop = new Color(0f / 255f, 0f / 255f, 0f / 255f);
-        Color endColorMid = new Color(0f / 255f, 0f / 255f, 0f / 255f);
-        Color endColorBot = new Color(0f / 255f, 0f / 255f, 0f / 255f);
-        float elapsedTime = 0f;
-
-        while (elapsedTime < lerpDuration)
-        {
-            // Calculate the interpolation factor
-            float t = elapsedTime / lerpDuration;
-
-            // Lerp each color component
-            gradientSky.top.value = Color.Lerp(startColorTop, endColorTop, t);
-            gradientSky.middle.value = Color.Lerp(startColorMid, endColorMid, t);
-            gradientSky.bottom.value = Color.Lerp(startColorBot, endColorBot, t);
-
-            // Update elapsed time and yield
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Ensure the final color is set
-        gradientSky.top.value = endColorTop;
-        gradientSky.middle.value = endColorMid;
-        gradientSky.bottom.value = endColorBot;
     }
 
     private void ActivateCamera(CinemachineVirtualCamera camera)

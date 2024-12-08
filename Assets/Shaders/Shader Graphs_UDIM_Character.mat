@@ -98,7 +98,7 @@ Material:
     - _AlphaCutoffEnable: 0
     - _AlphaDstBlend: 0
     - _AlphaSrcBlend: 1
-    - _BlackAmount: 1
+    - _BlackAmount: 0.5
     - _BlackAmount_1: 1
     - _BlendMode: 0
     - _ConservativeDepthOffsetEnable: 0
@@ -109,13 +109,15 @@ Material:
     - _DoubleSidedGIMode: 0
     - _DoubleSidedNormalMode: 2
     - _DstBlend: 0
-    - _EmissionStrength: 720.3
+    - _EmissionStrength: 30
     - _EnableBlendModePreserveSpecularLighting: 1
     - _EnableFogOnTransparent: 1
     - _ExcludeFromTUAndAA: 0
-    - _EyeEmisStrenght: 5
+    - _EyeEmisStrenght: 125
     - _OpaqueCullMode: 2
     - _OutlineSize: 0.01
+    - _QueueControl: 1
+    - _QueueOffset: 0
     - _RayTracing: 0
     - _ReceivesSSR: 1
     - _ReceivesSSRTransparent: 0
@@ -151,9 +153,10 @@ Material:
     m_Colors:
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _EyeEmisColor: {r: 1, g: 0.7988446, b: 0, a: 1}
+    - _EyeEmisColor: {r: 1, g: 0.8000001, b: 0, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &1733223505257432747
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -170,3 +173,16 @@ MonoBehaviour:
   hdPluginSubTargetMaterialVersions:
     m_Keys: []
     m_Values: 
+--- !u!114 &2819934862501350232
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
