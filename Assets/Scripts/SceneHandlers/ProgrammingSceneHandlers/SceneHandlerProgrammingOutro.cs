@@ -2,6 +2,7 @@ using Cinemachine;
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
+using static ZombieController;
 
 public class SceneHandlerProgrammingOutro : MonoBehaviour
 {
@@ -64,6 +65,10 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    [Space]
+
+    [SerializeField] private SplineFollower[] zombies;
+
     private bool isActive = false;
     private bool stopCoroutines = false;
 
@@ -83,6 +88,7 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
     public IEnumerator CameraSequence()
     {
         isActive = true;
+        StartCoroutine(StartZombies());
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Sniper);
         animator.SetTrigger("GlassdoorAnimation");
         OnHideUI?.Invoke();
@@ -145,6 +151,17 @@ public class SceneHandlerProgrammingOutro : MonoBehaviour
         bullet.transform.DOMove(bulletEndPOS.position, (delayPart4 - shootDelay)).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart4 - shootDelay);
         SequenceComplete();
+    }
+
+    private IEnumerator StartZombies()
+    {
+        foreach (var zombie in zombies)
+        {
+            zombie.isPlaying = true;
+            zombie.GetComponent<ZombieController>().PlayAnimation(ZombieType.Runner);
+        }
+
+        yield break;
     }
 
     private void ActivateCamera(CinemachineVirtualCamera camera)

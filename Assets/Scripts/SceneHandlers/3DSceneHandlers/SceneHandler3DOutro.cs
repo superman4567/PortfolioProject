@@ -2,6 +2,7 @@ using Cinemachine;
 using DG.Tweening;
 using System.Collections;
 using UnityEngine;
+using static ZombieController;
 
 public class SceneHandler3DOutro : MonoBehaviour
 {
@@ -62,6 +63,10 @@ public class SceneHandler3DOutro : MonoBehaviour
 
     [SerializeField] private Animator animator;
 
+    [Space]
+
+    [SerializeField] private SplineFollower[] zombies;
+
     private bool isActive = false;
     private bool stopCoroutines = false;
 
@@ -83,6 +88,8 @@ public class SceneHandler3DOutro : MonoBehaviour
         animator.SetTrigger("ParkourAreaAnimation");
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         yield return StartCoroutine(TransitionToPart1());
+
+        StartCoroutine(StartZombies());
     }
 
     private IEnumerator TransitionToPart1()
@@ -130,6 +137,17 @@ public class SceneHandler3DOutro : MonoBehaviour
         cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart4);
         SequenceComplete();
+    }
+
+    private IEnumerator StartZombies()
+    {
+        foreach (var zombie in zombies)
+        {
+            zombie.isPlaying = true;
+            zombie.GetComponent<ZombieController>().PlayAnimation(ZombieType.Runner);
+        }
+
+        yield break;
     }
 
     private void ActivateCamera(CinemachineVirtualCamera camera)

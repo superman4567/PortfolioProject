@@ -1,5 +1,6 @@
 using Cinemachine;
 using DG.Tweening;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -60,6 +61,10 @@ public class SceneHandler3DIntro : MonoBehaviour
     [SerializeField] private float delayPart3 = 1f;
     [SerializeField] private float delayPart4 = 1f;
 
+    [Space]
+
+    [SerializeField] private ZombieController[] zombies;
+
     private bool isActive = false;
     private bool stopCoroutines = false;
 
@@ -73,6 +78,8 @@ public class SceneHandler3DIntro : MonoBehaviour
         outroCameras.SetActive(false);
 
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Sniper);
+
+        
     }
 
     private void Update()
@@ -131,6 +138,7 @@ public class SceneHandler3DIntro : MonoBehaviour
         bullet.transform.DORotate(bulletEndPOS.rotation.eulerAngles, delayPart3 - delayBeforeShot).SetEase(Ease.InOutSine);
 
         cam3.transform.DORotate(cam3End.rotation.eulerAngles, delayPart3 - delayBeforeShot).SetEase(Ease.InOutSine);
+
         yield return new WaitForSeconds(delayPart3 - delayBeforeShot);
         StartCoroutine(TransitionToPart4());
     }
@@ -140,12 +148,22 @@ public class SceneHandler3DIntro : MonoBehaviour
         if (stopCoroutines) yield break;
 
         ActivateCamera(cam4);
+
+        yield return new WaitForSeconds(0.5f);
+
+        foreach (var zombie in zombies)
+        {
+            zombie.PlayHitByExplosion();
+        }
+
         loadingOverlayHandler.FillLoadingAmount(.25f);
         cam4.transform.position = cam4Start.position;
         cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
         yield return new WaitForSeconds(delayPart4);
         SequenceComplete();
     }
+
+   
 
     private void ActivateCamera(CinemachineVirtualCamera camera)
     {

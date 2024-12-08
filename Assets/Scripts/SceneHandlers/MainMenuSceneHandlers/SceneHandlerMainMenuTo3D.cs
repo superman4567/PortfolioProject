@@ -112,7 +112,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
         foreach (var raven in ravens) 
         {
-            raven.isLooping = true;
+            raven.isPlaying = true;
         }
 
         StartCoroutine(LerpMaterialProperty());

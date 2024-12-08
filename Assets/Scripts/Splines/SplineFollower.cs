@@ -8,7 +8,7 @@ public class SplineFollower : MonoBehaviour
     public SplineCreator spline; // Reference to the SmoothSpline script
     public float speed = 1f; // Speed of the movement
     public bool loop = false; // Should the movement loop?
-    public bool isLooping = false;
+    public bool isPlaying = false;
 
     private float t = 0f; // Parameter to track position on the spline
     private int currentSegment = 0; // Current segment of the spline
@@ -16,7 +16,7 @@ public class SplineFollower : MonoBehaviour
 
     private void Update()
     {
-        if (spline == null || spline.controlPoints.Count < 1 || isAtEnd || !isLooping)
+        if (spline == null || spline.controlPoints.Count < 1 || isAtEnd || !isPlaying)
             return;
 
         MoveAlongSpline();
@@ -34,7 +34,9 @@ public class SplineFollower : MonoBehaviour
             }
             else
             {
-                isAtEnd = true; // Stop movement at the end
+                // Stop the follower at the final control point
+                transform.position = spline.controlPoints[spline.controlPoints.Count - 1].position;
+                isAtEnd = true;
                 return;
             }
         }
@@ -42,8 +44,8 @@ public class SplineFollower : MonoBehaviour
         // Get the points for the current segment
         Transform p0 = currentSegment == 0 ? spline.controlPoints[currentSegment] : spline.controlPoints[currentSegment - 1];
         Transform p1 = spline.controlPoints[currentSegment];
-        Transform p2 = spline.controlPoints[currentSegment + 1];
-        Transform p3 = currentSegment + 2 < spline.controlPoints.Count ? spline.controlPoints[currentSegment + 2] : spline.controlPoints[currentSegment + 1];
+        Transform p2 = currentSegment + 1 < spline.controlPoints.Count ? spline.controlPoints[currentSegment + 1] : spline.controlPoints[currentSegment];
+        Transform p3 = currentSegment + 2 < spline.controlPoints.Count ? spline.controlPoints[currentSegment + 2] : p2;
 
         // Move along the spline
         t += speed * Time.deltaTime / spline.subdivisions;
@@ -63,6 +65,7 @@ public class SplineFollower : MonoBehaviour
         if (forward != Vector3.zero)
             transform.rotation = Quaternion.LookRotation(forward);
     }
+
 
     private Vector3 CalculateSplineTangent(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
     {
