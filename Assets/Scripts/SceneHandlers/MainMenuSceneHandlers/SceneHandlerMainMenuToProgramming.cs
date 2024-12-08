@@ -151,7 +151,6 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     private void LerpLoginCanvas()
     {
         laptopMaterial.SetFloat("_BlackAmount", 0);
-        Debug.Log("Now");
 
         float startValue = 0f;
         float endValue = 1f;

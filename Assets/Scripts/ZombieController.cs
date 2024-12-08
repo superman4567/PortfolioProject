@@ -45,7 +45,10 @@ public class ZombieController : MonoBehaviour
     public void PlayHitByExplosion()
     {
         animator.Play("AN_Zombie_HitByExplosion", 0);
+    }
 
-        Debug.Log("HitByExplosion");
+    public void PlayGotHeadshot()
+    {
+        animator.Play("AN_Zombie_Headshot", 0);
     }
 }

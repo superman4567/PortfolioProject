@@ -123,7 +123,16 @@ public class SceneHandler3DOutro : MonoBehaviour
         loadingOverlayHandler.FillLoadingAmount(.25f);
         cam3.transform.position = cam3Start.position;
         cam3.transform.DOMove(cam3End.position, delayPart3).SetEase(Ease.InOutSine);
-        yield return new WaitForSeconds(delayPart3);
+
+        float shortDelay = 0.2f;
+
+        foreach (var zombie in zombies)
+        {
+            zombie.GetComponent<ZombieController>().PlayGotHeadshot();
+            yield return new WaitForSeconds(shortDelay);
+        }
+
+        yield return new WaitForSeconds(delayPart3 - (shortDelay * 3));
         StartCoroutine(TransitionToPart4());
     }
 
