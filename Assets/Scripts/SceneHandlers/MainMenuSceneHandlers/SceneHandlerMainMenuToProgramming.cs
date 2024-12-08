@@ -36,6 +36,10 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     [SerializeField] private AnimationCurve customCurve;
 
     [Header("External References")]
+    [SerializeField] private GameObject laptop;
+    [SerializeField] private Material laptopMaterial;
+
+    [Header("External References")]
     [SerializeField] private GameObject building;
     [SerializeField] private Material material;
     [Space]
@@ -52,6 +56,8 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
         material = building.GetComponent<MeshRenderer>().material;
         material.SetFloat("_BlackAmount", 0.5f);
+
+        laptopMaterial = laptop.GetComponent<MeshRenderer>().material;
 
         loginCanvasGroup.alpha = 0f;
         logoFill.fillAmount = 0f;
@@ -144,6 +150,9 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
     private void LerpLoginCanvas()
     {
+        laptopMaterial.SetFloat("_BlackAmount", 0);
+        Debug.Log("Now");
+
         float startValue = 0f;
         float endValue = 1f;
         float duration = 3f;
