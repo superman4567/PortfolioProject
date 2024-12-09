@@ -1,10 +1,8 @@
 using UnityEngine;
 using DG.Tweening;
 using Cinemachine;
-using UnityEngine.Rendering.HighDefinition;
 using System.Collections;
 using UnityEngine.Rendering;
-using Unity.VisualScripting;
 
 public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 {
