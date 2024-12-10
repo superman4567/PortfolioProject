@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 39e5dddca7f59c947b3ee77ea2098491, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -281,7 +281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &51114666
 Transform:
   m_ObjectHideFlags: 0
@@ -4135,6 +4135,80 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 623004084}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &339503943
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1130431738}
+    m_Modifications:
+    - target: {fileID: 338639010469095804, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_Name
+      value: Fog
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900, type: 3}
+--- !u!4 &339503944 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5300596026327470436, guid: 7cd13d1ad7fa8f247956b8a8cbdcf900,
+    type: 3}
+  m_PrefabInstance: {fileID: 339503943}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &359842687
 GameObject:
   m_ObjectHideFlags: 0
@@ -4323,7 +4397,7 @@ MonoBehaviour:
   priority: 100
   blendDistance: 0
   weight: 1
-  sharedProfile: {fileID: 11400000, guid: 3bb98c5602382ca4c95f956b22d6af42, type: 2}
+  sharedProfile: {fileID: 11400000, guid: e082a9ec9b8705b43a67896958146537, type: 2}
 --- !u!4 &432432461
 Transform:
   m_ObjectHideFlags: 0
@@ -9525,6 +9599,7 @@ Transform:
   m_Children:
   - {fileID: 157207114}
   - {fileID: 432432461}
+  - {fileID: 339503944}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1138820870
@@ -14611,7 +14686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1552748659
 Transform:
   m_ObjectHideFlags: 0

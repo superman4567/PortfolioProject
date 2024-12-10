@@ -40,7 +40,6 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
     {
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
         material = building.GetComponent<MeshRenderer>().material;
-        material.SetFloat("_BlackAmount", 0.5f);
     }
 
     private void Update()

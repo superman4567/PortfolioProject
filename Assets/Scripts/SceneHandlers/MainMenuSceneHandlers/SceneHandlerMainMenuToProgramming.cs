@@ -52,8 +52,6 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseInOut;
 
         material = building.GetComponent<MeshRenderer>().material;
-        material.SetFloat("_BlackAmount", 0.5f);
-
         laptopMaterial = laptop.GetComponent<MeshRenderer>().material;
 
         loginCanvasGroup.alpha = 0f;
