@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using System;
 
 public class UXUITitleScrollHandler : MonoBehaviour
 {
@@ -16,8 +15,8 @@ public class UXUITitleScrollHandler : MonoBehaviour
     public int middleIndex = 2;
     public Color activeColor = Color.green;
     public Color normalColor = Color.white;
-    public Color activeTextColor = Color.yellow; 
-    public Color normalTextColor = Color.gray;  
+    public Color activeTextColor = Color.yellow;
+    public Color normalTextColor = Color.gray;
     public float scrollDelay = 0.2f;
 
     private int activeIndex = 0;
@@ -27,11 +26,11 @@ public class UXUITitleScrollHandler : MonoBehaviour
 
     private void Start()
     {
-        InitialziTitlesList();
+        InitializeTitlesList();
         Invoke(nameof(UpdateVisibleButtons), 0.1f);
     }
 
-    private void InitialziTitlesList()
+    private void InitializeTitlesList()
     {
         foreach (Transform child in projectsTitlesContainer)
         {
@@ -53,8 +52,7 @@ public class UXUITitleScrollHandler : MonoBehaviour
     private bool IsMouseOver()
     {
         Vector2 localMousePosition = rectTransformMouseDetection.InverseTransformPoint(Input.mousePosition);
-        bool isInside = rectTransformMouseDetection.rect.Contains(localMousePosition);
-        return isInside;
+        return rectTransformMouseDetection.rect.Contains(localMousePosition);
     }
 
     public void ScrollUp()
@@ -77,11 +75,17 @@ public class UXUITitleScrollHandler : MonoBehaviour
         }
     }
 
+    public void SetActiveIndex(int newIndex)
+    {
+        activeIndex = newIndex;
+        UpdateVisibleButtons();
+    }
+
     private IEnumerator ScrollCooldown()
     {
-        canScroll = false; // Prevent further scrolling
-        yield return new WaitForSeconds(scrollDelay); // Wait for the specified delay
-        canScroll = true; // Allow scrolling again
+        canScroll = false;
+        yield return new WaitForSeconds(scrollDelay);
+        canScroll = true;
     }
 
     private int GetPositionIndex(int imageIndex, int visibleStart)
@@ -107,9 +111,7 @@ public class UXUITitleScrollHandler : MonoBehaviour
             if (positionIndex != -1)
             {
                 imagesList[i].gameObject.SetActive(true);
-               
                 AnimateButtonToPosition(imagesList[i], positions[positionIndex]);
-
                 UpdateButtonOpacity(imagesList[i], positionIndex);
                 UpdateButtonColor(imagesList[i], i == activeIndex);
             }
@@ -119,8 +121,6 @@ public class UXUITitleScrollHandler : MonoBehaviour
             }
         }
     }
-
-    #region Tweening stuff
 
     private void AnimateButtonToPosition(Image image, Transform targetPosition)
     {
@@ -147,9 +147,7 @@ public class UXUITitleScrollHandler : MonoBehaviour
 
     private void UpdateButtonColor(Image image, bool isActive)
     {
-        Color colors = image.color;
-        colors = isActive ? activeColor : normalColor;
-        image.color = colors;
+        image.color = isActive ? activeColor : normalColor;
 
         TextMeshProUGUI buttonText = image.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
@@ -168,6 +166,4 @@ public class UXUITitleScrollHandler : MonoBehaviour
 
         canvasGroup.DOFade(0f, transitionDuration).OnComplete(() => button.gameObject.SetActive(false));
     }
-
-    #endregion
 }

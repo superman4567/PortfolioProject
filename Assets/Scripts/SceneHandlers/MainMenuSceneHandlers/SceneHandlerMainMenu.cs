@@ -42,12 +42,17 @@ public class SceneHandlerMainMenu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AnimateInCategoryCanvasGroup();
-            sceneHandlerMainMenu.StopPressSpaceAnimation();
-
-            mmCamera1.transform.position = mmCameraStartPOS.position;
-            mmCamera1.transform.DOMove(mmCameraEndPOS.position, cameraDuration).SetEase(Ease.InOutSine);
+            LerpToCanvasOptions();
         }
+    }
+
+    public void LerpToCanvasOptions()
+    {
+        AnimateInCategoryCanvasGroup();
+        sceneHandlerMainMenu.StopPressSpaceAnimation();
+
+        mmCamera1.transform.position = mmCameraStartPOS.position;
+        mmCamera1.transform.DOMove(mmCameraEndPOS.position, cameraDuration).SetEase(Ease.InOutSine);
     }
 
     public void SetCameraPriorityToNull()

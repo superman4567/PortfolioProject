@@ -206,8 +206,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -602,6 +602,7 @@ GameObject:
   - component: {fileID: 157207114}
   - component: {fileID: 157207113}
   - component: {fileID: 157207115}
+  - component: {fileID: 157207116}
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
@@ -831,6 +832,29 @@ MonoBehaviour:
   m_ObsoleteUseShadowQualitySettings: 0
   m_ObsoleteCustomShadowResolution: 512
   m_ObsoleteContactShadows: 0
+--- !u!114 &157207116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 157207112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_RenderingLayers: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_ShadowRenderingLayers: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+  m_SoftShadowQuality: 0
 --- !u!1 &181300229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1117,6 +1141,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Portfolio Unity
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4961891354832361339, guid: 6414c90152bc11f4c8716b043066b3fb,
         type: 3}
@@ -1700,7 +1734,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 359842687}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -2328,8 +2362,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 340.6617}
-  m_SizeDelta: {x: 0, y: 180}
+  m_AnchoredPosition: {x: 0, y: 314.23944}
+  m_SizeDelta: {x: 0, y: 232.8445}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &491902545
 MonoBehaviour:
@@ -2416,8 +2450,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Branches
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8c755f2e175d0ae4ba67841fa31c1944, type: 2}
-  m_sharedMaterial: {fileID: -2895718419159451237, guid: 8c755f2e175d0ae4ba67841fa31c1944,
+  m_fontAsset: {fileID: 11400000, guid: 93fbac13c81610747a015a8d63d058d9, type: 2}
+  m_sharedMaterial: {fileID: -1711123119372551022, guid: 93fbac13c81610747a015a8d63d058d9,
     type: 2}
   m_fontSharedMaterials:
   - {fileID: -2895718419159451237, guid: 8c755f2e175d0ae4ba67841fa31c1944, type: 2}
@@ -2449,7 +2483,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 16
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 8192
   m_textAlignment: 65535
@@ -2987,8 +3021,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3220,10 +3254,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 30
-  m_MinHeight: 30
-  m_PreferredWidth: 30
-  m_PreferredHeight: 30
+  m_MinWidth: 24
+  m_MinHeight: 24
+  m_PreferredWidth: 24
+  m_PreferredHeight: 24
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -4438,10 +4472,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  m_MinWidth: 30
-  m_MinHeight: 30
-  m_PreferredWidth: 30
-  m_PreferredHeight: 30
+  m_MinWidth: 24
+  m_MinHeight: 24
+  m_PreferredWidth: 24
+  m_PreferredHeight: 24
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -8163,6 +8197,16 @@ PrefabInstance:
       propertyPath: m_text
       value: Viking Survival
       objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4961891354832361339, guid: 6414c90152bc11f4c8716b043066b3fb,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10191,6 +10235,16 @@ PrefabInstance:
       propertyPath: m_text
       value: EarthBending
       objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4961891354832361339, guid: 6414c90152bc11f4c8716b043066b3fb,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -10517,8 +10571,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -81.84345}
-  m_SizeDelta: {x: -3.2900085, y: 612.631}
+  m_AnchoredPosition: {x: 0, y: -95.171}
+  m_SizeDelta: {x: -3.29, y: 585.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2089390915
 MonoBehaviour:
@@ -10535,7 +10589,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 36
     m_Right: 36
-    m_Top: 0
+    m_Top: 56
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 24
@@ -10704,6 +10758,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Murloc RPG
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 4048719860904042418, guid: 6414c90152bc11f4c8716b043066b3fb,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4961891354832361339, guid: 6414c90152bc11f4c8716b043066b3fb,
         type: 3}
@@ -14397,7 +14461,7 @@ PrefabInstance:
     - target: {fileID: 714184689250072594, guid: 3dbe8366b9e8b0b499df563bb4e8f016,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 714184689250072594, guid: 3dbe8366b9e8b0b499df563bb4e8f016,
         type: 3}
