@@ -28,6 +28,7 @@ public class ThreeDButtonHandler : MonoBehaviour
 
     [SerializeField] private Button toggleButton;
     [SerializeField] private TextMeshProUGUI buttonText;
+    [SerializeField] private GameObject rawImage; 
 
     [Space]
 
@@ -84,6 +85,8 @@ public class ThreeDButtonHandler : MonoBehaviour
             pair.AssociatedObject.SetActive(pair == pairToActivate);
         }
 
+        SetCorrect3DModel(pairToActivate);
+
         currentActivePair = pairToActivate;
 
         GetCorrectChilds();
@@ -119,6 +122,7 @@ public class ThreeDButtonHandler : MonoBehaviour
 
     private void Show3DModelUI()
     {
+        ToggleRawImage(true);
         MoveGallery(modelGalleryHiddenXPosY);
         MoveProjectSelect(projectSelectDefaultPosX);
         MoveModelSpecs(threeDModelSpecsDefaultPosX);
@@ -127,6 +131,7 @@ public class ThreeDButtonHandler : MonoBehaviour
 
     private void ShowGallery()
     {
+        ToggleRawImage(false);
         MoveGallery(modelGalleryDefaultPosY);
         MoveProjectSelect(projectSelectHiddenPosX);
         MoveModelSpecs(threeDModelSpecsHiddenPosX);
@@ -150,6 +155,11 @@ public class ThreeDButtonHandler : MonoBehaviour
         threeDModelSpecs.DOAnchorPosX(targetXPos, 0.2f);
     }
 
+    private void ToggleRawImage(bool value)
+    {
+        rawImage.SetActive(value);
+    }
+
     private void Toggle3DModel(bool value)
     {
         if (value)
@@ -160,5 +170,11 @@ public class ThreeDButtonHandler : MonoBehaviour
         {
             currentActivePair.model.SetActive(false);
         }
+    }
+
+    private void SetCorrect3DModel(ButtonGameObjectPair clickedPair)
+    {
+        currentActivePair.model.SetActive(false);
+        clickedPair.model.SetActive(true);
     }
 }
