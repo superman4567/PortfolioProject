@@ -17,7 +17,7 @@ public class ProjectContentUXUISO : ScriptableObject
 
         public MediaType Type;
         public Sprite Image;
-        public VideoClip Video;
+        public string videoName;
     }
 
     public List<MediaItem> MediaItems = new();

@@ -19,6 +19,8 @@ public class ContentPieceUXUI : MonoBehaviour
 
     public void InitVideo(MediaItem item)
     {
+        GetComponent<VidPlayer>().SetString(item.videoName);
+
         image.gameObject.SetActive(false);
 
         Transform parentTransform = transform.parent;
@@ -33,8 +35,6 @@ public class ContentPieceUXUI : MonoBehaviour
         rawImage.texture = uniqueTexture;
 
         videoPlayer.targetTexture = uniqueTexture;
-        videoPlayer.clip = item.Video;
-        
         videoPlayer.gameObject.SetActive(true);
     }
 }

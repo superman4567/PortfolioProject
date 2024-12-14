@@ -16,7 +16,7 @@ public class FullScreenWebGLExample : MonoBehaviour {
             FullscreenWebGL.onfullscreenchange += () => {//and then I add a callback that will run once the user enters or exits fullscreen
                 if (FullscreenWebGL.isFullscreen()) {//if it's fullscreen
                     enterFullscreenBtn.SetActive(false);//deactivate fullscreen button
-                    exitFullscreenBtn.SetActive(true);//activate exitfullscreen button
+                    exitFullscreenBtn.SetActive(true);//activate Exitfullscreen button
                 } else {//otherwise do the opposite
                     enterFullscreenBtn.SetActive(true);
                     exitFullscreenBtn.SetActive(false);
