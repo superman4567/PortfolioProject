@@ -2,10 +2,13 @@ using UnityEngine;
 using MarksAssets.FullscreenWebGL;
 using status = MarksAssets.FullscreenWebGL.FullscreenWebGL.status;
 using navigationUI = MarksAssets.FullscreenWebGL.FullscreenWebGL.navigationUI;
+using DG.Tweening;
 
 public class FullScreen : MonoBehaviour
 {
     public Canvas enterFullscreenBtn;
+
+    public CanvasGroup canvasGroup;
 
     void Start()
     {
@@ -38,5 +41,7 @@ public class FullScreen : MonoBehaviour
                 enterFullscreenBtn.sortingOrder = 0;
             }
         }, navigationUI.hide);//setting navigationUI.hide here is redundant because it's the default value, but I'm doing it for completion. This is an example after all.
+
+        canvasGroup.DOFade(0, 0.5f).OnComplete(() => canvasGroup.blocksRaycasts = false);
     }
 }

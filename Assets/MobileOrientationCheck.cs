@@ -1,61 +1,72 @@
 using System.Collections;
 using UnityEngine;
+using DG.Tweening; // Import DOTween
 
 public class MobileOrientationCheck : MonoBehaviour
 {
-    // Reference to your Canvas
     public Canvas myCanvas;
-
-    // Interval to check orientation (in seconds)
+    public CanvasGroup canvasGroup;
     public float checkInterval = 0.5f;
+
+    private bool isLandscape = false;
 
     private void Start()
     {
-        // Start the coroutine to check orientation
-        StartCoroutine(CheckOrientationPeriodically());
+        if (IsMobile() && !IsWebGL())
+        {
+            StartCoroutine(CheckOrientationPeriodically());
+        }
+        else
+        {
+            TweenAlpha(0f);
+        }
     }
 
     private IEnumerator CheckOrientationPeriodically()
     {
         while (true)
         {
-            // Check if the game is running on a mobile device
-            if (IsMobile())
+            if (IsLandscape() != isLandscape) // Check if orientation has changed
             {
-                // Check if the device is in landscape or portrait mode
-                if (IsLandscape())
+                isLandscape = IsLandscape();
+
+                if (isLandscape)
                 {
-                    SetCanvasPriority(0); // Landscape mode
+                    // Landscape: Fade out (alpha to 0)
+                    TweenAlpha(0f);
                 }
                 else
                 {
-                    SetCanvasPriority(1000); // Portrait mode
+                    // Portrait: Fade in (alpha to 1)
+                    TweenAlpha(1f);
                 }
             }
 
-            // Wait for the next interval before checking again
             yield return new WaitForSeconds(checkInterval);
         }
     }
 
-    // Check if the game is being played on a mobile device
     bool IsMobile()
     {
         return Application.isMobilePlatform;
     }
 
-    // Check if the device is in landscape mode
+    bool IsWebGL()
+    {
+        return Application.platform == RuntimePlatform.WebGLPlayer;
+    }
+
     bool IsLandscape()
     {
         return Screen.width > Screen.height;
     }
 
-    // Set the canvas priority (sorting order) based on orientation
-    void SetCanvasPriority(int priority)
+    void TweenAlpha(float targetAlpha)
     {
-        if (myCanvas != null)
+        if (canvasGroup != null)
         {
-            myCanvas.sortingOrder = priority;
+            canvasGroup.DOFade(targetAlpha, 0.5f)
+            .OnComplete(() => canvasGroup.blocksRaycasts = false);
         }
     }
 }
