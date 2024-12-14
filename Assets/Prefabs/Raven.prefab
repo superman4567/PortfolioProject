@@ -58,6 +58,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4196013023752696869, guid: 04d2667a0d79fce47bf4e5d9824a8147,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c52f8ac67ba5ba44a3e1b41bb1b66bf, type: 2}
     - target: {fileID: 919132149155446097, guid: 04d2667a0d79fce47bf4e5d9824a8147,
         type: 3}
       propertyPath: m_Name
@@ -97,10 +102,10 @@ MonoBehaviour:
   spline: {fileID: 0}
   speed: 70
   loop: 0
-  isLooping: 0
+  isPlaying: 0
 --- !u!95 &8019603469259020074
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -114,6 +119,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

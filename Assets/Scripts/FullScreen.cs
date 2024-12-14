@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class FullScreen : MonoBehaviour
 {
-    public Canvas enterFullscreenBtn;
+    public Canvas canvas;
 
     public CanvasGroup canvasGroup;
 
@@ -18,17 +18,19 @@ public class FullScreen : MonoBehaviour
             FullscreenWebGL.onfullscreenchange += () => {
                 if (FullscreenWebGL.isFullscreen())
                 {//if it's fullscreen
-                    enterFullscreenBtn.sortingOrder = 0;
+                    canvas.sortingOrder = 0;
+                    canvasGroup.DOFade(0, 0.5f).OnComplete(() => canvasGroup.blocksRaycasts = false);
                 }
                 else
                 {//otherwise do the opposite
-                    enterFullscreenBtn.sortingOrder = 999;
+                    canvas.sortingOrder = 999;
+                    canvasGroup.alpha= 1.0f;
                 }
             };
         }
         else
         {
-            enterFullscreenBtn.sortingOrder = 0;
+            canvas.sortingOrder = 0;
         }
     }
 
@@ -38,7 +40,7 @@ public class FullScreen : MonoBehaviour
         FullscreenWebGL.requestFullscreen(stat => {
             if (stat == status.Success)
             {
-                enterFullscreenBtn.sortingOrder = 0;
+                canvas.sortingOrder = 0;
             }
         }, navigationUI.hide);//setting navigationUI.hide here is redundant because it's the default value, but I'm doing it for completion. This is an example after all.
 
