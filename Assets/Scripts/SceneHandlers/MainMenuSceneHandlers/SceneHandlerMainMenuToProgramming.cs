@@ -42,6 +42,11 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     [SerializeField] private GameObject building;
     [SerializeField] private Material material;
     [Space]
+
+    [SerializeField] private GameObject katana;
+    [SerializeField] private Material materialKatana;
+    [Space]
+
     [SerializeField] private Volume volume;
 
     private bool isActive = false;
@@ -53,6 +58,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
         material = building.GetComponent<MeshRenderer>().material;
         laptopMaterial = laptop.GetComponent<MeshRenderer>().material;
+        materialKatana = katana.GetComponent<SkinnedMeshRenderer>().materials[0];
 
         loginCanvasGroup.alpha = 0f;
         logoFill.fillAmount = 0f;
@@ -102,6 +108,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
 
         ActivateCamera(camera2);
         loadingOverlayHandler.FillLoadingAmount(.25f);
+        StartCoroutine(DissolveKatana());
         yield return new WaitForSeconds(transitionDuration3);
         StartCoroutine(TransitionToCamera3());
     }
@@ -188,6 +195,29 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
         }
 
         material.SetFloat("_BlackAmount", endValue); // Ensure the final value is set
+    }
+
+    private IEnumerator DissolveKatana()
+    {
+        yield return new WaitForSeconds(0.7f);
+
+        float lerpDuration = 1f;
+        float elapsedTime = 0f;
+
+        float startValue = 2.5f;
+        float endValue = 0f;
+
+        while (elapsedTime < lerpDuration)
+        {
+            float value = Mathf.Lerp(startValue, endValue, elapsedTime / lerpDuration);
+            materialKatana.SetFloat("_ColorHeight", value);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        materialKatana.SetFloat("_ColorHeight", endValue);
     }
 
     private void ActivateCamera(CinemachineVirtualCamera camera)

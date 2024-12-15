@@ -7,19 +7,14 @@ using DG.Tweening;
 public class FullScreen : MonoBehaviour
 {
     public Canvas canvas;
-
     public CanvasGroup canvasGroup;
 
     void Start()
     {
-        if (Application.platform == RuntimePlatform.WindowsPlayer)
-        {
-            Hide();
-        }
-    
-
         if (FullscreenWebGL.isFullscreenSupported())
         {
+            Show();
+
             FullscreenWebGL.subscribeToFullscreenchangedEvent();
             FullscreenWebGL.onfullscreenchange += () => {
                 if (FullscreenWebGL.isFullscreen())
@@ -32,22 +27,18 @@ public class FullScreen : MonoBehaviour
                 }
             };
         }
-        else
-        {
-            Hide();
-        }
     }
 
     private void Hide()
     {
         canvas.sortingOrder = 0;
-        canvasGroup.DOFade(0, 0.5f).OnComplete(() => canvasGroup.blocksRaycasts = false);
+        canvasGroup.DOFade(0, 0.2f).OnComplete(() => canvasGroup.blocksRaycasts = false);
     }
 
     private void Show()
     {
         canvas.sortingOrder = 999;
-        canvasGroup.alpha = 1.0f;
+        canvasGroup.DOFade(1, 0.2f).OnComplete(() => canvasGroup.blocksRaycasts = true);
     }
 
     public void Enterfullscreen()

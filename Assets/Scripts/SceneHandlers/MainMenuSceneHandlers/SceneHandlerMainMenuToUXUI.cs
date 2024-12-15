@@ -3,6 +3,7 @@ using DG.Tweening;
 using Cinemachine;
 using System.Collections;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 {
@@ -33,9 +34,17 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
     [SerializeField] private GameObject building;
     [SerializeField] private Material materialEnvironment;
 
+    [Space]
     [SerializeField] private GameObject laptop;
     [SerializeField] private Material materialLaptop;
-    
+
+    [Space]
+    [SerializeField] private GameObject character;
+    [SerializeField] private Material materialCharacterDissolve;
+
+    [Space]
+    [SerializeField] private RectTransform brightImage;
+
     [Space]
     [SerializeField] private Volume volume;
 
@@ -48,6 +57,7 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
 
         materialEnvironment = building.GetComponent<MeshRenderer>().material;
         materialLaptop = laptop.GetComponent<MeshRenderer>().material;
+        materialCharacterDissolve = character.GetComponent<SkinnedMeshRenderer>().materials[2];
     }
 
     private void Update()
@@ -107,6 +117,8 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
         ActivateCamera(camera3);
         loadingOverlayHandler.FillLoadingAmount(.25f);
         StartCoroutine(LerpMaterialProperty());
+        StartCoroutine(LerpCharacterDissolve());
+        StartCoroutine(LerpSprite());
         LerpCamera3();
     }
 
@@ -154,6 +166,66 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
         materialEnvironment.SetFloat("_BlackAmount", endValueBuilding);
         materialLaptop.SetFloat("_BlackAmount", endValueLaptop);
     }
+
+    private IEnumerator LerpCharacterDissolve()
+    {
+        yield return new WaitForSeconds(1f);
+
+        float lerpDuration = 1f;
+        float elapsedTime = 0f;
+
+        float startValue = 2.5f;
+        float endValue = 6f;
+
+        while (elapsedTime < lerpDuration)
+        {
+            float value = Mathf.Lerp(startValue, endValue, elapsedTime / lerpDuration);
+            materialCharacterDissolve.SetFloat("_ColorHeight", value);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        materialCharacterDissolve.SetFloat("_ColorHeight", endValue);
+    }
+
+    private IEnumerator LerpSprite()
+    {
+        yield return new WaitForSeconds(1.4f);
+
+        float lerpDuration = 0.3f;
+        float elapsedTime = 0f;
+
+        // Start and end dimensions
+        float startWidth = 0f;
+        float endWidth = 4096f;
+        float startHeight = 0f;
+        float endHeight = 4096f;
+
+
+        while (elapsedTime < lerpDuration)
+        {
+            // Calculate the interpolation factor
+            float t = elapsedTime / lerpDuration;
+
+            // Lerp the width and height
+            float currentWidth = Mathf.Lerp(startWidth, endWidth, t);
+            float currentHeight = Mathf.Lerp(startHeight, endHeight, t);
+
+            // Apply the new dimensions
+            brightImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentWidth);
+            brightImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, currentHeight);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Ensure the final size is set to the target dimensions
+        brightImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, endWidth);
+        brightImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, endHeight);
+    }
+
 
     private void ActivateCamera(CinemachineVirtualCamera camera)
     {
