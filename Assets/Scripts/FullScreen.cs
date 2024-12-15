@@ -12,38 +12,51 @@ public class FullScreen : MonoBehaviour
 
     void Start()
     {
+        if (Application.platform == RuntimePlatform.WindowsPlayer)
+        {
+            Hide();
+        }
+    
+
         if (FullscreenWebGL.isFullscreenSupported())
         {
             FullscreenWebGL.subscribeToFullscreenchangedEvent();
             FullscreenWebGL.onfullscreenchange += () => {
                 if (FullscreenWebGL.isFullscreen())
-                {//if it's fullscreen
-                    canvas.sortingOrder = 0;
-                    canvasGroup.DOFade(0, 0.5f).OnComplete(() => canvasGroup.blocksRaycasts = false);
+                {
+                    Hide();
                 }
                 else
-                {//otherwise do the opposite
-                    canvas.sortingOrder = 999;
-                    canvasGroup.alpha= 1.0f;
+                {
+                    Show();
                 }
             };
         }
         else
         {
-            canvas.sortingOrder = 0;
+            Hide();
         }
     }
 
-    //call this on a pointerdown event
+    private void Hide()
+    {
+        canvas.sortingOrder = 0;
+        canvasGroup.DOFade(0, 0.5f).OnComplete(() => canvasGroup.blocksRaycasts = false);
+    }
+
+    private void Show()
+    {
+        canvas.sortingOrder = 999;
+        canvasGroup.alpha = 1.0f;
+    }
+
     public void Enterfullscreen()
     {
         FullscreenWebGL.requestFullscreen(stat => {
             if (stat == status.Success)
             {
-                canvas.sortingOrder = 0;
+                Hide();
             }
-        }, navigationUI.hide);//setting navigationUI.hide here is redundant because it's the default value, but I'm doing it for completion. This is an example after all.
-
-        canvasGroup.DOFade(0, 0.5f).OnComplete(() => canvasGroup.blocksRaycasts = false);
+        }, navigationUI.hide);
     }
 }

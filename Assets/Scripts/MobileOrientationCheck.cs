@@ -4,21 +4,26 @@ using DG.Tweening; // Import DOTween
 
 public class MobileOrientationCheck : MonoBehaviour
 {
+    [Header("Canvas Settings")]
     public Canvas myCanvas;
     public CanvasGroup canvasGroup;
+
+    [Header("Configuration")]
+    [Tooltip("Interval (in seconds) for checking screen orientation.")]
     public float checkInterval = 0.5f;
 
-    private bool isLandscape = false;
+    private bool isLandscape;
 
     private void Start()
     {
-        if (IsMobile() && !IsWebGL())
+        if (ShouldCheckOrientation())
         {
+            isLandscape = IsLandscape(); // Initialize the current orientation
             StartCoroutine(CheckOrientationPeriodically());
         }
         else
         {
-            TweenAlpha(0f);
+            SetCanvasVisibility(false); // Hide the canvas on unsupported platforms
         }
     }
 
@@ -26,47 +31,33 @@ public class MobileOrientationCheck : MonoBehaviour
     {
         while (true)
         {
-            if (IsLandscape() != isLandscape) // Check if orientation has changed
+            bool currentOrientation = IsLandscape();
+            if (currentOrientation != isLandscape) // Orientation changed
             {
-                isLandscape = IsLandscape();
-
-                if (isLandscape)
-                {
-                    // Landscape: Fade out (alpha to 0)
-                    TweenAlpha(0f);
-                }
-                else
-                {
-                    // Portrait: Fade in (alpha to 1)
-                    TweenAlpha(1f);
-                }
+                isLandscape = currentOrientation;
+                SetCanvasVisibility(!isLandscape); // Show in portrait, hide in landscape
             }
 
             yield return new WaitForSeconds(checkInterval);
         }
     }
 
-    bool IsMobile()
+    private bool ShouldCheckOrientation()
     {
-        return Application.isMobilePlatform;
+        return Application.isMobilePlatform && Application.platform != RuntimePlatform.WebGLPlayer;
     }
 
-    bool IsWebGL()
-    {
-        return Application.platform == RuntimePlatform.WebGLPlayer;
-    }
-
-    bool IsLandscape()
+    private bool IsLandscape()
     {
         return Screen.width > Screen.height;
     }
 
-    void TweenAlpha(float targetAlpha)
+    private void SetCanvasVisibility(bool visible)
     {
         if (canvasGroup != null)
         {
-            canvasGroup.DOFade(targetAlpha, 0.5f)
-            .OnComplete(() => canvasGroup.blocksRaycasts = false);
+            canvasGroup.DOFade(visible ? 1f : 0f, 0.5f)
+                .OnComplete(() => canvasGroup.blocksRaycasts = visible);
         }
     }
 }

@@ -4145,7 +4145,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &9096398341228386536
 Animator:
-  serializedVersion: 5
+  serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4159,6 +4159,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -4606,13 +4607,16 @@ SkinnedMeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 3
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
@@ -5105,12 +5109,12 @@ PrefabInstance:
       objectReference: {fileID: 6037382467986169359}
     - target: {fileID: 8545017790982207063, guid: 39e04abb14709dd4cba4b27ab1a6352f,
         type: 3}
-      propertyPath: m_Bones.Array.data[0]
+      propertyPath: 'm_Bones.Array.data[0]'
       value: 
       objectReference: {fileID: 6037382467986169359}
     - target: {fileID: 8545017790982207063, guid: 39e04abb14709dd4cba4b27ab1a6352f,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 16bbb55a13ed5284fb3d2848101608e2, type: 2}
     - target: {fileID: 8690272678163698397, guid: 39e04abb14709dd4cba4b27ab1a6352f,
@@ -5194,22 +5198,22 @@ PrefabInstance:
       objectReference: {fileID: 680171337181611831}
     - target: {fileID: 4272057583155559003, guid: 07d2264a0eeaf064e95b768fcf724b45,
         type: 3}
-      propertyPath: m_Bones.Array.data[0]
+      propertyPath: 'm_Bones.Array.data[0]'
       value: 
       objectReference: {fileID: 680171337181611831}
     - target: {fileID: 4272057583155559003, guid: 07d2264a0eeaf064e95b768fcf724b45,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4680bf3417c787a468e1156a31bf7ca1, type: 2}
     - target: {fileID: 4272057583155559003, guid: 07d2264a0eeaf064e95b768fcf724b45,
         type: 3}
-      propertyPath: m_Materials.Array.data[1]
+      propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 4680bf3417c787a468e1156a31bf7ca1, type: 2}
     - target: {fileID: 4272057583155559003, guid: 07d2264a0eeaf064e95b768fcf724b45,
         type: 3}
-      propertyPath: m_Materials.Array.data[2]
+      propertyPath: 'm_Materials.Array.data[2]'
       value: 
       objectReference: {fileID: 2100000, guid: 4680bf3417c787a468e1156a31bf7ca1, type: 2}
     - target: {fileID: 6431045166490011099, guid: 07d2264a0eeaf064e95b768fcf724b45,
@@ -5243,7 +5247,7 @@ PrefabInstance:
       objectReference: {fileID: 9138344770170552283}
     - target: {fileID: 1084532906803040674, guid: 3a3926df17a292b4fa2076310f7c1392,
         type: 3}
-      propertyPath: m_Bones.Array.data[0]
+      propertyPath: 'm_Bones.Array.data[0]'
       value: 
       objectReference: {fileID: 9138344770170552283}
     - target: {fileID: 5447298052141673669, guid: 3a3926df17a292b4fa2076310f7c1392,
@@ -5327,12 +5331,12 @@ PrefabInstance:
       objectReference: {fileID: 8270922427235516330}
     - target: {fileID: 4435797696023571191, guid: db0f4472fc7c1b949ac2fd22d4136d7d,
         type: 3}
-      propertyPath: m_Bones.Array.data[0]
+      propertyPath: 'm_Bones.Array.data[0]'
       value: 
       objectReference: {fileID: 8270922427235516330}
     - target: {fileID: 4435797696023571191, guid: db0f4472fc7c1b949ac2fd22d4136d7d,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 7b8bed251445d8a4eb5d2f3e584fa3d5, type: 2}
     - target: {fileID: 6672649949617161086, guid: db0f4472fc7c1b949ac2fd22d4136d7d,
@@ -5466,12 +5470,12 @@ PrefabInstance:
       objectReference: {fileID: 8778750639166792440}
     - target: {fileID: 7069530340385477577, guid: 92aa00f3d5a9f014895b62b4c6743ac6,
         type: 3}
-      propertyPath: m_Bones.Array.data[0]
+      propertyPath: 'm_Bones.Array.data[0]'
       value: 
       objectReference: {fileID: 8778750639166792440}
     - target: {fileID: 7069530340385477577, guid: 92aa00f3d5a9f014895b62b4c6743ac6,
         type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 4680bf3417c787a468e1156a31bf7ca1, type: 2}
     - target: {fileID: 8128881030473548296, guid: 92aa00f3d5a9f014895b62b4c6743ac6,
@@ -5505,7 +5509,7 @@ PrefabInstance:
       objectReference: {fileID: 8365524856156820965}
     - target: {fileID: 903322327144826453, guid: e9450925775aeb74d96ef68b31a81cf9,
         type: 3}
-      propertyPath: m_Bones.Array.data[0]
+      propertyPath: 'm_Bones.Array.data[0]'
       value: 
       objectReference: {fileID: 8365524856156820965}
     - target: {fileID: 7037473614931326404, guid: e9450925775aeb74d96ef68b31a81cf9,
