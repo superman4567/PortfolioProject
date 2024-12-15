@@ -106,6 +106,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
 
         foreach (var raven in ravens) 
         {
+            raven.gameObject.SetActive(true);
             raven.isPlaying = true;
         }
 
