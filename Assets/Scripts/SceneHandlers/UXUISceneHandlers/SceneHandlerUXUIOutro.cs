@@ -65,6 +65,10 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private GameObject playerModel;
 
+    [Space]
+
+    [SerializeField] private CanvasGroup canvasGroup;
+
     private bool isActive;
     private bool stopCoroutines =false;
 
@@ -140,8 +144,16 @@ public class SceneHandlerUXUIOutro : MonoBehaviour
         loadingOverlayHandler.FillLoadingAmount(.25f);
         cam4.transform.position = cam4Start.position;
         cam4.transform.DOMove(cam4End.position, delayPart4).SetEase(Ease.InOutSine);
+        StartCoroutine(LerpCanvasGroup());
         yield return new WaitForSeconds(delayPart4);
         SequenceComplete();
+    }
+
+    private IEnumerator LerpCanvasGroup()
+    {
+        yield return new WaitForSeconds(0.75f);
+        canvasGroup.alpha = 0;
+        canvasGroup.DOFade(1f, 0.2f);
     }
 
     private void ActivateCamera(CinemachineVirtualCamera camera)
