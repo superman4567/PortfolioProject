@@ -52,7 +52,7 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X) && isActive)
         {
-            SkipSequence();
+            SkipSequence3D();
         }
     }
 
@@ -152,8 +152,11 @@ public class SceneHandlerMainMenuTo3D : MonoBehaviour
         camera.enabled = true;
     }
 
-    private void SkipSequence()
+    public void SkipSequence3D()
     {
+        if (!isActive)
+            return;
+
         isActive = false;
         stopCoroutines = true;
         StopAllCoroutines();

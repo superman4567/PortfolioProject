@@ -19,12 +19,6 @@ public class ContentSpawner3D : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI modelFaces;
     [SerializeField] private TextMeshProUGUI modelVerts;
-
-    [SerializeField] private Image albedoTexture;
-    [SerializeField] private Image normalMapTexture;
-    [SerializeField] private Image emmisionMapTexture;
-    [SerializeField] private Image roughnessMapTexture;
-
     [SerializeField] private Image uVLayoutTexture;
 
     [Space]
@@ -106,11 +100,6 @@ public class ContentSpawner3D : MonoBehaviour
         modelDescription.text = projectContent.modelDescription ?? "UNKNOWN DESCRIPTION";
         modelFaces.text = projectContent.modelFaces.ToString();
         modelVerts.text = projectContent.modelVerts.ToString();
-
-        SetTextureOrHide(albedoTexture, projectContent.albedoTexture);
-        SetTextureOrHide(normalMapTexture, projectContent.normalMapTexture);
-        SetTextureOrHide(emmisionMapTexture, projectContent.emmisionMapTexture);
-        SetTextureOrHide(roughnessMapTexture, projectContent.RoughnessMapTexture);
         SetTextureOrHide(uVLayoutTexture, projectContent.uVLayoutTexture);
     }
 

@@ -36,6 +36,8 @@ public class SceneHandlerMainMenu : MonoBehaviour
         categoriesCanvasGroup.alpha = 0;
         categoriesCanvasGroup.interactable = false;
         AnimatePressSpaceToStartCanvasGroup();
+
+        Time.timeScale = 1f;
     }
 
     private void Update()

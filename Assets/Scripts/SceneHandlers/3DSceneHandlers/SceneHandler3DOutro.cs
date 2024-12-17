@@ -169,9 +169,12 @@ public class SceneHandler3DOutro : MonoBehaviour
         camera.enabled = true;
     }
 
-    private void SkipSequence()
+    public void SkipSequence()
     {
-        isActive= false;
+        if (!isActive)
+            return;
+
+        isActive = false;
         stopCoroutines = true;
         StopAllCoroutines();
         DOTween.KillAll();

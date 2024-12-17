@@ -68,7 +68,7 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X) && isActive)
         {
-            SkipSequence();
+            SkipSequenceProgramming();
         }
     }
 
@@ -243,8 +243,11 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
         .OnComplete(SequenceComplete);
     }
 
-    private void SkipSequence()
+    public void SkipSequenceProgramming()
     {
+        if (!isActive)
+            return;
+
         isActive = false;
         stopCoroutines = true;
         StopAllCoroutines();

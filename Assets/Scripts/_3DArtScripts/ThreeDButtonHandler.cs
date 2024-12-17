@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,7 +29,9 @@ public class ThreeDButtonHandler : MonoBehaviour
 
     [SerializeField] private Button toggleButton;
     [SerializeField] private TextMeshProUGUI buttonText;
-    [SerializeField] private GameObject rawImage; 
+    [SerializeField] private GameObject tools;
+
+   [SerializeField] private GameObject rawImage; 
 
     [Space]
 
@@ -41,7 +44,7 @@ public class ThreeDButtonHandler : MonoBehaviour
     private const float threeDModelSpecsDefaultPosX = 0f;
     private const float threeDModelSpecsHiddenPosX = 400f;
 
-    private const string imageState = "Preview Model Data";
+    private const string imageState = "Go Back";
     private const string modelState = "Preview Project Gallery";
 
     private ButtonGameObjectPair currentActivePair;
@@ -127,6 +130,8 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveProjectSelect(projectSelectDefaultPosX);
         MoveModelSpecs(threeDModelSpecsDefaultPosX);
         buttonText.text = modelState;
+
+        ShowToolIcons(true);
     }
 
     private void ShowGallery()
@@ -136,6 +141,13 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveProjectSelect(projectSelectHiddenPosX);
         MoveModelSpecs(threeDModelSpecsHiddenPosX);
         buttonText.text = imageState;
+
+        ShowToolIcons(false);
+    }
+
+    private void ShowToolIcons(bool value)
+    {
+        tools.SetActive(value);
     }
 
     private void MoveGallery(float targetYPos)

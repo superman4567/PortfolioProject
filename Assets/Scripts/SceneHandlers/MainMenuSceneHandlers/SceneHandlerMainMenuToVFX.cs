@@ -46,7 +46,7 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X) && isActive)
         {
-            SkipSequence();
+            SkipSequenceVFX();
         }
     }
 
@@ -131,8 +131,11 @@ public class SceneHandlerMainMenuToVFX : MonoBehaviour
         camera.enabled = true;
     }
 
-    private void SkipSequence()
+    public void SkipSequenceVFX()
     {
+        if (!isActive)
+            return;
+
         isActive = false;
         stopCoroutines = true;
         StopAllCoroutines();

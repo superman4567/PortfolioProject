@@ -64,7 +64,7 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.X) && isActive)
         {
-            SkipSequence(); 
+            SkipSequenceUXUI(); 
         }
     }
 
@@ -226,7 +226,6 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
         brightImage.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, endHeight);
     }
 
-
     private void ActivateCamera(CinemachineVirtualCamera camera)
     {
         camera0.enabled = false;
@@ -237,8 +236,11 @@ public class SceneHandlerMainMenuToUXUI : MonoBehaviour
         camera.enabled = true;
     }
 
-    private void SkipSequence()
+    public void SkipSequenceUXUI()
     {
+        if (!isActive)
+            return;
+
         isActive = true;
         stopCoroutines = true;
         StopAllCoroutines();

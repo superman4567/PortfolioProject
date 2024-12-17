@@ -28,6 +28,9 @@ public class UXUITitleScrollHandler : MonoBehaviour
     {
         InitializeTitlesList();
         Invoke(nameof(UpdateVisibleButtons), 0.1f);
+
+        ScrollDown();
+        ScrollUp();
     }
 
     private void InitializeTitlesList()

@@ -163,8 +163,6 @@ public class SceneHandler3DIntro : MonoBehaviour
         SequenceComplete();
     }
 
-   
-
     private void ActivateCamera(CinemachineVirtualCamera camera)
     {
         cam1.enabled = false;
@@ -175,9 +173,12 @@ public class SceneHandler3DIntro : MonoBehaviour
         camera.enabled = true;
     }
 
-    private void SkipSequence()
+    public void SkipSequence()
     {
-        isActive= false;
+        if (!isActive)
+            return;
+
+        isActive = false;
         stopCoroutines = true;
         StopAllCoroutines();
         DOTween.KillAll();
@@ -199,5 +200,4 @@ public class SceneHandler3DIntro : MonoBehaviour
 
         OnIntroSequenceCompleted?.Invoke();
     }
-
 }

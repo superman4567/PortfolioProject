@@ -29,11 +29,5 @@ public class ProjectContent3DSO : ScriptableObject
 
     public int modelFaces;
     public int modelVerts;
-
-    public Sprite albedoTexture;
-    public Sprite normalMapTexture;
-    public Sprite emmisionMapTexture;
-    public Sprite RoughnessMapTexture;
-
     public Sprite uVLayoutTexture;
 }
