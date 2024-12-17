@@ -10,13 +10,17 @@ public class FullScreen : MonoBehaviour
     public CanvasGroup canvasGroup;
     private const string HasEnteredGameOnceKey = "hasEnteredGameOnce";
 
-    void Start()
+    private void OnEnable()
     {
         if (PlayerPrefs.GetInt(HasEnteredGameOnceKey, 0) == 1)
         {
             Hide();
+            Debug.Log("Hide");
         }
+    }
 
+    void Start()
+    {
         if (FullscreenWebGL.isFullscreenSupported())
         {
             Show();
