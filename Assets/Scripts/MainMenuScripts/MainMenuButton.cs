@@ -9,8 +9,8 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI buttonText;
 
-    private const float normalFontSize = 82f;
-    private const float largeFontSize = 112f;
+    private const float normalFontSize = 92f;
+    private const float largeFontSize = 122f;
 
     private readonly Color activeColor = Color.white;
     private readonly Color inactiveColor = new Color(0.537f, 0.537f, 0.537f);

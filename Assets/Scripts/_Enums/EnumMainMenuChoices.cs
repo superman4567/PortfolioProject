@@ -4,5 +4,7 @@ public enum EnumMainMenuChoices
     UXUI,
     ThreeDArt,
     Programming,
-    VFX
+    VFX,
+    profile,
+    contact
 }

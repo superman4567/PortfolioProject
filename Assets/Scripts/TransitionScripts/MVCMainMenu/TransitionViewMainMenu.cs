@@ -14,6 +14,9 @@ public class TransitionViewMainMenu : MonoBehaviour
     [SerializeField] private Button programmingButton;
     [SerializeField] private Button vfxButton;
 
+    [SerializeField] private Button ProfileButton;
+    [SerializeField] private Button contactButton;
+
 
     private Button[] buttons;
 
@@ -26,6 +29,8 @@ public class TransitionViewMainMenu : MonoBehaviour
         SetUpButton(threeDArtButton, EnumMainMenuChoices.ThreeDArt);
         SetUpButton(programmingButton, EnumMainMenuChoices.Programming);
         SetUpButton(vfxButton, EnumMainMenuChoices.VFX);
+        SetUpButton(vfxButton, EnumMainMenuChoices.profile);
+        SetUpButton(vfxButton, EnumMainMenuChoices.contact);
     }
 
     private void OnDisable()
