@@ -1,50 +1,144 @@
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using UnityEngine.UI;
+using System.Collections.Generic;
+
+[System.Serializable]
+public class LocaleAbbreviation
+{
+    public Locale locale;
+    public string abbreviation;
+    public Sprite flag;
+}
 
 public class LanguageSelector : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown languageDropdown; // Reference to the TMP Dropdown
-    [SerializeField] private Image flagImage; // Reference to the Image for the flag
-    [SerializeField] private TextMeshProUGUI abbreviationText; // Reference to the TextMeshProUGUI for abbreviation
-    [SerializeField] private Sprite[] flagSprites; // Array of flag sprites
-    [SerializeField] private string[] languageAbbreviations; // Array of language abbreviations (e.g., "NL", "DE")
+    public TMP_Dropdown languageDropdown;
+    public List<LocaleAbbreviation> localeAbbreviations = new();
 
-    private void Start()
+    void Start()
     {
-        // Initialize the dropdown with all available languages
-        PopulateDropdown();
+        languageDropdown.ClearOptions();
+        List<string> languageOptions = new();
 
-        // Add listener to handle language changes
-        languageDropdown.onValueChanged.AddListener(OnLanguageSelected);
-    }
-
-    private void PopulateDropdown()
-    {
-        languageDropdown.options.Clear(); // Clear existing options
-        var locales = LocalizationSettings.AvailableLocales.Locales; // Get available locales
-
-        for (int i = 0; i < locales.Count; i++)
+        foreach (var localeAbbr in localeAbbreviations)
         {
-            string displayName = locales[i].Identifier.CultureInfo.DisplayName;
-            languageDropdown.options.Add(new TMP_Dropdown.OptionData(displayName));
+            languageOptions.Add(localeAbbr.abbreviation);
         }
 
-        // Set initial dropdown value
-        languageDropdown.value = LocalizationSettings.SelectedLocale != null ?
-            LocalizationSettings.AvailableLocales.Locales.IndexOf(LocalizationSettings.SelectedLocale) : 0;
-        languageDropdown.RefreshShownValue(); // Ensure the correct value is displayed
+        languageDropdown.AddOptions(languageOptions);
+        languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
+        StartCoroutine(WaitForDropdownClick());
     }
 
-    private void OnLanguageSelected(int index)
+    private System.Collections.IEnumerator WaitForDropdownClick()
     {
-        // Update locale
-        var selectedLocale = LocalizationSettings.AvailableLocales.Locales[index];
-        LocalizationSettings.SelectedLocale = selectedLocale;
+        while (true)
+        {
+            if (languageDropdown.IsExpanded)
+            {
+                AssignFlagsToDropdownOptions();
+                yield break;
+            }
 
-        // Update UI for flag and abbreviation
-        flagImage.sprite = flagSprites[index]; // Set flag sprite
-        abbreviationText.text = languageAbbreviations[index]; // Set abbreviation text
+            yield return null;
+        }
+    }
+
+    private void AssignFlagsToDropdownOptions()
+    {
+        Transform dropdownList = languageDropdown.transform.Find("Dropdown List/Viewport/Content");
+
+        for (int i = 1; i < dropdownList.childCount; i++)
+        {
+            Transform optionItem = dropdownList.GetChild(i);
+            Transform flagTransform = optionItem.Find("Flag");
+
+            if (flagTransform != null)
+            {
+                Image flagImage = flagTransform.GetComponent<Image>();
+
+                if (flagImage != null)
+                {
+                    flagImage.sprite = localeAbbreviations[i - 1].flag;
+                }
+            }
+        }
+    }
+
+    private void OnLanguageChanged(int index)
+    {
+        Locale selectedLocale = localeAbbreviations[index].locale;
+        LocalizationSettings.SelectedLocale = selectedLocale;
     }
 }
+
+
+
+//using UnityEngine;
+//using TMPro;
+//using UnityEngine.Localization;
+//using UnityEngine.Localization.Settings;
+//using UnityEngine.UI;
+//using System.Collections.Generic;
+
+//[System.Serializable]
+//public class LocaleAbbreviation
+//{
+//    public Locale locale;
+//    public string abbreviation;
+//    public Sprite flag;
+//}
+
+//public class LanguageSelector : MonoBehaviour
+//{
+//    public TMP_Dropdown languageDropdown;
+//    public List<LocaleAbbreviation> localeAbbreviations = new();
+
+//    void Start()
+//    {
+//        // Populate the dropdown with the language options
+//        languageDropdown.ClearOptions();
+//        List<string> languageOptions = new List<string>();
+
+//        foreach (var localeAbbr in localeAbbreviations)
+//        {
+//            languageOptions.Add(localeAbbr.abbreviation);
+//        }
+
+//        languageDropdown.AddOptions(languageOptions);
+
+//        // Assign the flag sprite to each option
+//        AssignFlagsToDropdownOptions();
+
+//        languageDropdown.onValueChanged.AddListener(OnLanguageChanged);
+//    }
+
+//    private void AssignFlagsToDropdownOptions()
+//    {
+//        // Loop through each dropdown option and set the flag sprite
+//        for (int i = 0; i < languageDropdown.options.Count; i++)
+//        {
+//            Transform flagTransform = languageDropdown.itemText.transform.parent.Find("Flag");
+
+//            languageDropdown.image = flagTransform.gameObject.GetComponent<Image>();
+//            Debug.Log(languageDropdown.image.name);
+//            languageDropdown.image.sprite = localeAbbreviations[i].flag;
+//        }
+
+//        // Refresh the dropdown to apply changes
+//        languageDropdown.RefreshShownValue();
+//    }
+
+//    private void OnLanguageChanged(int index)
+//    {
+//        // Get the selected Locale
+//        Locale selectedLocale = localeAbbreviations[index].locale;
+
+//        // Change the active locale of the game
+//        LocalizationSettings.SelectedLocale = selectedLocale;
+//    }
+//}
+
