@@ -27,10 +27,6 @@ public class UXUITitleScrollHandler : MonoBehaviour
     private void Start()
     {
         InitializeTitlesList();
-        Invoke(nameof(UpdateVisibleButtons), 0.1f);
-
-        ScrollDown();
-        ScrollUp();
     }
 
     private void InitializeTitlesList()
@@ -40,6 +36,8 @@ public class UXUITitleScrollHandler : MonoBehaviour
             Image image = child.GetComponent<Image>();
             imagesList.Add(image);
         }
+
+        UpdateVisibleButtons();
     }
 
     private void Update()

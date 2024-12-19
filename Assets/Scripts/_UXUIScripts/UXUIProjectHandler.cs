@@ -20,7 +20,7 @@ public class UXUIProjectHandler : MonoBehaviour
             if (child.TryGetComponent(out UXUIImage item))
                 childUXUIImages.Add(item);
         }
-        Invoke(nameof(ArrangeChildrenVertically), 0.2f);
+        Invoke(nameof(ArrangeChildrenVertically), 0.4f);
     }
 
     private void ArrangeChildrenVertically()
