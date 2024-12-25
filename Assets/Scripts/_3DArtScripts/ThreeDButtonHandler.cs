@@ -3,6 +3,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.UI;
 
 public class ThreeDButtonHandler : MonoBehaviour
@@ -45,8 +46,8 @@ public class ThreeDButtonHandler : MonoBehaviour
     private const float threeDModelSpecsDefaultPosX = 0f;
     private const float threeDModelSpecsHiddenPosX = 400f;
 
-    private LocalizedString imageState;
-    private LocalizedString modelState;
+    [SerializeField] private LocalizedString imageState;
+    [SerializeField] private LocalizedString modelState;
 
     private ButtonGameObjectPair currentActivePair;
     private bool isGalleryVisible = true;
@@ -117,11 +118,11 @@ public class ThreeDButtonHandler : MonoBehaviour
     private void GetCorrectChilds()
     {
         RectTransform parentGallery = currentActivePair.AssociatedObject.transform.GetChild(0) as RectTransform;
-        threeDModelGallery = parentGallery.transform.GetChild(2) as RectTransform;
+        threeDModelGallery = parentGallery.transform.GetChild(1) as RectTransform;
 
 
         RectTransform parentSpecs = currentActivePair.AssociatedObject.transform.GetChild(0) as RectTransform;
-        threeDModelSpecs = parentSpecs.transform.GetChild(1) as RectTransform;
+        threeDModelSpecs = parentSpecs.transform.GetChild(0) as RectTransform;
     }
 
     private void Show3DModelUI()

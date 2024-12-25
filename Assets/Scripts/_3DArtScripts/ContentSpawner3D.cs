@@ -15,15 +15,12 @@ public class ContentSpawner3D : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI modelName;
     [SerializeField] private TextMeshProUGUI modelStyle;
-    [SerializeField] private TextMeshProUGUI modelDescription;
-
+    
     [SerializeField] private TextMeshProUGUI modelFaces;
     [SerializeField] private TextMeshProUGUI modelVerts;
     [SerializeField] private Image uVLayoutTexture;
 
     [Space]
-
-    [SerializeField] private GameObject noModelText;
 
     [SerializeField] private Color inactiveButtonColor = new Color(0.7f, 0.7f, 0.7f);
     private List<GameObject> spawnedPrefabs = new();
@@ -31,7 +28,6 @@ public class ContentSpawner3D : MonoBehaviour
 
     private void Start()
     {
-        noModelText.SetActive(true);
         SpawnAllContentItems();
         InitializeFirstItem();
         SetSpecRelatedData();
@@ -93,11 +89,8 @@ public class ContentSpawner3D : MonoBehaviour
 
     private void SetSpecRelatedData()
     {
-        noModelText.GetComponentInChildren<TextMeshProUGUI>().text = projectContent.modelName ?? "Unknown Model";
-
         modelName.text = projectContent.modelName ?? "UNKNOWN NAME";
         modelStyle.text = projectContent.modelStyle ?? "UNKNOWN STYLE";
-        modelDescription.text = projectContent.modelDescription ?? "UNKNOWN DESCRIPTION";
         modelFaces.text = projectContent.modelFaces.ToString();
         modelVerts.text = projectContent.modelVerts.ToString();
         SetTextureOrHide(uVLayoutTexture, projectContent.uVLayoutTexture);
