@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public class ThreeDButtonHandler : MonoBehaviour
@@ -44,8 +45,8 @@ public class ThreeDButtonHandler : MonoBehaviour
     private const float threeDModelSpecsDefaultPosX = 0f;
     private const float threeDModelSpecsHiddenPosX = 400f;
 
-    private const string imageState = "Go Back";
-    private const string modelState = "Preview Project Gallery";
+    private LocalizedString imageState;
+    private LocalizedString modelState;
 
     private ButtonGameObjectPair currentActivePair;
     private bool isGalleryVisible = true;
@@ -69,7 +70,7 @@ public class ThreeDButtonHandler : MonoBehaviour
         GetCorrectChilds();
 
         Show3DModelUI();
-        buttonText.text = modelState;
+        buttonText.text = modelState.GetLocalizedString();
     }
 
     private void OnButtonClicked(ButtonGameObjectPair clickedPair)
@@ -129,7 +130,7 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveGallery(modelGalleryHiddenXPosY);
         MoveProjectSelect(projectSelectDefaultPosX);
         MoveModelSpecs(threeDModelSpecsDefaultPosX);
-        buttonText.text = modelState;
+        buttonText.text = modelState.GetLocalizedString();
 
         ShowToolIcons(true);
     }
@@ -140,7 +141,7 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveGallery(modelGalleryDefaultPosY);
         MoveProjectSelect(projectSelectHiddenPosX);
         MoveModelSpecs(threeDModelSpecsHiddenPosX);
-        buttonText.text = imageState;
+        buttonText.text = imageState.GetLocalizedString();
 
         ShowToolIcons(false);
     }
