@@ -8,7 +8,7 @@ public class SizeSetter : MonoBehaviour
     [SerializeField] private RectTransform left;
     [SerializeField] private RectTransform right;
 
-    private const float spacing = 32f;
+    private const float spacing = 16f;
 
     private void OnEnable()
     {
