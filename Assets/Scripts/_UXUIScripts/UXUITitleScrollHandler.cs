@@ -76,17 +76,17 @@ public class UXUITitleScrollHandler : MonoBehaviour
         }
     }
 
-    public void SetActiveIndex(int newIndex)
-    {
-        activeIndex = newIndex;
-        UpdateVisibleButtons();
-    }
-
     private IEnumerator ScrollCooldown()
     {
         canScroll = false;
         yield return new WaitForSeconds(scrollDelay);
         canScroll = true;
+    }
+
+    public void SetActiveIndex(int newIndex)
+    {
+        activeIndex = newIndex;
+        UpdateVisibleButtons();
     }
 
     private int GetPositionIndex(int imageIndex, int visibleStart)
