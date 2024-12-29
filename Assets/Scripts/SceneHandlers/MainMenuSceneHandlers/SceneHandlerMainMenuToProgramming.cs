@@ -15,7 +15,6 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     [SerializeField] private CinemachineBrain cineBrain;
     [SerializeField] private SceneHandlerMainMenu sceneHandlerMainMenu;
     [SerializeField] private AccessoiryShower accessoiryShower;
-    [SerializeField] private TimeScaleController timeScaleController;
     [SerializeField] private LoadingOverlayHandler loadingOverlayHandler;
     [Space]
     
@@ -76,7 +75,6 @@ public class SceneHandlerMainMenuToProgramming : MonoBehaviour
     {
         isActive = true;
         accessoiryShower.SetActiveWeapon(AccessoiryShower.WeaponType.Katana);
-        timeScaleController.PlayTimeCurve(TimeScaleController.EnumCurveChoices.EntryProgramming);
         cineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.Cut;
         yield return StartCoroutine(TransitionToCamera0());
     }
