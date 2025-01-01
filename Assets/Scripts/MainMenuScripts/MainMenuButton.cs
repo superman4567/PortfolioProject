@@ -9,8 +9,8 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     [SerializeField] private Button button;
     [SerializeField] private TextMeshProUGUI buttonText;
 
-    private const float normalFontSize = 92f;
-    private const float largeFontSize = 122f;
+    private const float normalFontSize = 32;
+    private const float largeFontSize = 48;
 
     private readonly Color activeColor = Color.white;
     private readonly Color inactiveColor = new Color(0.537f, 0.537f, 0.537f);
@@ -35,6 +35,8 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         buttonText.DOColor(activeColor, colorTweenDuration)
             .SetEase(Ease.InOutQuad)
             .SetUpdate(true);
+
+        buttonText.fontStyle |= FontStyles.Bold;
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -47,5 +49,7 @@ public class MainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         buttonText.DOColor(inactiveColor, colorTweenDuration)
             .SetEase(Ease.InOutQuad)
             .SetUpdate(true);
+
+        buttonText.fontStyle |= FontStyles.Normal;
     }
 }
