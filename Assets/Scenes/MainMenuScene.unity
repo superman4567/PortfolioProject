@@ -1208,8 +1208,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
-  m_SizeDelta: {x: -189.7486, y: 485.3}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 485.3}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &34073771
 MonoBehaviour:
@@ -2304,6 +2304,7 @@ GameObject:
   - component: {fileID: 302067168}
   - component: {fileID: 302067172}
   - component: {fileID: 302067169}
+  - component: {fileID: 302067173}
   m_Layer: 5
   m_Name: CategoryOptions
   m_TagString: Untagged
@@ -2370,6 +2371,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 302067167}
   m_CullTransparentMesh: 1
+--- !u!225 &302067173
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302067167}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &304970625
 GameObject:
   m_ObjectHideFlags: 0
@@ -8907,10 +8920,10 @@ RectTransform:
   - {fileID: 2040116470}
   m_Father: {fileID: 1693141988}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 0.000030517578, y: 0}
-  m_SizeDelta: {x: -134, y: 74}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1059989489
 MonoBehaviour:
@@ -10264,10 +10277,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6569ba4a07e345479a4f3d2b7fa4af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pressSpaceToStart: {fileID: 359842689}
-  pressSpaceToStartButton: {fileID: 0}
-  startPosMM: {fileID: 0}
-  endPosMM: {fileID: 0}
+  pressSpaceToStartCanvasGroup: {fileID: 359842689}
+  pressSpaceToStartButton: {fileID: 1319259225}
+  introCamera: {fileID: 510877117}
+  startPosMM: {fileID: 1600144107}
+  endPosMM: {fileID: 1587166991}
+  transitionDuration: 1
+  categoryCanvasGroup: {fileID: 302067173}
   CategoryButtons:
   - {fileID: 122727901}
   - {fileID: 451001389}
@@ -10678,13 +10694,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587166990}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.9902681, z: 0.13917309, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 3}
+  m_LocalRotation: {x: -0, y: 0.9975641, z: 0.06975647, w: 0}
+  m_LocalPosition: {x: 0, y: 0.2, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2050929793}
-  m_LocalEulerAnglesHint: {x: -16, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: -8, y: 180, z: 0}
 --- !u!224 &1592708175 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2924829967754500983, guid: a411c271a1d02ee4bb3534021da878a2,
@@ -11058,7 +11074,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 306.2, y: 124.0081}
+  m_SizeDelta: {x: 146.2953, y: 81.1585}
   m_Pivot: {x: 1, y: 1}
 --- !u!225 &1693141989
 CanvasGroup:
@@ -13867,6 +13883,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
         type: 3}
+      propertyPath: ForceModule.y.scalar
+      value: -0.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
       propertyPath: VelocityModule.x.scalar
       value: 1.33
       objectReference: {fileID: 0}
@@ -13874,6 +13895,51 @@ PrefabInstance:
         type: 3}
       propertyPath: VelocityModule.z.scalar
       value: -0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].inSlope
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].outSlope
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[0].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 699854088407167008, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
+        type: 3}
+      propertyPath: SizeModule.curve.maxCurve.m_Curve.Array.data[1].tangentMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2282695124986880933, guid: 821ad5b7a027d774a8c19b3dd8cc9a9f,
         type: 3}
