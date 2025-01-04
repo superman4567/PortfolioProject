@@ -49,6 +49,8 @@ public class SceneHandler : MonoBehaviour
     [SerializeField] private Button buttonContact;
     [SerializeField] private CanvasGroup canvasgroupContact;
     [SerializeField] private Button backButtonContact;
+    [Space]
+    [SerializeField] private PlayableDirector playableDirectorReturnToMainMenu;
 
     [Header("VFX References")]
     [SerializeField] private GameObject[] particleSystems;
@@ -58,9 +60,7 @@ public class SceneHandler : MonoBehaviour
         OnClickAssigning();
 
         // Looping UI animation
-        pressSpaceToStartCanvasGroup.DOFade(1f, 2f)
-            .SetLoops(-1, LoopType.Yoyo)
-            .SetEase(Ease.InOutSine)
+        pressSpaceToStartCanvasGroup.DOFade(1f, 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine)
             .SetId("PressSpaceLoop");
 
         ShowCategoryOptions(false);
@@ -70,6 +70,11 @@ public class SceneHandler : MonoBehaviour
         cameraTransform.SetPositionAndRotation(firstTimeStartPosMM.position, firstTimeStartPosMM.rotation);
 
         // Play idle animations
+        PlayIdleAnims();
+    }
+
+    public void PlayIdleAnims()
+    {
         animHandlerCharacter.PlayAnimationDirectly("AN_Character_Idle");
         animHandlerBoss.PlayAnimationDirectly("AN_Boss_Idle");
     }
@@ -92,7 +97,6 @@ public class SceneHandler : MonoBehaviour
         backButtonProfile.onClick.AddListener(() => BackToMainMenu(canvasgroupProfile));
         backButtonContact.onClick.AddListener(() => BackToMainMenu(canvasgroupContact));
     }
-
 
     #endregion
 
@@ -156,9 +160,9 @@ public class SceneHandler : MonoBehaviour
     private void BackToMainMenu(CanvasGroup canvasGroup)
     {
         FadeOutCanvasGroup(canvasGroup, $"{canvasGroup.name}FadeOut");
-        LerpIntroCameraDefault();
-        ShowCategoryOptions(true);
         DisableAllVFX();
+
+        playableDirectorReturnToMainMenu.Play();
     }
 
     #endregion
@@ -199,15 +203,6 @@ public class SceneHandler : MonoBehaviour
         cameraTransform.DORotateQuaternion(firstTimeEndPosMM.rotation, transitionDuration).SetEase(Ease.InOutSine).SetId("CameraRotateFirstTime");
     }
 
-    private void LerpIntroCameraDefault()
-    {
-        Transform cameraTransform = introCamera.transform;
-
-        cameraTransform.SetPositionAndRotation(defaultTimeStartPosMM.position, defaultTimeStartPosMM.rotation);
-        cameraTransform.DOMove(defaultTimeEndPosMM.position, transitionDuration).SetEase(Ease.InOutSine).SetId("CameraMoveDefault");
-        cameraTransform.DORotateQuaternion(defaultTimeEndPosMM.rotation, transitionDuration).SetEase(Ease.InOutSine).SetId("CameraRotateDefault");
-    }
-
     #endregion
 
     #region VFX and Misc
@@ -233,7 +228,7 @@ public class SceneHandler : MonoBehaviour
         HidePressSpaceToStart();
     }
 
-    private void ShowCategoryOptions(bool show)
+    public void ShowCategoryOptions(bool show)
     {
         if (!show)
         {
