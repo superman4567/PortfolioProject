@@ -16,7 +16,6 @@ public class SceneHandler : MonoBehaviour
     [SerializeField] private Button pressSpaceToStartButton;
 
     [SerializeField] private CanvasGroup categoryCanvasGroup;
-    private Tween categoryTween;
     [Space]
     [Space]
     [SerializeField] private Transform firstTimeStartPosMM;
@@ -26,60 +25,60 @@ public class SceneHandler : MonoBehaviour
     [SerializeField] private Transform defaultTimeEndPosMM;
     [Space]
     [SerializeField] private float transitionDuration;
-    private Tween pressSpaceTween;
 
-    [Header("Entering")]
-    
+    [Header("Catergory Buttons")]
     [SerializeField] private Button buttonUXUI;
     [SerializeField] private PlayableDirector playableDirectorUXUI;
     [SerializeField] private CanvasGroup canvasgroupUXUI;
     [SerializeField] private Button backButtonUXUI;
-    private Tween uXUITween;
     [Space]
     [SerializeField] private Button button3D;
     [SerializeField] private PlayableDirector playableDirector3D;
     [SerializeField] private CanvasGroup canvasgroup3D;
     [SerializeField] private Button backButton3D;
-    private Tween threeDTween;
     [Space]
     [SerializeField] private Button buttonProgramming;
     [SerializeField] private PlayableDirector playableDirectorProgramming;
     [SerializeField] private CanvasGroup canvasgroupProgramming;
     [SerializeField] private Button backButtonProgramming;
-    private Tween programmingTween;
     [Space]
     [SerializeField] private Button buttongProfile;
     [SerializeField] private CanvasGroup canvasgroupProfile;
     [SerializeField] private Button backButtonProfile;
-    private Tween profileTween;
     [Space]
     [SerializeField] private Button buttonContact;
     [SerializeField] private CanvasGroup canvasgroupContact;
     [SerializeField] private Button backButtonContact;
-    private Tween contactTween;
+
+    [Header("VFX References")]
+    [SerializeField] private GameObject[] particleSystems;
 
     void Start()
     {
         OnClickAssigning();
 
-        //Set UI
-        ShowPressSpaceToStart(true);
+        // Looping UI animation
+        pressSpaceToStartCanvasGroup.DOFade(1f, 2f)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine)
+            .SetId("PressSpaceLoop");
+
         ShowCategoryOptions(false);
 
-        //Set start pos camera
+        // Initialize camera position
         Transform cameraTransform = introCamera.transform;
         cameraTransform.SetPositionAndRotation(firstTimeStartPosMM.position, firstTimeStartPosMM.rotation);
 
-        //Set idle anims
+        // Play idle animations
         animHandlerCharacter.PlayAnimationDirectly("AN_Character_Idle");
         animHandlerBoss.PlayAnimationDirectly("AN_Boss_Idle");
     }
 
-    #region onclick
+    #region OnClick Assignment
 
     private void OnClickAssigning()
     {
-        pressSpaceToStartButton.onClick.AddListener(ShowCatergoryOptionsHandler);
+        pressSpaceToStartButton.onClick.AddListener(ShowCategoryOptionsHandler);
 
         buttonUXUI.onClick.AddListener(ShowUXUIHandler);
         button3D.onClick.AddListener(Show3DHandler);
@@ -87,12 +86,17 @@ public class SceneHandler : MonoBehaviour
         buttongProfile.onClick.AddListener(ShowProfileHandler);
         buttonContact.onClick.AddListener(ShowContactHandler);
 
-        backButtonUXUI.onClick.AddListener(() => BackToMainMenu(canvasgroupUXUI, ref uXUITween));
-        backButton3D.onClick.AddListener(() => BackToMainMenu(canvasgroup3D, ref threeDTween));
-        backButtonProgramming.onClick.AddListener(() => BackToMainMenu(canvasgroupProgramming, ref programmingTween));
-        backButtonProfile.onClick.AddListener(() => BackToMainMenu(canvasgroupProfile, ref profileTween));
-        backButtonContact.onClick.AddListener(() => BackToMainMenu(canvasgroupContact, ref contactTween));
+        backButtonUXUI.onClick.AddListener(() => BackToMainMenu(canvasgroupUXUI));
+        backButton3D.onClick.AddListener(() => BackToMainMenu(canvasgroup3D));
+        backButtonProgramming.onClick.AddListener(() => BackToMainMenu(canvasgroupProgramming));
+        backButtonProfile.onClick.AddListener(() => BackToMainMenu(canvasgroupProfile));
+        backButtonContact.onClick.AddListener(() => BackToMainMenu(canvasgroupContact));
     }
+
+
+    #endregion
+
+    #region UI Handlers
 
     private void ShowUXUIHandler()
     {
@@ -102,10 +106,7 @@ public class SceneHandler : MonoBehaviour
 
     public void ShowUXUI()
     {
-        canvasgroupUXUI.alpha = 0f;
-        uXUITween = canvasgroupUXUI.DOFade(1f, 1f).SetEase(Ease.InOutSine);
-        canvasgroupUXUI.interactable = true;
-        canvasgroupUXUI.blocksRaycasts = true;
+        FadeInCanvasGroup(canvasgroupUXUI, "UXUIFadeIn");
     }
 
     private void Show3DHandler()
@@ -116,10 +117,7 @@ public class SceneHandler : MonoBehaviour
 
     public void Show3D()
     {
-        canvasgroup3D.alpha = 0f;
-        threeDTween = canvasgroup3D.DOFade(1f, 1f).SetEase(Ease.InOutSine);
-        canvasgroup3D.interactable = true;
-        canvasgroup3D.blocksRaycasts = true;
+        FadeInCanvasGroup(canvasgroup3D, "3DFadeIn");
     }
 
     private void ShowProgrammingHandler()
@@ -130,10 +128,7 @@ public class SceneHandler : MonoBehaviour
 
     public void ShowProgramming()
     {
-        canvasgroupProgramming.alpha = 0f;
-        programmingTween = canvasgroupProgramming.DOFade(1f, 1f).SetEase(Ease.InOutSine);
-        canvasgroupProgramming.interactable = true;
-        canvasgroupProgramming.blocksRaycasts = true;
+        FadeInCanvasGroup(canvasgroupProgramming, "ProgrammingFadeIn");
     }
 
     private void ShowProfileHandler()
@@ -144,10 +139,7 @@ public class SceneHandler : MonoBehaviour
 
     private void ShowProfile()
     {
-        canvasgroupProfile.alpha = 0f;
-        profileTween = canvasgroupProfile.DOFade(1f, 1f).SetEase(Ease.InOutSine);
-        canvasgroupProfile.interactable = true;
-        canvasgroupProfile.blocksRaycasts = true;
+        FadeInCanvasGroup(canvasgroupProfile, "ProfileFadeIn");
     }
 
     private void ShowContactHandler()
@@ -158,75 +150,44 @@ public class SceneHandler : MonoBehaviour
 
     private void ShowContact()
     {
-        canvasgroupContact.alpha = 0f;
-        contactTween = canvasgroupContact.DOFade(1f, 1f).SetEase(Ease.InOutSine);
-        canvasgroupContact.interactable = true;
-        canvasgroupContact.blocksRaycasts = true;
+        FadeInCanvasGroup(canvasgroupContact, "ContactFadeIn");
     }
 
-    private void BackToMainMenu(CanvasGroup canvasGroup, ref Tween tween)
+    private void BackToMainMenu(CanvasGroup canvasGroup)
     {
-        FadeOutCanvasGroup(canvasGroup, ref tween);
+        FadeOutCanvasGroup(canvasGroup, $"{canvasGroup.name}FadeOut");
         LerpIntroCameraDefault();
         ShowCategoryOptions(true);
-    }
-
-    private void FadeOutCanvasGroup(CanvasGroup canvasGroup, ref Tween tween)
-    {
-        if (canvasGroup == null) return;
-
-        canvasGroup.alpha = 1f;
-        tween = canvasGroup.DOFade(0f, 1f).SetEase(Ease.InOutSine);
-        canvasGroup.interactable = false;
-        canvasGroup.blocksRaycasts = false;
+        DisableAllVFX();
     }
 
     #endregion
 
-    private void ShowPressSpaceToStart(bool play)
+    #region Animation Utility
+
+    private Tween FadeInCanvasGroup(CanvasGroup canvasGroup, string tweenId)
     {
-        if (!play)
-        {
-            pressSpaceTween?.Kill();
-            pressSpaceToStartCanvasGroup.alpha = 0f;
-            pressSpaceToStartCanvasGroup.interactable = false;
-            pressSpaceToStartCanvasGroup.blocksRaycasts = false;
-        }
-        else
-        {
-            pressSpaceToStartCanvasGroup.alpha = 0f;
-            pressSpaceTween = pressSpaceToStartCanvasGroup.DOFade(1f, 2f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
-            pressSpaceToStartCanvasGroup.interactable = true;
-            pressSpaceToStartCanvasGroup.blocksRaycasts = true;
-        }
+        canvasGroup.alpha = 0f;
+        return canvasGroup.DOFade(1f, 1f)
+            .SetEase(Ease.InOutSine)
+            .SetId(tweenId)
+            .OnStart(() =>
+            {
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
+            });
     }
 
-    private void ShowCatergoryOptionsHandler()
+    private void FadeOutCanvasGroup(CanvasGroup canvasGroup, string tweenId)
     {
-        //Fix this for returning to MM
-        LerpIntroCameraFirstTime(); 
-        ShowCategoryOptions(true);
-        ShowPressSpaceToStart(false);
-    }
-
-    private void ShowCategoryOptions(bool play)
-    {
-        if (!play)
-        {
-            categoryTween?.Kill(); // Stop the category fade tween
-            categoryCanvasGroup.alpha = 0f;
-            categoryCanvasGroup.interactable = false;
-            categoryCanvasGroup.blocksRaycasts = false;
-        }
-        else
-        {
-            pressSpaceTween?.Kill();
-
-            categoryCanvasGroup.alpha = 0f;
-            categoryTween = categoryCanvasGroup.DOFade(1f, 1f).SetEase(Ease.InOutSine);
-            categoryCanvasGroup.interactable = true;
-            categoryCanvasGroup.blocksRaycasts = true;
-        }
+        canvasGroup.DOFade(0f, .2f)
+            .SetEase(Ease.InOutSine)
+            .SetId(tweenId)
+            .OnComplete(() =>
+            {
+                canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
+            });
     }
 
     private void LerpIntroCameraFirstTime()
@@ -234,8 +195,8 @@ public class SceneHandler : MonoBehaviour
         Transform cameraTransform = introCamera.transform;
 
         cameraTransform.SetPositionAndRotation(firstTimeStartPosMM.position, firstTimeStartPosMM.rotation);
-        cameraTransform.DOMove(firstTimeEndPosMM.position, transitionDuration).SetEase(Ease.InOutSine);
-        cameraTransform.DORotateQuaternion(firstTimeEndPosMM.rotation, transitionDuration).SetEase(Ease.InOutSine);
+        cameraTransform.DOMove(firstTimeEndPosMM.position, transitionDuration).SetEase(Ease.InOutSine).SetId("CameraMoveFirstTime");
+        cameraTransform.DORotateQuaternion(firstTimeEndPosMM.rotation, transitionDuration).SetEase(Ease.InOutSine).SetId("CameraRotateFirstTime");
     }
 
     private void LerpIntroCameraDefault()
@@ -243,8 +204,45 @@ public class SceneHandler : MonoBehaviour
         Transform cameraTransform = introCamera.transform;
 
         cameraTransform.SetPositionAndRotation(defaultTimeStartPosMM.position, defaultTimeStartPosMM.rotation);
-        cameraTransform.DOMove(defaultTimeEndPosMM.position, transitionDuration).SetEase(Ease.InOutSine);
-        cameraTransform.DORotateQuaternion(defaultTimeEndPosMM.rotation, transitionDuration).SetEase(Ease.InOutSine);
+        cameraTransform.DOMove(defaultTimeEndPosMM.position, transitionDuration).SetEase(Ease.InOutSine).SetId("CameraMoveDefault");
+        cameraTransform.DORotateQuaternion(defaultTimeEndPosMM.rotation, transitionDuration).SetEase(Ease.InOutSine).SetId("CameraRotateDefault");
+    }
+
+    #endregion
+
+    #region VFX and Misc
+
+    private void DisableAllVFX()
+    {
+        foreach (var vfx in particleSystems)
+        {
+            vfx.SetActive(false);
+        }
+    }
+
+    private void HidePressSpaceToStart()
+    {
+        DOTween.Kill("PressSpaceLoop");
+        FadeOutCanvasGroup(pressSpaceToStartCanvasGroup, "PressSpaceFadeOut");
+    }
+
+    private void ShowCategoryOptionsHandler()
+    {
+        ShowCategoryOptions(true);
+        LerpIntroCameraFirstTime();
+        HidePressSpaceToStart();
+    }
+
+    private void ShowCategoryOptions(bool show)
+    {
+        if (!show)
+        {
+            FadeOutCanvasGroup(categoryCanvasGroup, "CategoryOptionsFadeOut");
+        }
+        else
+        {
+            FadeInCanvasGroup(categoryCanvasGroup, "CategoryOptionsFadeIn");
+        }
     }
 
     public void SlowDownTime(float value)
@@ -256,4 +254,6 @@ public class SceneHandler : MonoBehaviour
     {
         Time.timeScale = 1f;
     }
+
+    #endregion
 }
