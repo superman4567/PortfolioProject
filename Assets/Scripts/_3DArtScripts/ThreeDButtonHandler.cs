@@ -188,6 +188,9 @@ public class ThreeDButtonHandler : MonoBehaviour
 
     private void SetCorrect3DModel(ButtonGameObjectPair clickedPair)
     {
+        if (currentActivePair.model == null)
+            return;
+
         currentActivePair.model.SetActive(false);
         clickedPair.model.SetActive(true);
     }
