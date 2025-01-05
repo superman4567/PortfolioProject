@@ -8,16 +8,6 @@ public class FullScreen : MonoBehaviour
 {
     public Canvas canvas;
     public CanvasGroup canvasGroup;
-    private const string HasEnteredGameOnceKey = "hasEnteredGameOnce";
-
-    private void OnEnable()
-    {
-        if (PlayerPrefs.GetInt(HasEnteredGameOnceKey, 0) == 1)
-        {
-            Hide();
-            Debug.Log("Hide");
-        }
-    }
 
     void Start()
     {
@@ -56,8 +46,6 @@ public class FullScreen : MonoBehaviour
         FullscreenWebGL.requestFullscreen(stat => {
             if (stat == status.Success)
             {
-                PlayerPrefs.SetInt(HasEnteredGameOnceKey, 1);
-                PlayerPrefs.Save(); // Ensure the data is written immediately
                 Hide();
             }
         }, navigationUI.hide);

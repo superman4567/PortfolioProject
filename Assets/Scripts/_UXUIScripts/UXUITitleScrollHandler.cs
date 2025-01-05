@@ -26,18 +26,8 @@ public class UXUITitleScrollHandler : MonoBehaviour
 
     private void Start()
     {
-        InitializeTitlesList();
-    }
-
-    private void InitializeTitlesList()
-    {
-        foreach (Transform child in projectsTitlesContainer)
-        {
-            Image image = child.GetComponent<Image>();
-            imagesList.Add(image);
-        }
-
-        UpdateVisibleButtons();
+        var targetPanel = uXUIButtonHandler.buttonPanelPairs[0].panel;
+        uXUIButtonHandler.ActivatePanel(targetPanel);
     }
 
     private void Update()
