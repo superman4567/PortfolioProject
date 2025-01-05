@@ -5,6 +5,7 @@ using UnityEngine.Localization.Settings;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Localization.Metadata;
+using System.Collections;
 
 public class DropdownLanguageSelector : MonoBehaviour
 {
@@ -27,8 +28,10 @@ public class DropdownLanguageSelector : MonoBehaviour
         LocalizationSettings.SelectedLocaleChanged -= UpdateToggleDisplay;
     }
 
-    void Start()
+    IEnumerator Start()
     {
+        yield return WaitForLoc();
+
         toggleButton.onClick.AddListener(ToggleDropdown);
 
         PopulateDropdown();
@@ -37,6 +40,15 @@ public class DropdownLanguageSelector : MonoBehaviour
         UpdateToggleDisplay(LocalizationSettings.SelectedLocale);
 
         LocalizationSettings.SelectedLocaleChanged += UpdateToggleDisplay;
+    }
+
+    IEnumerator WaitForLoc()
+    {
+        yield return LocalizationSettings.InitializationOperation;
+        //while (LocalizationSettings.InitializationOperation.IsDone != true)
+        //{
+        //    yield return null;
+        //}
     }
 
     void ToggleDropdown()
