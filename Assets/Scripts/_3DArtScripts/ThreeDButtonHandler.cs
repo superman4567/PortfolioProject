@@ -71,7 +71,7 @@ public class ThreeDButtonHandler : MonoBehaviour
         GetCorrectChilds();
 
         Show3DModelUI();
-        buttonText.text = modelState.GetLocalizedString();
+        //buttonText.text = modelState.GetLocalizedString();
     }
 
     private void OnButtonClicked(ButtonGameObjectPair clickedPair)
@@ -131,7 +131,7 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveGallery(modelGalleryHiddenXPosY);
         MoveProjectSelect(projectSelectDefaultPosX);
         MoveModelSpecs(threeDModelSpecsDefaultPosX);
-        buttonText.text = modelState.GetLocalizedString();
+        //buttonText.text = modelState.GetLocalizedString();
 
         ShowToolIcons(true);
     }
@@ -142,7 +142,7 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveGallery(modelGalleryDefaultPosY);
         MoveProjectSelect(projectSelectHiddenPosX);
         MoveModelSpecs(threeDModelSpecsHiddenPosX);
-        buttonText.text = imageState.GetLocalizedString();
+        //buttonText.text = imageState.GetLocalizedString();
 
         ShowToolIcons(false);
     }
