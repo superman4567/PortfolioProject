@@ -71,7 +71,15 @@ public class ThreeDButtonHandler : MonoBehaviour
         GetCorrectChilds();
 
         Show3DModelUI();
-        //buttonText.text = modelState.GetLocalizedString();
+
+        // Fetch and set the localized string asynchronously
+        modelState.GetLocalizedStringAsync().Completed += (handle) =>
+        {
+            if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+            {
+                buttonText.text = handle.Result;
+            }
+        };
     }
 
     private void OnButtonClicked(ButtonGameObjectPair clickedPair)
@@ -131,7 +139,15 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveGallery(modelGalleryHiddenXPosY);
         MoveProjectSelect(projectSelectDefaultPosX);
         MoveModelSpecs(threeDModelSpecsDefaultPosX);
-        //buttonText.text = modelState.GetLocalizedString();
+
+        // Fetch and set the localized string asynchronously
+        modelState.GetLocalizedStringAsync().Completed += (handle) =>
+        {
+            if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+            {
+                buttonText.text = handle.Result;
+            }
+        };
 
         ShowToolIcons(true);
     }
@@ -142,7 +158,15 @@ public class ThreeDButtonHandler : MonoBehaviour
         MoveGallery(modelGalleryDefaultPosY);
         MoveProjectSelect(projectSelectHiddenPosX);
         MoveModelSpecs(threeDModelSpecsHiddenPosX);
-        //buttonText.text = imageState.GetLocalizedString();
+
+        // Fetch and set the localized string asynchronously
+        imageState.GetLocalizedStringAsync().Completed += (handle) =>
+        {
+            if (handle.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded)
+            {
+                buttonText.text = handle.Result;
+            }
+        };
 
         ShowToolIcons(false);
     }

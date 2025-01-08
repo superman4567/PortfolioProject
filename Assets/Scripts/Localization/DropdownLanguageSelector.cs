@@ -45,10 +45,6 @@ public class DropdownLanguageSelector : MonoBehaviour
     IEnumerator WaitForLoc()
     {
         yield return LocalizationSettings.InitializationOperation;
-        //while (LocalizationSettings.InitializationOperation.IsDone != true)
-        //{
-        //    yield return null;
-        //}
     }
 
     void ToggleDropdown()
