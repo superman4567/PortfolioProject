@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,6 +17,8 @@ public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     [SerializeField] private Color activeColorBackground = Color.white;
     [SerializeField] private Color inactiveColorbackground = new Color(0.537f, 0.537f, 0.537f);
+
+    public static Action OnReturnToMainMenu;
 
     private void Start()
     {
@@ -57,5 +60,10 @@ public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPoin
         button.image.DOColor(inactiveColorbackground, colorTweenDuration)
             .SetEase(Ease.InOutQuad)
             .SetUpdate(true);
+    }
+
+    public void OnClick()
+    {
+        OnReturnToMainMenu?.Invoke();
     }
 }
