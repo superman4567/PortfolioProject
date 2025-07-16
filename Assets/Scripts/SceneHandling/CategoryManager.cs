@@ -18,6 +18,16 @@ public class CategoryManager : MonoBehaviour
         public CategoryPanelController panelController;
     }
 
+    private void OnEnable()
+    {
+        ReturnToMainMenuButton.OnReturnToMainMenu += ReturnToMainMenu;
+    }
+
+    private void OnDisable()
+    {
+        ReturnToMainMenuButton.OnReturnToMainMenu -= ReturnToMainMenu;
+    }
+
     private void Start()
     {
         HideAllPanels();
@@ -25,12 +35,6 @@ public class CategoryManager : MonoBehaviour
 
     public void ShowCategory(int index)
     {
-        if (index < 0 || index >= categories.Length)
-        {
-            Debug.LogWarning($"Category index {index} is out of bounds.");
-            return;
-        }
-
         HideAllPanels();
 
         PlayableDirector director = categories[index].entryTimeline;
@@ -38,6 +42,12 @@ public class CategoryManager : MonoBehaviour
             director.Play();
 
         OnShowBlackBars?.Invoke(true);
+    }
+
+    public void ShowCategoryUI(int index)
+    {
+        CategoryPanelController categoryPanelController = categories[index].panelController;
+        categoryPanelController.Show();
     }
 
     public void ReturnToMainMenu()

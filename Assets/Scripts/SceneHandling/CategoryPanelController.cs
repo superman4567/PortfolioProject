@@ -7,21 +7,6 @@ public class CategoryPanelController : MonoBehaviour
     [Header("UI Elements")]
     [SerializeField] private CanvasGroup panel;
 
-    [Header("Entrance Animation")]
-    [SerializeField] private PlayableDirector entranceDirector;
-
-    private void OnEnable()
-    {
-        if (entranceDirector != null)
-            entranceDirector.stopped += OnTimelineFinished;
-    }
-
-    private void OnDisable()
-    {
-        if (entranceDirector != null)
-            entranceDirector.stopped -= OnTimelineFinished;
-    }
-
     public void Show()
     {
         panel.alpha = 0f;
@@ -43,10 +28,5 @@ public class CategoryPanelController : MonoBehaviour
                 panel.interactable = false;
                 panel.blocksRaycasts = false;
             });
-    }
-
-    private void OnTimelineFinished(PlayableDirector director)
-    {
-        Show();
     }
 }

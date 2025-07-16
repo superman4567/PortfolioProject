@@ -17,12 +17,12 @@ public class VidPlayer : MonoBehaviour
             return;
 
         videoPlayer.source = VideoSource.Url;
-        
-        string videoPath = System.IO.Path.Combine(Application.streamingAssetsPath, videoFileName);
-        videoPlayer.url = videoPath;
+
+        // NEW (centralized utility call):
+        videoPlayer.url = VideoPathUtility.GetVideoUrl(videoFileName);
 
         videoPlayer.waitForFirstFrame = false;
-        videoPlayer.isLooping= true;
+        videoPlayer.isLooping = true;
         videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
     }
 

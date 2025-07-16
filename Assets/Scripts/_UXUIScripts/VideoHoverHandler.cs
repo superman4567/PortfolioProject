@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Video;
 
-public class UXUIVideo : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class VideoHoverHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private VideoPlayer videoPlayer;
 
