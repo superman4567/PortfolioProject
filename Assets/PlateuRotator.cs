@@ -6,7 +6,7 @@ public class PlateuRotator : MonoBehaviour
     public Transform centerPoint;
 
     private Tween swingTween;
-    private float swingRange = 30f;       // Total swing (15 left to 15 right)
+    private float swingRange = 20f;       // Total swing (15 left to 15 right)
     private float normalDuration = 7f;
     private float fastMultiplier = 7f;
     private float boostTime = 0.5f;

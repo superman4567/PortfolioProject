@@ -19,6 +19,8 @@ public class CameraManager : MonoBehaviour
 
     private Transform activeCamTransform => gamingCamera.transform;
 
+    private const float priorityDelay = 0.25f;
+
     private void OnEnable()
     {
         ModeSelectController.OnModeSelected += HandleModeSelected;
@@ -34,43 +36,41 @@ public class CameraManager : MonoBehaviour
         ReturnToModeSelect();
     }
 
-    private void HandleModeSelected(bool obj)
+    private void HandleModeSelected(bool isCorperate)
     {
-        if (obj)
-        {
+        if (!isCorperate)
             ExitModeSelectToGaming();
-        }
-        else
-        {
+
+        else if (isCorperate)
             ExitModeSelectToCorperate();
-        }
     }
 
     public void ReturnToModeSelect()
     {
-        SetCameraPriority(modeSelectCamera, 10);
-        SetCameraPriority(gamingCamera, 0);
-        SetCameraPriority(corperateCamera, 0);
+        // delay the actual priority changes
+        DOVirtual.DelayedCall(priorityDelay, () => ApplyPriorities(10, 0, 0));
     }
 
     public void ExitModeSelectToGaming()
     {
-        SetCameraPriority(modeSelectCamera, 0);
-        SetCameraPriority(gamingCamera, 10);
-        SetCameraPriority(corperateCamera, 0);
+        // delay the priority swap
+        DOVirtual.DelayedCall(priorityDelay, () => ApplyPriorities(0, 10, 0));
 
-        // Reset position of gaming camera to its start point
+        // then do your camera move immediately
         MoveGamingCamera(gamingCamStart, gamingCamEnd);
     }
 
     public void ExitModeSelectToCorperate()
     {
-        SetCameraPriority(modeSelectCamera, 0);
-        SetCameraPriority(gamingCamera, 0);
-        SetCameraPriority(corperateCamera, 10);
-
-        // Reset position of gaming camera to its start point
+        DOVirtual.DelayedCall(priorityDelay, () => ApplyPriorities(0, 0, 10));
         MoveGamingCamera(gamingCamStart, gamingCamEnd);
+    }
+
+    private void ApplyPriorities(int modeSelectPrio, int gamingPrio, int corperatePrio)
+    {
+        SetCameraPriority(modeSelectCamera, modeSelectPrio);
+        SetCameraPriority(gamingCamera, gamingPrio);
+        SetCameraPriority(corperateCamera, corperatePrio);
     }
 
     private void MoveGamingCamera(Transform from, Transform to)

@@ -1,10 +1,8 @@
-using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 
 public class GamingSceneHandler : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera introCamera;
     [SerializeField] private AnimationHandler animHandlerCharacter;
     [SerializeField] private AnimationHandler animHandlerBoss;
     [SerializeField] private CanvasGroup categoryGroup;
@@ -28,6 +26,11 @@ public class GamingSceneHandler : MonoBehaviour
     public void OnShowCategoies_Callbnck()
     {
         Fade(categoryGroup, true);
+    }
+
+    public void OnHideCategories_Callbnck()
+    {
+        Fade(categoryGroup, false);
     }
 
     public void PlayIdleAnims()

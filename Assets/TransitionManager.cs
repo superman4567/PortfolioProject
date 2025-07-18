@@ -1,23 +1,19 @@
 using DG.Tweening;
-using System;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.UI;
 
 public class TransitionManager : MonoBehaviour
 {
-    [Header("Material Settings")]
-    public Material dissolveMaterial;
+    [SerializeField] private RectTransform uiPanel;
+    [SerializeField] private Image uiImage;
+    [SerializeField] private float slideDuration = 1f;
+    [SerializeField] private float pauseDuration = 1f;
+    [SerializeField] private PlayableDirector returnToMainDirector;
 
-    [Header("Dissolve Settings")]
-    public float dissolveDuration = 1f;
-
-    [Header("Timing")]
-    public float delayBeforeDissolveIn = 0.5f; // seconds
-
-    private Color whiteTint = Color.white;
-    private Color blackTint = Color.black;
-
-    private float visibleLevel = 0f; // Fully visible
-    private float hiddenLevel = 1f;  // Fully dissolved
+    private readonly Vector2 hiddenPos = Vector2.zero;
+    private readonly Vector2 visiblePos = new Vector2(-3000f, 0f);
+    private readonly Vector2 destinationPos = new Vector2(-6204f, 0f);
 
     private void OnEnable()
     {
@@ -31,53 +27,26 @@ public class TransitionManager : MonoBehaviour
 
     private void Start()
     {
-        DissolveOut();
+        uiPanel.anchoredPosition = hiddenPos;
     }
 
-    private void HandleModeChange(bool isDarkMode)
+    private void HandleModeChange(bool isGamingMode)
     {
-        // First, change tint color immediately
-        Color targetColor = isDarkMode ? whiteTint : blackTint;
-        dissolveMaterial.DOColor(targetColor, "_Color", dissolveDuration);
+        if (uiImage != null)
+            uiImage.color = isGamingMode ? Color.white : Color.black;
 
-        // Dissolve in immediately (show)
-        DissolveIn();
+        var seq = DOTween.Sequence();
+        seq.Append(uiPanel.DOAnchorPos(visiblePos, slideDuration).SetEase(Ease.OutCubic));
+        seq.AppendInterval(pauseDuration);
+        seq.Append(uiPanel.DOAnchorPos(destinationPos, slideDuration).SetEase(Ease.InCubic));
 
-        // Schedule dissolve out after a delay
-        DOVirtual.DelayedCall(1f, () =>
-        {
-            DissolveOut();
-        });
+        float totalDuration = slideDuration + pauseDuration + slideDuration;
+        float callbackTime = totalDuration - 0.25f;
+        seq.InsertCallback(callbackTime, HandleEnterTimeline);
     }
 
-
-    public void SetToGamingMode() // Dark mode
+    private void HandleEnterTimeline()
     {
-        if (!dissolveMaterial) return;
-
-        dissolveMaterial.DOColor(whiteTint, "_Color", dissolveDuration);
-        dissolveMaterial.DOFloat(visibleLevel, "_Level", dissolveDuration);
-    }
-
-    public void SetToCorporateMode()
-    {
-        if (!dissolveMaterial) return;
-
-        dissolveMaterial.DOColor(blackTint, "_Color", dissolveDuration);
-        dissolveMaterial.DOFloat(visibleLevel, "_Level", dissolveDuration);
-    }
-
-    public void DissolveOut()
-    {
-        if (!dissolveMaterial) return;
-
-        dissolveMaterial.DOFloat(hiddenLevel, "_Level", dissolveDuration);
-    }
-
-    public void DissolveIn()
-    {
-        if (!dissolveMaterial) return;
-
-        dissolveMaterial.DOFloat(visibleLevel, "_Level", dissolveDuration);
+        returnToMainDirector.Play();
     }
 }

@@ -8,150 +8,136 @@ using System;
 public class ModeSelectController : MonoBehaviour
 {
     [Header("References")]
-    public GameObject plateau;
-    [Space]
-    public Button confirmButon;
-    public Button rotateButton;
-    public Image rotateButtonImage;
-    public TextMeshProUGUI rotateButtonText;
-    [Space]
-    public Volume volume;
-    public Material targetMaterial;
-    public Material floorMaterial;
-   
+    [SerializeField] private GameObject plateau;
+
+    [Header("Confirm Button")]
+    [SerializeField] private Button confirmButton;
+    [SerializeField] private Image confirmButtonBackground;
+    [SerializeField] private TextMeshProUGUI confirmText;
+
+    [Header("Rotate Button")]
+    [SerializeField] private Button rotateButton;
+    [SerializeField] private Image rotateButtonBackground;
+    [SerializeField] private TextMeshProUGUI rotateText;
+
+    [Header("Materials")]
+    [SerializeField] private Volume postProcessVolume;
+    [SerializeField] private Material targetMaterial;
+    [SerializeField] private Material floorMaterial;
+
+    [Header("Confirm Button")]
+    [SerializeField] private CanvasGroup buttonsCanvasGroup;
+
     [Header("Characters")]
-    public Renderer whiteCharacter;
-    public Renderer blackCharacter;
+    [SerializeField] private Renderer whiteCharacter;
+    [SerializeField] private Renderer blackCharacter;
 
-    [Header("Dissolve Settings")]
-    public float cutoffStart = -1f;
-    public float cutoffEnd = 1f;
-    public float dissolveDuration = 1f;
+    [Header("Settings")]
+    [SerializeField] private float dissolveDuration = 1f;
+    [SerializeField] private float rotationDuration = 1f;
+    [SerializeField] private float colorTransitionDuration = 1f;
+    [SerializeField] private float cutoffVisible = 1f;
+    [SerializeField] private float cutoffHidden = -1f;
+    [SerializeField] private Color floorLight = new Color(0.85f, 0.85f, 0.85f);
+    [SerializeField] private Color floorDark = new Color(0.15f, 0.15f, 0.15f);
 
-    [Header("Transition Settings")]
-    public float rotationDuration = 1f;
-    public float colorTransitionDuration = 1f;
-
-    [Header("Floor Material Settings")]
-    public Color floorLightColor = new Color(0.85f, 0.85f, 0.85f);
-    public Color floorDarkColor = new Color(0.15f, 0.15f, 0.15f);
-
-    private WorldSpaceTextChanger worldSpaceTextChanger;
+    private bool isCorporate = true;
+    private WorldSpaceTextChanger textChanger;
     private PlateuRotator plateuRotator;
-    private bool isDarkMode = false;
 
     public static event Action<bool> OnModeSelected;
 
-    private void Awake()
+    void Awake()
     {
-        worldSpaceTextChanger = GetComponent<WorldSpaceTextChanger>();
+        textChanger = GetComponent<WorldSpaceTextChanger>();
         plateuRotator = GetComponent<PlateuRotator>();
+        confirmButton.onClick.AddListener(OnConfirmButton_CallBack);
+        rotateButton.onClick.AddListener(ToggleMode);
     }
 
     void Start()
     {
-        if (volume) volume.enabled = false;
-
-        if (targetMaterial) targetMaterial.color = Color.white;
-        if (floorMaterial) floorMaterial.color = floorLightColor;
-
-        confirmButon.onClick.AddListener(Button_OnModeSelected);
-        rotateButton.onClick.AddListener(OnRotateButtonPressed);
-
-        SetDissolve(whiteCharacter, cutoffStart);
-        SetDissolve(blackCharacter, cutoffEnd);
+        postProcessVolume.enabled = false;
+        ApplyMaterials();
+        ApplyCharacterDissolve();
+        UpdateTexts();
+        UpdateButtonVisuals();
     }
 
-    private void OnRotateButtonPressed()
+    private void OnConfirmButton_CallBack()
     {
+        OnModeSelected?.Invoke(isCorporate);
+        buttonsCanvasGroup.DOFade(0f, 0.25f);
+    }
+
+    private void ToggleMode()
+    {
+        // **flip first** so all the methods see the new state
+        isCorporate = !isCorporate;
+
         RotatePlateau();
-        ToggleMaterialColor();
-        ToggleCharacterDissolve();
-        TextChange();
-        ButtonColorChange();
-        SpeedUpPlateau();
-    }
-
-    public void Button_OnModeSelected()
-    {
-        OnModeSelected?.Invoke(isDarkMode);
-    }
-
-    private void SpeedUpPlateau()
-    {
+        ApplyMaterials();
+        ApplyCharacterDissolve();
+        UpdateTexts();
+        UpdateButtonVisuals();
         plateuRotator.BoostRotationSpeed();
-    }
-
-    private void ButtonColorChange()
-    {
-        if (isDarkMode)
-        {
-            rotateButtonImage.color = Color.white;
-            rotateButtonText.color = Color.black;
-        }
-        else
-        {
-            rotateButtonImage.color = Color.black;
-            rotateButtonText.color = Color.white;
-        }
     }
 
     private void RotatePlateau()
     {
-        if (!plateau) return;
-
-        float targetY = plateau.transform.eulerAngles.y + 180f;
         plateau.transform
-            .DORotate(new Vector3(0f, targetY, 0f), rotationDuration, RotateMode.FastBeyond360)
+            .DORotate(
+                new Vector3(0, plateau.transform.eulerAngles.y + 180f, 0),
+                rotationDuration,
+                RotateMode.FastBeyond360
+            )
             .SetEase(Ease.InOutSine);
     }
 
-    private void ToggleMaterialColor()
+    private void ApplyMaterials()
     {
+        Color bodyColor = isCorporate ? Color.white : Color.black;
+        Color floorColor = isCorporate ? floorLight : floorDark;
+
         if (targetMaterial)
-        {
-            Color target = isDarkMode ? Color.white : Color.black;
-            targetMaterial.DOColor(target, colorTransitionDuration);
-        }
+            targetMaterial.DOColor(bodyColor, colorTransitionDuration);
 
         if (floorMaterial)
-        {
-            Color floorTarget = isDarkMode ? floorLightColor : floorDarkColor;
-            floorMaterial.DOColor(floorTarget, colorTransitionDuration);
-        }
-
-        isDarkMode = !isDarkMode;
+            floorMaterial.DOColor(floorColor, colorTransitionDuration);
     }
 
-    private void ToggleCharacterDissolve()
+    private void ApplyCharacterDissolve()
     {
-        SetDissolve(whiteCharacter, isDarkMode ? cutoffEnd : cutoffStart);
-        SetDissolve(blackCharacter, isDarkMode ? cutoffStart : cutoffEnd);
+        float whiteCutoff = isCorporate ? cutoffVisible : cutoffHidden;
+        float blackCutoff = isCorporate ? cutoffHidden : cutoffVisible;
+
+        SetDissolve(whiteCharacter, whiteCutoff);
+        SetDissolve(blackCharacter, blackCutoff);
     }
 
-    private void SetDissolve(Renderer rend, float targetCutoff)
+    private void SetDissolve(Renderer rend, float cutoff)
     {
-        if (!rend) return;
-
         foreach (var mat in rend.materials)
-        {
             if (mat.HasProperty("_CutOffHeight"))
-            {
-                mat.DOFloat(targetCutoff, "_CutOffHeight", dissolveDuration)
+                mat.DOFloat(cutoff, "_CutOffHeight", dissolveDuration)
                    .SetEase(Ease.InOutSine);
-            }
-        }
     }
 
-    private void TextChange()
+    private void UpdateTexts()
     {
-        if (isDarkMode)
-        {
-            worldSpaceTextChanger.SetToGaming();
-        }
-        else
-        {
-            worldSpaceTextChanger.SetToCorperate();
-        }
+        textChanger.SetTo(isCorporate
+            ? WorldSpaceTextChanger.Mode.Corporate
+            : WorldSpaceTextChanger.Mode.Gaming);
+    }
+
+    private void UpdateButtonVisuals()
+    {
+        Color textColor = isCorporate ? Color.white : Color.black;
+        Color backgroundColor = textColor == Color.white ? Color.black : Color.white;
+
+        rotateText.color = textColor;
+        confirmText.color = textColor;
+        rotateButtonBackground.color = backgroundColor;
+        confirmButtonBackground.color = backgroundColor;
     }
 }
