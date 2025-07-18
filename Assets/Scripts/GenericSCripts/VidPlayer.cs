@@ -24,6 +24,7 @@ public class VidPlayer : MonoBehaviour
         videoPlayer.waitForFirstFrame = false;
         videoPlayer.isLooping = true;
         videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+        videoPlayer.Play();
     }
 
     public void SetString(string value)
