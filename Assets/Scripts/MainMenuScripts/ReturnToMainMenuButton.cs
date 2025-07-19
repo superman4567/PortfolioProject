@@ -1,6 +1,5 @@
 using DG.Tweening;
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,12 +7,8 @@ using UnityEngine.UI;
 public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Button button;
-    [SerializeField] private TextMeshProUGUI buttonText;
     [SerializeField] private Image icon;
     [SerializeField] private float colorTweenDuration = 0.2f;
-
-    [SerializeField] private Color activeColorText = Color.white;
-    [SerializeField] private Color inactiveColorText = new Color(0.537f, 0.537f, 0.537f);
 
     [SerializeField] private Color activeColorBackground = Color.white;
     [SerializeField] private Color inactiveColorbackground = new Color(0.537f, 0.537f, 0.537f);
@@ -22,20 +17,13 @@ public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     private void Start()
     {
-        // Initialize the button and text colors to the inactive state
-        buttonText.color = inactiveColorText;
         button.image.color = inactiveColorbackground;
-        icon.color = inactiveColorText;
+        icon.color = activeColorBackground;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // Tween the text color
-        buttonText.DOColor(activeColorText, colorTweenDuration)
-            .SetEase(Ease.InOutQuad)
-            .SetUpdate(true);
-
-        icon.DOColor(activeColorText, colorTweenDuration)
+        icon.DOColor(activeColorBackground, colorTweenDuration)
            .SetEase(Ease.InOutQuad)
            .SetUpdate(true);
 
@@ -47,12 +35,7 @@ public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // Tween the text color back to inactive
-        buttonText.DOColor(inactiveColorText, colorTweenDuration)
-            .SetEase(Ease.InOutQuad)
-            .SetUpdate(true);
-
-        icon.DOColor(inactiveColorText, colorTweenDuration)
+        icon.DOColor(inactiveColorbackground, colorTweenDuration)
             .SetEase(Ease.InOutQuad)
             .SetUpdate(true);
 
