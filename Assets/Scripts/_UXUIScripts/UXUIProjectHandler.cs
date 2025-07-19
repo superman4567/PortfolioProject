@@ -5,6 +5,7 @@ using UnityEngine.Localization.Components;
 public class UXUIProjectHandler : LocalizedMonoBehaviour
 {
     [SerializeField] private UXUIProjectSO[] uXUIProjectSO;
+    [SerializeField] private GameObject[] uXUIGalleries;
 
     [Space]
 
@@ -18,7 +19,43 @@ public class UXUIProjectHandler : LocalizedMonoBehaviour
 
     private void Awake()
     {
-        Initialize(uXUIProjectSO[0]);
+        SetProjectByEnum(EnumUXUIProjects.Braverz); // Default initialization
+    }
+
+    private void OnEnable()
+    {
+        UXUIProjectButton.OnProjectButtonClicked += SetProjectByEnum;
+    }
+
+    private void OnDisable()
+    {
+        UXUIProjectButton.OnProjectButtonClicked -= SetProjectByEnum;
+    }
+
+    public void SetProjectByEnum(EnumUXUIProjects projectEnum)
+    {
+        int index = (int)projectEnum;
+
+        if (index < 0 || index >= uXUIProjectSO.Length || index >= uXUIGalleries.Length)
+        {
+            Debug.LogWarning($"Invalid project enum index: {index}", this);
+            return;
+        }
+
+        // Initialize project data
+        Initialize(uXUIProjectSO[index]);
+
+        // Disable all galleries
+        foreach (var gallery in uXUIGalleries)
+        {
+            if (gallery != null) gallery.SetActive(false);
+        }
+
+        // Enable the selected gallery
+        if (uXUIGalleries[index] != null)
+        {
+            uXUIGalleries[index].SetActive(true);
+        }
     }
 
     public void Initialize(UXUIProjectSO data)
