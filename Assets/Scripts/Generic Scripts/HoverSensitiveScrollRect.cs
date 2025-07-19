@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HoverSensitiveScrollRect : MonoBehaviour
+public class ScrollWhenHovered : MonoBehaviour
 {
     [SerializeField] private ScrollRect scrollRect;
     [SerializeField] private RectTransform rectTransform;
