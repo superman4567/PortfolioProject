@@ -4,8 +4,8 @@ using UnityEngine.Localization;
 [CreateAssetMenu(fileName = "UXUIProject", menuName = "UXUI/Project")]
 public class UXUIProjectSO : ScriptableObject
 {
-    public LocalizedString projectName;
-    public LocalizedString projectSubtext;
+    public string projectName;
+    public string projectSubtext;
 
     public string projectRole;
     public string projectDate;

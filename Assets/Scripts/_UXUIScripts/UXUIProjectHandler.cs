@@ -4,12 +4,12 @@ using UnityEngine.Localization.Components;
 
 public class UXUIProjectHandler : LocalizedMonoBehaviour
 {
-    [SerializeField] private UXUIProjectSO uXUIProjectSO;
+    [SerializeField] private UXUIProjectSO[] uXUIProjectSO;
 
     [Space]
 
-    [SerializeField] private LocalizeStringEvent projectName;
-    [SerializeField] private LocalizeStringEvent projectSubtext;
+    [SerializeField] private TextMeshProUGUI projectName;
+    [SerializeField] private TextMeshProUGUI projectSubtext;
     [SerializeField] private TextMeshProUGUI projectRole;
     [SerializeField] private TextMeshProUGUI projectDate;
     [SerializeField] private TextMeshProUGUI projectTools;
@@ -18,13 +18,13 @@ public class UXUIProjectHandler : LocalizedMonoBehaviour
 
     private void Awake()
     {
-        Initialize(uXUIProjectSO);
+        Initialize(uXUIProjectSO[0]);
     }
 
     public void Initialize(UXUIProjectSO data)
     {
-        projectName.StringReference = data.projectName;
-        projectSubtext.StringReference = data.projectSubtext;
+        projectName.text = data.projectName;
+        projectSubtext.text = data.projectSubtext;
         projectRole.text = data.projectRole;
         projectDate.text = data.projectDate;
         projectTools.text = data.projectTools;
