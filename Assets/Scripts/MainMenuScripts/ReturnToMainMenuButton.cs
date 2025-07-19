@@ -14,29 +14,29 @@ public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPoin
     [SerializeField] private Color activeColorBackground = Color.white;
     [SerializeField] private Color inactiveColorBackground = new Color(0.537f, 0.537f, 0.537f);
 
+    [SerializeField] private bool isBackToMainMenu = false;
+    [SerializeField] private bool isBackToUXUIOverview = false;
+    //[SerializeField] private bool isBackToMainMenu = false;
+
     public static Action OnReturnToMainMenu;
+    public static Action OnReturnToUXUIOverview;
 
     private Vector3 _originalScale;
 
     private void Start()
     {
-        // cache and reset initial scale
         _originalScale = button.transform.localScale;
         button.transform.localScale = _originalScale;
-
-        // set initial color
         button.image.color = inactiveColorBackground;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        // color tween
         button.image
               .DOColor(activeColorBackground, colorTweenDuration)
               .SetEase(Ease.InOutQuad)
               .SetUpdate(true);
 
-        // scale tween
         button.transform
               .DOScale(hoverScale, scaleTweenDuration)
               .SetEase(Ease.OutQuad)
@@ -45,13 +45,11 @@ public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        // color tween back
         button.image
               .DOColor(inactiveColorBackground, colorTweenDuration)
               .SetEase(Ease.InOutQuad)
               .SetUpdate(true);
 
-        // scale tween back
         button.transform
               .DOScale(_originalScale, scaleTweenDuration)
               .SetEase(Ease.InQuad)
@@ -60,6 +58,14 @@ public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPoin
 
     public void OnClick()
     {
-        OnReturnToMainMenu?.Invoke();
+        if (isBackToMainMenu)
+        {
+            OnReturnToMainMenu?.Invoke();
+        }
+
+        if (isBackToUXUIOverview)
+        {
+            OnReturnToUXUIOverview?.Invoke();
+        }
     }
 }

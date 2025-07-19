@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Components;
+using UnityEngine.UI;
 
 public class UXUIProjectHandler : LocalizedMonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UXUIProjectHandler : LocalizedMonoBehaviour
 
     [Space]
 
+    [SerializeField] private Image projectImage;
     [SerializeField] private TextMeshProUGUI projectName;
     [SerializeField] private TextMeshProUGUI projectSubtext;
     [SerializeField] private TextMeshProUGUI projectRole;
@@ -36,6 +38,8 @@ public class UXUIProjectHandler : LocalizedMonoBehaviour
     {
         int index = (int)projectEnum;
 
+        Debug.Log($"Setting project by enum: {projectEnum} (Index: {index})", this);
+
         if (index < 0 || index >= uXUIProjectSO.Length || index >= uXUIGalleries.Length)
         {
             Debug.LogWarning($"Invalid project enum index: {index}", this);
@@ -60,6 +64,7 @@ public class UXUIProjectHandler : LocalizedMonoBehaviour
 
     public void Initialize(UXUIProjectSO data)
     {
+        projectImage.sprite = data.projectBanner;
         projectName.text = data.projectName;
         projectSubtext.text = data.projectSubtext;
         projectRole.text = data.projectRole;

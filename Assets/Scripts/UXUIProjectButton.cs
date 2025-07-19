@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
 using DG.Tweening;
+using UnityEngine.UI;
 
-public class UXUIProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class UXUIProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private EnumUXUIProjects projectEnum;
+    [SerializeField] private Button button;
     [SerializeField] private float hoverScale = 1.05f;
     [SerializeField] private float tweenDuration = 0.2f;
 
@@ -18,6 +20,7 @@ public class UXUIProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         // Cache the original scale
         originalScale = transform.localScale;
+        button.onClick.AddListener(() => OnProjectButtonClicked?.Invoke(projectEnum));
     }
 
     private void OnDestroy()
@@ -35,10 +38,5 @@ public class UXUIProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         currentTween?.Kill();
         currentTween = transform.DOScale(originalScale, tweenDuration).SetEase(Ease.OutBack);
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        OnProjectButtonClicked?.Invoke(projectEnum);
     }
 }
