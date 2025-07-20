@@ -23,11 +23,13 @@ public class CameraManager : MonoBehaviour
 
     private void OnEnable()
     {
+        ReturnButton.OnReturnToModeSelect += ReturnToModeSelect;
         ModeSelectController.OnModeSelected += HandleModeSelected;
     }
 
     private void OnDisable()
     {
+        ReturnButton.OnReturnToModeSelect -= ReturnToModeSelect;
         ModeSelectController.OnModeSelected -= HandleModeSelected;
     }
 

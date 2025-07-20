@@ -14,11 +14,12 @@ public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] private Color activeColorBackground = Color.white;
     [SerializeField] private Color inactiveColorBackground = new Color(0.537f, 0.537f, 0.537f);
 
-    [SerializeField] private bool isBackToMainMenu = false;
+    [SerializeField] private bool isBackToModeSelect = false;
+    [SerializeField] private bool isBackToCategorySelect = false;
     [SerializeField] private bool isBackToUXUIOverview = false;
-    //[SerializeField] private bool isBackToMainMenu = false;
 
-    public static Action OnReturnToMainMenu;
+    public static Action OnReturnToModeSelect;
+    public static Action OnReturnTocategory;
     public static Action OnReturnToUXUIOverview;
 
     private Vector3 _originalScale;
@@ -58,14 +59,19 @@ public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnClick()
     {
-        if (isBackToMainMenu)
+        if (isBackToCategorySelect)
         {
-            OnReturnToMainMenu?.Invoke();
+            OnReturnTocategory?.Invoke();
         }
 
         if (isBackToUXUIOverview)
         {
             OnReturnToUXUIOverview?.Invoke();
+        }
+
+        if (isBackToModeSelect)
+        {
+            OnReturnToModeSelect?.Invoke();
         }
     }
 }

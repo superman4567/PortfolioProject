@@ -20,12 +20,12 @@ public class CategoryManager : MonoBehaviour
 
     private void OnEnable()
     {
-        ReturnButton.OnReturnToMainMenu += ReturnToMainMenu;
+        ReturnButton.OnReturnTocategory += ReturnToMainMenu;
     }
 
     private void OnDisable()
     {
-        ReturnButton.OnReturnToMainMenu -= ReturnToMainMenu;
+        ReturnButton.OnReturnTocategory -= ReturnToMainMenu;
     }
 
     private void Start()

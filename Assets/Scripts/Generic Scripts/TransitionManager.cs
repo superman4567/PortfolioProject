@@ -17,6 +17,7 @@ public class TransitionManager : MonoBehaviour
 
     private void OnEnable()
     {
+        ReturnButton.OnReturnToModeSelect += OnReturnToModeSelect_Callback;
         ModeSelectController.OnModeSelected += HandleModeChange;
         UXUIProjectInstructior.OnProjectButtonClicked += HandleModeChange;
         UXUIProjectInstructior.OnBackToUXUIprojectOverviewClicked += HandleModeChange;
@@ -24,6 +25,7 @@ public class TransitionManager : MonoBehaviour
 
     private void OnDisable()
     {
+        ReturnButton.OnReturnToModeSelect -= OnReturnToModeSelect_Callback;
         ModeSelectController.OnModeSelected -= HandleModeChange;
         UXUIProjectInstructior.OnProjectButtonClicked -= HandleModeChange;
         UXUIProjectInstructior.OnBackToUXUIprojectOverviewClicked -= HandleModeChange;
@@ -32,6 +34,11 @@ public class TransitionManager : MonoBehaviour
     private void Start()
     {
         uiPanel.anchoredPosition = hiddenPos;
+    }
+
+    private void OnReturnToModeSelect_Callback()
+    {
+        HandleModeChange(true);
     }
 
     private void HandleModeChange(bool isGamingMode)

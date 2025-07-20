@@ -16,10 +16,9 @@ public class VidPlayer : MonoBehaviour
         if (videoPlayer == null || string.IsNullOrEmpty(videoFileName))
             return;
 
-        videoPlayer.source = VideoSource.Url;
-
-        // NEW (centralized utility call):
         videoPlayer.url = VideoPathUtility.GetVideoUrl(videoFileName);
+
+        videoPlayer.source = VideoSource.Url;
 
         videoPlayer.waitForFirstFrame = false;
         videoPlayer.isLooping = true;
