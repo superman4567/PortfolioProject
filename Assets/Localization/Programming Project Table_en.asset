@@ -1,0 +1,204 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Programming Project Table_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: 5bf9b2ae262087d49afde553dc3ae018, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 619279732736
+    m_Localized: Press [SPACE] To Start
+    m_Metadata:
+      m_Items: []
+  - m_Id: 3874107887374336
+    m_Localized: Or Tap this Text
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5069660927217664
+    m_Localized: UX/UI
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5069884622032896
+    m_Localized: 3D art
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5069911146811392
+    m_Localized: Programming
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5069963374284800
+    m_Localized: VFX
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5069980549959680
+    m_Localized: Profile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5070011373899776
+    m_Localized: Contact
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5601005554290688
+    m_Localized: Skippable Cutscene
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5601134415892480
+    m_Localized: Press Here To Skip
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853267
+    m_Localized: PortfolioGame
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853268
+    m_Localized: Local Changes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853269
+    m_Localized: Commits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853270
+    m_Localized: Branches
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853271
+    m_Localized: Murloc RPG is a fan game inspired by the original Murloc RPG game.
+      In this version, you play as a younger murloc who must save his small friends
+      after a spell causes the elder creatures to become overly aggressive and attack
+      them.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853272
+    m_Localized: "Murloc RPG was a project I started as a personal evaluation moment.
+      About a year ago, I began learning C#, and since then, I\u2019ve become deeply
+      immersed in mastering my first programming language. I had previously tried
+      to create a full game from start to finish with the Viking Survival project,
+      but due to my dependence on ChatGPT at the time, I struggled to properly refactor
+      my code and apply feedback from alpha testing.\n\nWith Murloc RPG, I aimed
+      to demonstrate that I had overcome those challenges. This project allowed me
+      to show my progress in coding, as well as implement better practices. Additionally,
+      I wanted to challenge myself by integrating FMOD into the project for the first
+      time, learning how to use it alongside existing code and gameplay elements."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853273
+    m_Localized: NPC Interaction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853274
+    m_Localized: "In this video, I\u2019m showcasing the interaction with an NPC.
+      I\u2019m using Cinemachine to create a smooth camera transition, framing the
+      interaction between the murloc player and the NPC murloc."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853275
+    m_Localized: Shop Interaction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853276
+    m_Localized: "In this video, I\u2019m showcasing the shop system. The shop offers
+      a wide range of items for purchase, all of which can be easily assigned to
+      shopkeepers by providing a list of Item ScriptableObjects (ItemSOs). The video
+      also highlights the tooltip functionality I created, allowing players to view
+      basic information and stats for each item."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853277
+    m_Localized: Quest Interaction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241868853278
+    m_Localized: "In this video, I\u2019m showcasing the quest system. Quest NPCs
+      can hold a Quest ScriptableObject (QuestSO), which includes optional fields
+      for a minimum level requirement and prerequisites for completing other quests.
+      The indicator above the NPC\u2019s head dynamically changes based on the current
+      state of the quest it holds, providing clear visual feedback to the player."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241889824768
+    m_Localized: Teleporting
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241889824769
+    m_Localized: "In this video, I\u2019m showcasing a small teleport system I created.
+      It allows me to set both a start and end location. When the player triggers
+      the interaction, a smooth transition overlay is played to enhance the experience."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241889824770
+    m_Localized: Combat Encounter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241889824771
+    m_Localized: "In this video, I\u2019m showcasing the combat encounter system.
+      When the player encounters an enemy, the enemy\u2019s portrait appears, and
+      a teleportation sequence is triggered. I\u2019ve also implemented an event
+      broadcasting system to enable or disable certain behaviors as needed during
+      the encounter."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241889824772
+    m_Localized: Bending Abilities
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241894019072
+    m_Localized: "In this video, I\u2019m showcasing some of the bending skills I
+      created. This was one of the first times I connected animations with actual
+      code, making it incredibly rewarding when it all worked. I also ensured that
+      the rocks had rigidbodies, allowing them to collide with or be stopped by other
+      objects. This feature would be particularly important in a PvP setting, adding
+      depth to the gameplay."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241894019073
+    m_Localized: Character and Environment
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7648241894019074
+    m_Localized: "In this video, I\u2019m showcasing a character and environment
+      I created for a practice range. I focused on ensuring the environment closely
+      resembled the caves from the Earth Kingdom, adding an immersive and thematic
+      touch. This project allowed me to blend character and environmental design
+      into a cohesive scene."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7804676481208320
+    m_Localized: Inventory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7804676548317184
+    m_Localized: "In this video, I\u2019m showcasing the inventory and equipment
+      panel systems. Players can right-click an item in the inventory to equip it,
+      or vice versa. The equipment panel dynamically updates stats when an item boosts
+      a specific attribute. If an item is already equipped, it is swapped with the
+      newly selected item."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7804676548317185
+    m_Localized: Skills
+    m_Metadata:
+      m_Items: []
+  - m_Id: 7804676548317186
+    m_Localized: "In this video, I\u2019m showcasing the skill selection system.
+      Players can choose one skill from each row, with each row corresponding to
+      a 5-level interval. As demonstrated in the video, since my character is level
+      1, I can only select a skill from the first row, while the rows below remain
+      locked."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
