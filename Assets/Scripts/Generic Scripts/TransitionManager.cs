@@ -18,11 +18,15 @@ public class TransitionManager : MonoBehaviour
     private void OnEnable()
     {
         ModeSelectController.OnModeSelected += HandleModeChange;
+        UXUIProjectInstructior.OnProjectButtonClicked += HandleModeChange;
+        UXUIProjectInstructior.OnBackToUXUIprojectOverviewClicked += HandleModeChange;
     }
 
     private void OnDisable()
     {
         ModeSelectController.OnModeSelected -= HandleModeChange;
+        UXUIProjectInstructior.OnProjectButtonClicked -= HandleModeChange;
+        UXUIProjectInstructior.OnBackToUXUIprojectOverviewClicked -= HandleModeChange;
     }
 
     private void Start()
@@ -37,12 +41,13 @@ public class TransitionManager : MonoBehaviour
 
         var seq = DOTween.Sequence();
         seq.Append(uiPanel.DOAnchorPos(visiblePos, slideDuration).SetEase(Ease.OutCubic));
-        seq.AppendInterval(pauseDuration);
         seq.Append(uiPanel.DOAnchorPos(destinationPos, slideDuration).SetEase(Ease.InCubic));
 
-        float totalDuration = slideDuration + pauseDuration + slideDuration;
+        float totalDuration = slideDuration + slideDuration;
         float callbackTime = totalDuration - 0.25f;
         seq.InsertCallback(callbackTime, HandleEnterTimeline);
+
+        seq.Append(uiPanel.DOAnchorPos(hiddenPos, 0f));
     }
 
     private void HandleEnterTimeline()

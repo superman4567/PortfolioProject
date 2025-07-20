@@ -38,8 +38,6 @@ public class UXUIProjectHandler : LocalizedMonoBehaviour
     {
         int index = (int)projectEnum;
 
-        Debug.Log($"Setting project by enum: {projectEnum} (Index: {index})", this);
-
         if (index < 0 || index >= uXUIProjectSO.Length || index >= uXUIGalleries.Length)
         {
             Debug.LogWarning($"Invalid project enum index: {index}", this);

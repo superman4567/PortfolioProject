@@ -6,11 +6,12 @@ public enum EnumUXUIProjects
     Incurable,
     Inno,
     LastOfUs,
+    Majong,
     MonopolyNext,
     OnboardingTool,
     Overriders,
+    RpgQuestAndMap,
     SeaOfThieves,
-    ProjectWraith,
-    RpgQuestAndMap
+    ProjectWraith
 }
 

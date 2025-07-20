@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ReturnToMainMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Button button;
     [SerializeField] private float colorTweenDuration = 0.2f;

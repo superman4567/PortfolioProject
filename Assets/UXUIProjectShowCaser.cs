@@ -1,23 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UXUIProjectShowCaser : MonoBehaviour
 {
     [SerializeField] private UXUIProjectSO[] projectConfigs;
+
+    [SerializeField] private TextMeshProUGUI projectName;
+    [SerializeField] private TextMeshProUGUI projectSubtext;
     [SerializeField] private Image bannerImage;
-
-    // Fast lookup table
-    private Dictionary<EnumUXUIProjects, Sprite> _bannerLookup;
-
-    private void Awake()
-    {
-        // Build a lookup from enum → sprite
-        _bannerLookup = projectConfigs
-            .Where(cfg => cfg != null)
-            .ToDictionary(cfg => cfg.projectType, cfg => cfg.projectBanner);
-    }
 
     private void OnEnable()
     {
@@ -31,13 +23,19 @@ public class UXUIProjectShowCaser : MonoBehaviour
 
     private void OnProjectHovered(EnumUXUIProjects project)
     {
-        if (_bannerLookup.TryGetValue(project, out var sprite))
+        // Find the SO whose enum matches
+        var config = projectConfigs
+            .FirstOrDefault(cfg => cfg.projectType == project);
+
+        if (config != null)
         {
-            bannerImage.sprite = sprite;
+            bannerImage.sprite = config.projectBanner;
+            projectName.text = config.projectName;
+            projectSubtext.text = config.projectSubtext;
         }
         else
         {
-            Debug.LogWarning($"[ProjectBannerController] No banner found for {project}");
+            Debug.LogWarning($"No UXUIProjectSO found for {project}");
         }
     }
 }
