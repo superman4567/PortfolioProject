@@ -5,6 +5,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "UXUIProject", menuName = "UXUI/Project")]
 public class UXUIProjectSO : ScriptableObject
 {
+    public EnumUXUIProjects projectType;
     public Sprite projectBanner;
 
     public string projectName;
