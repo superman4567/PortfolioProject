@@ -7,7 +7,7 @@ using TMPro;
 
 public class UXUIProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField] private EnumUXUIProjects projectEnum;
+    [SerializeField] private UXUIProjectSO projectSO;
 
     [Space]
     [Header("Button Components")]
@@ -32,8 +32,8 @@ public class UXUIProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
     private void Awake()
     {
         originalScale = transform.localScale;
-        buttonText.text = projectEnum.ToString();
-        button.onClick.AddListener(() => OnProjectButtonClicked?.Invoke(projectEnum));
+        buttonText.text = projectSO.projectName;
+        button.onClick.AddListener(() => OnProjectButtonClicked?.Invoke(projectSO.projectType));
     }
 
     private void OnDestroy()
@@ -74,6 +74,6 @@ public class UXUIProjectButton : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     private void ChangeDisplayedProject()
     {
-        OnProjectButtonHovered?.Invoke(projectEnum);
+        OnProjectButtonHovered?.Invoke(projectSO.projectType);
     }
 }

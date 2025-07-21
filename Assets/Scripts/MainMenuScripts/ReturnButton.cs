@@ -14,13 +14,20 @@ public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [SerializeField] private Color activeColorBackground = Color.white;
     [SerializeField] private Color inactiveColorBackground = new Color(0.537f, 0.537f, 0.537f);
 
+    [Header("Mode select")]
     [SerializeField] private bool isBackToModeSelect = false;
+
+    [Header("UXUI")]
     [SerializeField] private bool isBackToCategorySelect = false;
     [SerializeField] private bool isBackToUXUIOverview = false;
+
+    [Header("3D")]
+    [SerializeField] private bool isBackTo3DList = false;
 
     public static Action OnReturnToModeSelect;
     public static Action OnReturnTocategory;
     public static Action OnReturnToUXUIOverview;
+    public static Action OnReturnTo3DList;
 
     private Vector3 _originalScale;
 
@@ -29,6 +36,7 @@ public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         _originalScale = button.transform.localScale;
         button.transform.localScale = _originalScale;
         button.image.color = inactiveColorBackground;
+        button.onClick.AddListener(OnClick);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -57,6 +65,7 @@ public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
               .SetUpdate(true);
     }
 
+    //Set in the inspector!
     public void OnClick()
     {
         if (isBackToCategorySelect)
@@ -72,6 +81,11 @@ public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (isBackToModeSelect)
         {
             OnReturnToModeSelect?.Invoke();
+        }
+
+        if (isBackTo3DList)
+        {
+            OnReturnTo3DList?.Invoke();
         }
     }
 }
