@@ -6256,6 +6256,12 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!1 &206205163 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7745358004536605980, guid: 3dbe8366b9e8b0b499df563bb4e8f016,
+    type: 3}
+  m_PrefabInstance: {fileID: 6446217109407444238}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &222824951 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2150421532697702057, guid: 5578348fa7167f94ca938e9030ee62e3,
@@ -18711,9 +18717,9 @@ MonoBehaviour:
   m_fontSize: 24
   m_fontSizeBase: 24
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 16
+  m_fontSizeMax: 24
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -19990,6 +19996,12 @@ MonoBehaviour:
   - name: Programming
     entryTimeline: {fileID: 1260608294}
     panelController: {fileID: 1773407887476617097}
+  - name: Profile
+    entryTimeline: {fileID: 0}
+    panelController: {fileID: 666574824}
+  - name: Contact
+    entryTimeline: {fileID: 0}
+    panelController: {fileID: 1238523074}
   returnToMainDirector: {fileID: 1378591724}
 --- !u!114 &1205699868
 MonoBehaviour:
@@ -20557,7 +20569,19 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1235360761}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   references:
     version: 2
     RefIds: []
@@ -21791,7 +21815,19 @@ MonoBehaviour:
   m_FormatArguments: []
   m_UpdateString:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1425088532}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   references:
     version: 2
     RefIds: []
@@ -34426,6 +34462,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6446217109407444238}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &1815659292
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206205163}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1823688464
 GameObject:
   m_ObjectHideFlags: 0
@@ -58090,6 +58138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonContainer: {fileID: 7308117299225419485}
   galleryContainer: {fileID: 91134524184844278}
+  returnButtonContainer: {fileID: 1815659292}
 --- !u!114 &1998154640725782489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67815,7 +67864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
   m_MinWidth: -1
-  m_MinHeight: 160
+  m_MinHeight: 96
   m_PreferredWidth: -1
   m_PreferredHeight: -1
   m_FlexibleWidth: 1
@@ -77077,7 +77126,7 @@ MonoBehaviour:
     m_Left: 134
     m_Right: 32
     m_Top: 0
-    m_Bottom: 32
+    m_Bottom: 72
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
@@ -77622,7 +77671,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7745358004536605980, guid: 3dbe8366b9e8b0b499df563bb4e8f016,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1815659292}
   m_SourcePrefab: {fileID: 100100000, guid: 3dbe8366b9e8b0b499df563bb4e8f016, type: 3}
 --- !u!1 &6450150489408144973
 GameObject:
