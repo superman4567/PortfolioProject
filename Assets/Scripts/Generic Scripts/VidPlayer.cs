@@ -6,9 +6,9 @@ public class VidPlayer : MonoBehaviour
     [SerializeField] string videoFileName;
     [SerializeField] VideoPlayer videoPlayer;
 
-    private void Awake()
+    private void Start()
     {
-        LoadVideo();
+        SetString(videoFileName);
     }
 
     void LoadVideo()
@@ -16,21 +16,19 @@ public class VidPlayer : MonoBehaviour
         if (videoPlayer == null || string.IsNullOrEmpty(videoFileName))
             return;
 
-        videoPlayer.url = VideoPathUtility.GetVideoUrl(videoFileName);
-
-        videoPlayer.source = VideoSource.Url;
-
+        videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
         videoPlayer.waitForFirstFrame = false;
         videoPlayer.isLooping = true;
-        videoPlayer.audioOutputMode = VideoAudioOutputMode.None;
+
+        videoPlayer.url = VideoPathUtility.GetVideoUrl(videoFileName);
+        videoPlayer.source = VideoSource.Url;
+        
         videoPlayer.Play();
     }
 
     public void SetString(string value)
     {
         videoFileName = $"{value}.mp4";
-        Debug.Log(videoFileName);
-
         LoadVideo();
     }
 }

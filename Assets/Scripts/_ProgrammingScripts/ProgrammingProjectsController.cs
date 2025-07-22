@@ -37,27 +37,9 @@ public class ProgrammingProjectsController : MonoBehaviour
     {
         foreach (var pair in buttonPanelPairs)
         {
-            // Deactivate all panels
-            if (pair.panel != null)
-                pair.panel.SetActive(false);
-
-            // Disable the Image component on all buttons' children
-            var childImage = pair.button.GetComponentInChildren<Image>();
-            if (childImage != null)
-                childImage.enabled= false;
+            pair.panel.SetActive(false);
         }
 
-        // Activate the selected panel
-        if (selectedPair.panel != null)
-            selectedPair.panel.SetActive(true);
-
-        // Enable the Image component on the selected button's child
-        var selectedChildImage = selectedPair.button.GetComponentInChildren<Image>();
-        if (selectedChildImage != null)
-            selectedChildImage.enabled = true;
-        else
-        {
-            Debug.Log("Help");
-        }
+        selectedPair.panel.SetActive(true);
     }
 }
