@@ -8,6 +8,8 @@ public class ThreeDModelHandler : MonoBehaviour
     [SerializeField] private GameObject questForRedemptionModel;
     [SerializeField] private GameObject quantumSquadModdel;
     [SerializeField] private GameObject towerDefenceModdel;
+    [SerializeField] private GameObject vikingSurvivalModdel;
+    [SerializeField] private GameObject stylizedScythe;
 
     private GameObject[] threeDModels;
 
@@ -66,6 +68,12 @@ public class ThreeDModelHandler : MonoBehaviour
                 break;
             case EnumThreeDProjects.TowerDefence:
                 towerDefenceModdel.SetActive(true);
+                break;
+            case EnumThreeDProjects.VikingSurvival:
+                vikingSurvivalModdel.SetActive(true);
+                break;
+            case EnumThreeDProjects.Stylized:
+                stylizedScythe.SetActive(true);
                 break;
         }
     }

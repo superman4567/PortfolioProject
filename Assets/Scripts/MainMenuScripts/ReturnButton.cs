@@ -17,8 +17,10 @@ public class ReturnButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     [Header("Mode select")]
     [SerializeField] private bool isBackToModeSelect = false;
 
-    [Header("UXUI")]
+    [Header("Category")]
     [SerializeField] private bool isBackToCategorySelect = false;
+
+    [Header("UXUI")]
     [SerializeField] private bool isBackToUXUIOverview = false;
 
     [Header("3D")]

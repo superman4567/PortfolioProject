@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 
 public class WorldSpaceTextChanger : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class WorldSpaceTextChanger : MonoBehaviour
 
     [Header("Text Reference")]
     [SerializeField] private TextMeshProUGUI textElement;
+    [SerializeField] private LocalizeStringEvent textEvent;
+    [SerializeField] private LocalizedString gamingString;
+    [SerializeField] private LocalizedString corporateString;
 
     [Header("Typing Settings")]
     [SerializeField] private float typeSpeed = 0.05f;
@@ -19,10 +24,10 @@ public class WorldSpaceTextChanger : MonoBehaviour
         switch (mode)
         {
             case Mode.Gaming:
-                ChangeText("Gaming", Color.white);
+                ChangeText(gamingString, Color.white);
                 break;
             case Mode.Corporate:
-                ChangeText("Corporate", Color.black);
+                ChangeText(corporateString, Color.black);
                 break;
         }
     }
@@ -30,11 +35,21 @@ public class WorldSpaceTextChanger : MonoBehaviour
     public void SetToGaming() => SetTo(Mode.Gaming);
     public void SetToCorporate() => SetTo(Mode.Corporate);
 
-    private void ChangeText(string newText, Color newColor)
+    private void ChangeText(LocalizedString localizedSource, Color newColor)
     {
-        if (textElement == null) return;
+        if (textElement == null || textEvent == null) return;
+
         if (currentRoutine != null)
             StopCoroutine(currentRoutine);
+
+        textEvent.StringReference = localizedSource;
+        textEvent.OnUpdateString.RemoveAllListeners();
+        textEvent.OnUpdateString.AddListener(str => StartTyping(str, newColor));
+        textEvent.RefreshString();
+    }
+
+    private void StartTyping(string newText, Color newColor)
+    {
         currentRoutine = StartCoroutine(AnimateTextChange(newText, newColor));
     }
 

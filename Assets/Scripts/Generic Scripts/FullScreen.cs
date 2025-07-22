@@ -3,11 +3,24 @@ using MarksAssets.FullscreenWebGL;
 using status = MarksAssets.FullscreenWebGL.FullscreenWebGL.status;
 using navigationUI = MarksAssets.FullscreenWebGL.FullscreenWebGL.navigationUI;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class FullScreen : MonoBehaviour
 {
     public Canvas canvas;
     public CanvasGroup canvasGroup;
+    public EventTrigger inputReceiver;
+
+    private void Awake()
+    {
+        var entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerEnter
+        };
+        
+        entry.callback.AddListener((data) => Enterfullscreen());
+        inputReceiver.triggers.Add(entry);
+    }
 
     void Start()
     {

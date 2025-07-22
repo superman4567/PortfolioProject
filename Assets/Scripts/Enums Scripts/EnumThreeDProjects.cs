@@ -6,5 +6,6 @@ public enum EnumThreeDProjects
     QuestForRedemption,
     QuantumSquad,
     TowerDefence,
+    VikingSurvival,
     Stylized
 }
