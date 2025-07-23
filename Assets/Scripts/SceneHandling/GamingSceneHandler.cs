@@ -33,11 +33,16 @@ public class GamingSceneHandler : MonoBehaviour
     void Start()
     {
         categoryGroup.alpha = 0f;
+        categoryGroup.interactable = false;
+        categoryGroup.blocksRaycasts = false;
         PlayIdleAnims();
     }
 
-    public void OnShowCategoies_Callback(bool a)
+    public void OnShowCategoies_Callback(bool isCorperate)
     {
+        if (isCorperate)
+            return;
+
         StartCoroutine(Fade(categoryGroup, true));
     }
 
