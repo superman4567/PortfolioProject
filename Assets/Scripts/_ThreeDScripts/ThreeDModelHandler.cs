@@ -36,7 +36,9 @@ public class ThreeDModelHandler : MonoBehaviour
             incurableModel,
             questForRedemptionModel,
             quantumSquadModdel,
-            towerDefenceModdel
+            towerDefenceModdel,
+            vikingSurvivalModdel,
+            stylizedScythe
         };
     }
 

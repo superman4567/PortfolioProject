@@ -19,6 +19,7 @@ public class CoinManager : MonoBehaviour
     private void Start()
     {
         totalCoins = 0;
+        UpdateCoinCount(totalCoins);
     }
 
     public void UpdateCoinCount(int amount)
