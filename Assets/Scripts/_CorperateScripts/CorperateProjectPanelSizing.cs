@@ -4,26 +4,21 @@ using UnityEngine;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
-public class CorperateProjectPanelSizing : MonoBehaviour
+public class CorporateProjectPanelSizing : MonoBehaviour
 {
-    [Header("Tweening")]
-    [SerializeField] private LayoutAspectRatio aspectScript;
-    [SerializeField] private LayoutElement layoutElement;
-    [SerializeField] private VerticalLayoutGroup verticalLayoutGroup;
-    [SerializeField] private Button _button;
-    [SerializeField] private float tweenDuration = 0.5f;
-    [SerializeField] private Ease tweenEase = Ease.InOutSine;
-    [SerializeField] private float measurementDelay = 0.1f;
+    [SerializeField] LayoutElement layoutElement;
+    [SerializeField] RectTransform rectContent, rectScroll;
+    [SerializeField] Button toggleButton;
+    [SerializeField] float tweenDuration = 0.5f;
+    [SerializeField] Ease ease = Ease.InOutSine;
 
-    private RectTransform rectTransform;
-    private float collapsedHeight;
-    private float expandedHeight;
-    private bool isExpanded = false;
+    float collapsedHeight = 82f;
+    float expandedHeight;
+    bool isExpanded;
 
     void Awake()
     {
-        _button.onClick.AddListener(OnClicked);
-        rectTransform = layoutElement.GetComponent<RectTransform>();
+        toggleButton.onClick.AddListener(Toggle);
     }
 
     void OnEnable()
@@ -36,89 +31,56 @@ public class CorperateProjectPanelSizing : MonoBehaviour
         LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
     }
 
-    private void Start()
+    void Start()
     {
-        StartCoroutine(GetCollapseAndExpandValues());
+        StartCoroutine(Measure());
+    }
+
+    private IEnumerator Measure()
+    {
+        yield return null;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectContent);
+        expandedHeight = rectContent.rect.height;
+        layoutElement.preferredHeight = collapsedHeight;
+    }
+
+    private void Toggle()
+    {
+        DOTween.Kill(this);
+        float target = isExpanded ? collapsedHeight : expandedHeight;
+        TweenHeight(target, () => isExpanded = !isExpanded);
     }
 
     private void OnLocaleChanged(UnityEngine.Localization.Locale _)
     {
-        StartCoroutine(GetCollapseAndExpandValues());
+        StartCoroutine(ReMeasureAndTween());
     }
 
-    private IEnumerator GetCollapseAndExpandValues()
+    private IEnumerator ReMeasureAndTween()
     {
-        yield return new WaitForSeconds(measurementDelay);
-
-        aspectScript.enabled = false;
-        layoutElement.enabled = false;
-        verticalLayoutGroup.enabled = true;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
-        expandedHeight = LayoutUtility.GetPreferredHeight(rectTransform);
-
-        yield return new WaitForSeconds(measurementDelay);
-
-        verticalLayoutGroup.enabled = false;
-        aspectScript.enabled = true;
-        layoutElement.enabled = true;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
-        collapsedHeight = LayoutUtility.GetPreferredHeight(rectTransform);
-
-        layoutElement.preferredHeight = collapsedHeight;
-    }
-
-    private void OnClicked()
-    {
+        yield return null;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectContent);
+        float newExpanded = rectContent.rect.height;
+        expandedHeight = newExpanded;
+        float target = isExpanded ? newExpanded : collapsedHeight;
         DOTween.Kill(this);
-
-        if (isExpanded)
-            TweenToCollapsed();
-        else
-            TweenToExpand();
+        TweenHeight(target, null);
     }
 
-    private void TweenToExpand()
+    private void TweenHeight(float targetHeight, TweenCallback onComplete)
     {
-        aspectScript.enabled = false;
-        layoutElement.enabled = true;
-        verticalLayoutGroup.enabled = true;
-
-        float startH = layoutElement.preferredHeight;
-        float endH = expandedHeight;
-
-        DOVirtual.Float(startH, endH, tweenDuration, h =>
-        {
-            layoutElement.preferredHeight = h;
-            LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
-        })
-        .SetEase(tweenEase)
-        .OnComplete(() =>
-        {
-            layoutElement.enabled = false;
-            isExpanded = true;
-        })
-        .SetId(this);
-    }
-
-    private void TweenToCollapsed()
-    {
-        layoutElement.enabled = true;
-        aspectScript.enabled = true;
-        verticalLayoutGroup.enabled = false;
-
-        float startH = layoutElement.preferredHeight;
-        float endH = collapsedHeight;
-
-        DOVirtual.Float(startH, endH, tweenDuration, h =>
-        {
-            layoutElement.preferredHeight = h;
-            LayoutRebuilder.MarkLayoutForRebuild(rectTransform);
-        })
-        .SetEase(tweenEase)
-        .OnComplete(() =>
-        {
-            isExpanded = false;
-        })
+        DOTween.To(
+            () => layoutElement.preferredHeight,
+            h =>
+            {
+                layoutElement.preferredHeight = h;
+                LayoutRebuilder.MarkLayoutForRebuild(rectScroll);
+            },
+            targetHeight,
+            tweenDuration
+        )
+        .SetEase(ease)
+        .OnComplete(onComplete ?? (() => { }))
         .SetId(this);
     }
 }
