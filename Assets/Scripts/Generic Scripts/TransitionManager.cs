@@ -8,7 +8,6 @@ public class TransitionManager : MonoBehaviour
     [SerializeField] private RectTransform uiPanel;
     [SerializeField] private Image uiImage;
     [SerializeField] private float slideDuration = 1f;
-    [SerializeField] private float pauseDuration = 1f;
     [SerializeField] private PlayableDirector returnToMainDirector;
 
     private readonly Vector2 hiddenPos = Vector2.zero;

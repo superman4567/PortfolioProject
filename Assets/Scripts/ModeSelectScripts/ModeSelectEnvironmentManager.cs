@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ModeSelectEnvironmentManager : MonoBehaviour
@@ -7,32 +8,39 @@ public class ModeSelectEnvironmentManager : MonoBehaviour
     private void OnEnable()
     {
         ModeSelectController.OnModeSelected += DisableEnvironment_Callback;
-        ReturnButton.OnReturnToModeSelect += EnableEnvironment;
+        ReturnButton.OnReturnToModeSelect += EnableEnvironment_Callback;
     }
 
     private void OnDisable()
     {
         ModeSelectController.OnModeSelected -= DisableEnvironment_Callback;
-        ReturnButton.OnReturnToModeSelect -= EnableEnvironment;
+        ReturnButton.OnReturnToModeSelect -= EnableEnvironment_Callback;
     }
 
     void Start()
     {
-        EnableEnvironment();
+        StartCoroutine(EnableEnvironment());
+    }
+
+    private void EnableEnvironment_Callback()
+    {
+        StartCoroutine(EnableEnvironment());
     }
 
     private void DisableEnvironment_Callback(bool isCorporate)
     {
-        DisableEnvironment();
+        StartCoroutine(DisableEnvironment());
     }
 
-    private void DisableEnvironment()
+    private IEnumerator DisableEnvironment()
     {
+        yield return new WaitForSeconds(0.4f);
         environment.SetActive(false);
     }
 
-    private void EnableEnvironment()
+    private IEnumerator EnableEnvironment()
     {
+        yield return new WaitForSeconds(0.4f);
         environment.SetActive(true);
     }
 }

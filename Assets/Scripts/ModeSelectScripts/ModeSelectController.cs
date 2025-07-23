@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
 using DG.Tweening;
 using TMPro;
 using System;
@@ -21,7 +20,6 @@ public class ModeSelectController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rotateText;
 
     [Header("Materials")]
-    [SerializeField] private Volume postProcessVolume;
     [SerializeField] private Material targetMaterial;
     [SerializeField] private Material floorMaterial;
 
@@ -55,9 +53,18 @@ public class ModeSelectController : MonoBehaviour
         rotateButton.onClick.AddListener(ToggleMode);
     }
 
+    private void OnEnable()
+    {
+        ReturnButton.OnReturnToModeSelect += OnReturnModeSelect;
+    }
+
+    private void OnDisable()
+    {
+        ReturnButton.OnReturnToModeSelect -= OnReturnModeSelect;
+    }
+
     void Start()
     {
-        postProcessVolume.enabled = false;
         ApplyMaterials();
         ApplyCharacterDissolve();
         UpdateTexts();
@@ -68,6 +75,11 @@ public class ModeSelectController : MonoBehaviour
     {
         OnModeSelected?.Invoke(isCorporate);
         buttonsCanvasGroup.DOFade(0f, 0.25f);
+    }
+
+    private void OnReturnModeSelect()
+    {
+        buttonsCanvasGroup.DOFade(1f, 0.25f);
     }
 
     private void ToggleMode()

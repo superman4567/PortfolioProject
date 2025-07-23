@@ -54,8 +54,7 @@ public class CategoryManager : MonoBehaviour
     {
         HideAllPanels();
 
-        if (returnToMainDirector != null)
-            returnToMainDirector.Play();
+        returnToMainDirector.Play();
 
         OnShowBlackBars?.Invoke(true);
     }

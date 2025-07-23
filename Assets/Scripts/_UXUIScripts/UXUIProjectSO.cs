@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Localization;
-using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "UXUIProject", menuName = "UXUI/Project")]
 public class UXUIProjectSO : ScriptableObject

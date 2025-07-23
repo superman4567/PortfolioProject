@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class GamingSceneHandler : MonoBehaviour
@@ -17,20 +18,32 @@ public class GamingSceneHandler : MonoBehaviour
         vfxManager = GetComponent<VFXManager>();
     }
 
+    private void OnEnable()
+    {
+        ModeSelectController.OnModeSelected += OnShowCategoies_Callback;
+        ReturnButton.OnReturnToModeSelect += OnHideCategories_Callback;
+    }
+
+    private void OnDisable()
+    {
+        ModeSelectController.OnModeSelected += OnShowCategoies_Callback;
+        ReturnButton.OnReturnToModeSelect -= OnHideCategories_Callback;
+    }
+
     void Start()
     {
         categoryGroup.alpha = 0f;
         PlayIdleAnims();
     }
 
-    public void OnShowCategoies_Callbnck()
+    public void OnShowCategoies_Callback(bool a)
     {
-        Fade(categoryGroup, true);
+        StartCoroutine(Fade(categoryGroup, true));
     }
 
-    public void OnHideCategories_Callbnck()
+    public void OnHideCategories_Callback()
     {
-        Fade(categoryGroup, false);
+        StartCoroutine(Fade(categoryGroup, false));
     }
 
     public void PlayIdleAnims()
@@ -39,8 +52,10 @@ public class GamingSceneHandler : MonoBehaviour
         animHandlerBoss.CrossFadeAnimation("AN_Boss_Idle");
     }
 
-    private void Fade(CanvasGroup group, bool fadeIn)
+    private IEnumerator Fade(CanvasGroup group, bool fadeIn)
     {
+        yield return new WaitForSeconds(0.4f);
+
         if (fadeIn)
         {
             group.alpha = 0;
