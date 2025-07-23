@@ -1,7 +1,6 @@
 using UnityEngine;
 using Cinemachine;
 using DG.Tweening;
-using System;
 
 public class CameraManager : MonoBehaviour
 {
@@ -13,6 +12,8 @@ public class CameraManager : MonoBehaviour
     [Header("Camera Transforms")]
     [SerializeField] private Transform gamingCamStart;
     [SerializeField] private Transform gamingCamEnd;
+    [SerializeField] private Transform corperateCamStart;
+    [SerializeField] private Transform corperateCamEnd;
 
     [Header("Transition")]
     [SerializeField] private float transitionDuration = 1f;
@@ -65,7 +66,7 @@ public class CameraManager : MonoBehaviour
     public void ExitModeSelectToCorperate()
     {
         DOVirtual.DelayedCall(priorityDelay, () => ApplyPriorities(0, 0, 10));
-        MoveGamingCamera(gamingCamStart, gamingCamEnd);
+        MoveGamingCamera(corperateCamStart, corperateCamEnd);
     }
 
     private void ApplyPriorities(int modeSelectPrio, int gamingPrio, int corperatePrio)

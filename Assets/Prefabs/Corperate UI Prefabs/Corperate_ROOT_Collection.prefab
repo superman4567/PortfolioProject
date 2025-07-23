@@ -1134,6 +1134,7 @@ GameObject:
   - component: {fileID: 2846091472090923552}
   - component: {fileID: 626946693450555654}
   - component: {fileID: 3654801391641150443}
+  - component: {fileID: 3560923593493556311}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1240,6 +1241,55 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &3560923593493556311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5093995948887928882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6639b9ebde679c64f8b5d2aa19914486, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minCoins: 5
+  maxCoins: 10
+  spawnRadius: 100
+  moveCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0017089844
+      inSlope: 0.22801484
+      outSlope: 0.22801484
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.07810146
+    - serializedVersion: 3
+      time: 0.75782245
+      value: 0.3067052
+      inSlope: 1.6348641
+      outSlope: 1.6348641
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 5.1110177
+      outSlope: 5.1110177
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.04682413
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  coinSpeed: 1000
 --- !u!1 &5185428881870544285
 GameObject:
   m_ObjectHideFlags: 0
