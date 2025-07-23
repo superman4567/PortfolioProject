@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class VFXManager : MonoBehaviour
 {
-    [SerializeField] private GameObject vfxUXUI1;
-    [SerializeField] private GameObject vfxUXUI2;
+    [SerializeField] private ParticleSystem vfxUXUI1;
+    [SerializeField] private ParticleSystem vfxUXUI2;
     [Space]
-    [SerializeField] private GameObject vfx3D1;
-    [SerializeField] private GameObject vfx3D2;
-    [SerializeField] private GameObject vfx3D3; 
+    [SerializeField] private ParticleSystem vfx3D1;
+    [SerializeField] private ParticleSystem vfx3D2;
+    [SerializeField] private ParticleSystem vfx3D3;
     [Space]
-    [SerializeField] private GameObject vfxProgramming1;
-    [SerializeField] private GameObject vfxProgramming2;
+    [SerializeField] private ParticleSystem vfxProgramming1;
+    [SerializeField] private ParticleSystem vfxProgramming2;
 
-    private GameObject[] vfxArray;
+    private ParticleSystem[] vfxArray;
 
     private void Awake()
     {
-        vfxArray = new GameObject[]
+        vfxArray = new ParticleSystem[]
         {
             vfxUXUI1, vfxUXUI2,
             vfx3D1, vfx3D2, vfx3D3,
@@ -26,44 +26,36 @@ public class VFXManager : MonoBehaviour
 
     public void PlayUXUI1()
     {
-        vfxUXUI1.SetActive(true);
+        vfxUXUI1.Play();
     }
 
     public void PlayUXUI2()
     {
-        vfxUXUI2.SetActive(true);
+        vfxUXUI2.Play();
     }
 
     public void Play3D1()
     {
-        vfx3D1.SetActive(true);
+        vfx3D1.Play();
     }
 
     public void Play3D2()
     {
-        vfx3D2.SetActive(true);
+        vfx3D2.Play();
     }
 
     public void Play3D3()
     {
-        vfx3D3.SetActive(true);
+        vfx3D3.Play();
     }
 
     public void PlayProgramming1()
     {
-        vfxProgramming1.SetActive(true);
+        vfxProgramming1.Play();
     }
 
     public void PlayProgramming2()
     {
-        vfxProgramming2.SetActive(true);
-    }
-
-    public void DisableAll()
-    {
-        foreach (var vfx in vfxArray)
-        {
-            vfx.SetActive(false);
-        }
+        vfxProgramming2.Play();
     }
 }
