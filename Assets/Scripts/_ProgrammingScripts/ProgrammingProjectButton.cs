@@ -36,6 +36,8 @@ public class ProgrammingProjectButton : MonoBehaviour, IPointerEnterHandler, IPo
 
         checkmarkGroup.alpha = 0f;
         checkmarkGroup.blocksRaycasts = false;
+
+        buttonTextName.color = normalColor;
     }
 
     private void OnEnable()

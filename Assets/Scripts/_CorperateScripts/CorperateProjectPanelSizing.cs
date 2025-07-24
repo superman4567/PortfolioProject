@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class CorporateProjectPanelSizing : MonoBehaviour
 {
     [SerializeField] LayoutElement layoutElement;
-    [SerializeField] RectTransform rectContent, rectScroll;
+    [SerializeField] RectTransform rectContent;
     [SerializeField] Button toggleButton;
     [SerializeField] float tweenDuration = 0.5f;
     [SerializeField] Ease ease = Ease.InOutSine;
@@ -41,11 +41,13 @@ public class CorporateProjectPanelSizing : MonoBehaviour
         yield return null;
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectContent);
         expandedHeight = rectContent.rect.height;
+       
         layoutElement.preferredHeight = collapsedHeight;
     }
 
     private void Toggle()
     {
+        StartCoroutine(ReMeasureAndToggle());
         DOTween.Kill(this);
         float target = isExpanded ? collapsedHeight : expandedHeight;
         TweenHeight(target, () => isExpanded = !isExpanded);
@@ -53,18 +55,21 @@ public class CorporateProjectPanelSizing : MonoBehaviour
 
     private void OnLocaleChanged(UnityEngine.Localization.Locale _)
     {
-        StartCoroutine(ReMeasureAndTween());
+        StartCoroutine(ReMeasureAndToggle());
     }
 
-    private IEnumerator ReMeasureAndTween()
+    private IEnumerator ReMeasureAndToggle()
     {
         yield return null;
+
         LayoutRebuilder.ForceRebuildLayoutImmediate(rectContent);
         float newExpanded = rectContent.rect.height;
+
         expandedHeight = newExpanded;
-        float target = isExpanded ? newExpanded : collapsedHeight;
+        float target = isExpanded ? collapsedHeight : expandedHeight;
+
         DOTween.Kill(this);
-        TweenHeight(target, null);
+        TweenHeight(target, () => isExpanded = !isExpanded);
     }
 
     private void TweenHeight(float targetHeight, TweenCallback onComplete)
@@ -74,7 +79,7 @@ public class CorporateProjectPanelSizing : MonoBehaviour
             h =>
             {
                 layoutElement.preferredHeight = h;
-                LayoutRebuilder.MarkLayoutForRebuild(rectScroll);
+                LayoutRebuilder.MarkLayoutForRebuild(rectContent);
             },
             targetHeight,
             tweenDuration

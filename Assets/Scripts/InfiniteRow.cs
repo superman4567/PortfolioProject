@@ -11,7 +11,7 @@ public class InfiniteChildren : MonoBehaviour
     [SerializeField] private float spacing = 32f;
 
     [Header("Fade Settings")]
-    [SerializeField] private float fadeStartPadding = 100f; // distance from edge where fade starts
+    [SerializeField] private float fadeStartPadding = 100f;
     [SerializeField] private float fadeDuration = 0.25f;
 
     private List<float> initialX;
@@ -19,9 +19,14 @@ public class InfiniteChildren : MonoBehaviour
     private float totalRowWidth;
     private float offset;
 
+    private Tween scrollTween;
 
+    private void OnDestroy()
+    {
+        scrollTween?.Kill();
+    }
 
-    public void Start()
+    private void Start()
     {
         int count = itemsList.Count;
         if (count == 0) return;
@@ -33,7 +38,6 @@ public class InfiniteChildren : MonoBehaviour
 
         foreach (var item in itemsList)
         {
-            // Ensure anchor/pivot is left-middle
             item.anchorMin = new Vector2(0f, 0.5f);
             item.anchorMax = new Vector2(0f, 0.5f);
             item.pivot = new Vector2(0f, 0.5f);
@@ -52,11 +56,18 @@ public class InfiniteChildren : MonoBehaviour
         }
 
         totalRowWidth = currentX;
+
+        scrollTween = DOTween
+            .To(() => offset, x => offset = x, totalRowWidth, totalRowWidth / scrollSpeed)
+            .SetEase(Ease.Linear)
+            .SetLoops(-1, LoopType.Restart)
+            .OnUpdate(UpdateScroll);
     }
 
-    private void Update()
+    private void UpdateScroll()
     {
-        offset = (offset + scrollSpeed * Time.deltaTime) % totalRowWidth;
+        offset %= totalRowWidth;
+
         float viewWidth = viewportRect.rect.width;
         float viewLeft = 0f;
         float viewRight = viewWidth;
@@ -74,15 +85,23 @@ public class InfiniteChildren : MonoBehaviour
 
             item.anchoredPosition = new Vector2(x, item.anchoredPosition.y);
 
-            // --- FADE BASED ON X ---
             float itemCenter = x + (width * 0.5f);
             float distanceToLeft = Mathf.Clamp01((itemCenter - viewLeft) / fadeStartPadding);
             float distanceToRight = Mathf.Clamp01((viewRight - itemCenter) / fadeStartPadding);
-            float fadeFactor = Mathf.Min(distanceToLeft, distanceToRight); // 1 = center, 0 = edge
+            float fadeFactor = Mathf.Min(distanceToLeft, distanceToRight);
 
             CanvasGroup cg = item.GetComponent<CanvasGroup>();
-            float targetAlpha = fadeFactor;
-            cg.DOFade(targetAlpha, fadeDuration);
+            if (cg != null)
+            {
+                float currentAlpha = cg.alpha;
+                float targetAlpha = fadeFactor;
+
+                if (Mathf.Abs(currentAlpha - targetAlpha) > 0.01f)
+                {
+                    DOTween.Kill(cg);
+                    cg.DOFade(targetAlpha, fadeDuration).SetId(cg);
+                }
+            }
         }
     }
 }
