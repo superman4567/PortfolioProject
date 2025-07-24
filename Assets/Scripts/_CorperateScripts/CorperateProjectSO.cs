@@ -4,6 +4,7 @@ using UnityEngine.Localization;
 [CreateAssetMenu(fileName = "CorperateProject", menuName = "Corperate/Project")]
 public class CorperateProjectSO : ScriptableObject
 {
+    public string projectName;
     public string projectRole;
     public string projectDate;
     public string projectTools;

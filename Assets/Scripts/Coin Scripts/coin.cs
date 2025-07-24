@@ -22,6 +22,11 @@ public class Coin : MonoBehaviour
             // fade/scale in
             .Append(canvasGroup.DOFade(1f, 0.5f))
 
+            // schedule the “pop-out” to 1.6 at 20% into the move
+            .Insert(0.2f + growTime,
+                transform.DOScale(1.6f, growTime).SetEase(Ease.OutQuad)
+            )
+
             //wait for 0.2 seconds before starting the move
             .Insert(0f, transform.DOScale(1f, 0.5f).SetEase(Ease.OutBack))
 
@@ -30,10 +35,6 @@ public class Coin : MonoBehaviour
                 .SetEase(animCurve)
             )
 
-            // schedule the “pop-out” to 1.6 at 20% into the move
-            .Insert(0.5f + growTime,
-                transform.DOScale(1.6f, growTime).SetEase(Ease.OutQuad)
-            )
             // schedule the “settle back” to 1 at 40% into the move
             .Insert(0.5f + growTime + shrinkTime,
                 transform.DOScale(1f, shrinkTime).SetEase(Ease.InQuad)

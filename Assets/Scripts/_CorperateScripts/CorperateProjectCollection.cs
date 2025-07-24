@@ -10,6 +10,7 @@ public class CorperateProjectCollection : MonoBehaviour
     [SerializeField] private CorperateProjectSO projectSO;
 
     [Header("Tweening")]
+    [SerializeField] private TextMeshProUGUI projectName;
     [SerializeField] private TextMeshProUGUI roleText;
     [SerializeField] private TextMeshProUGUI dateText;
     [SerializeField] private TextMeshProUGUI toolsText;
@@ -23,6 +24,7 @@ public class CorperateProjectCollection : MonoBehaviour
 
     private void Initialize()
     {
+        projectName.text = projectSO.projectName;
         roleText.text = projectSO.projectRole;
         dateText.text = projectSO.projectDate;
         toolsText.text = projectSO.projectTools;

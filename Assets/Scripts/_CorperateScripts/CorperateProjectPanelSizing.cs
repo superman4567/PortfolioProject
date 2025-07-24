@@ -1,20 +1,30 @@
 using DG.Tweening;
 using System.Collections;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class CorporateProjectPanelSizing : MonoBehaviour
 {
-    [SerializeField] LayoutElement layoutElement;
-    [SerializeField] RectTransform rectContent;
-    [SerializeField] Button toggleButton;
-    [SerializeField] float tweenDuration = 0.5f;
+    [SerializeField] private LayoutElement layoutElement;
+    [SerializeField] private RectTransform rectContent;
+    [SerializeField] private Button toggleButton;
+    [SerializeField] private LocalizeStringEvent toggleButtonText;
+    [SerializeField] private float tweenDuration = 0.5f;
     [SerializeField] Ease ease = Ease.InOutSine;
 
-    float collapsedHeight = 82f;
-    float expandedHeight;
-    bool isExpanded;
+    [Space]
+
+    [SerializeField] private LocalizedString readmoreText;
+    [SerializeField] private LocalizedString readlessText;
+
+    readonly float collapsedHeight = 82f;
+
+    private float expandedHeight;
+    private bool isExpanded;
 
     void Awake()
     {
@@ -33,6 +43,7 @@ public class CorporateProjectPanelSizing : MonoBehaviour
 
     void Start()
     {
+        toggleButtonText.StringReference = readmoreText;
         StartCoroutine(Measure());
     }
 
@@ -47,6 +58,8 @@ public class CorporateProjectPanelSizing : MonoBehaviour
 
     private void Toggle()
     {
+        ToggleTextExpansionButtonText();
+
         StartCoroutine(ReMeasureAndToggle());
         DOTween.Kill(this);
         float target = isExpanded ? collapsedHeight : expandedHeight;
@@ -68,6 +81,9 @@ public class CorporateProjectPanelSizing : MonoBehaviour
         expandedHeight = newExpanded;
         float target = isExpanded ? collapsedHeight : expandedHeight;
 
+        if (!isExpanded)
+            yield break;
+
         DOTween.Kill(this);
         TweenHeight(target, () => isExpanded = !isExpanded);
     }
@@ -87,5 +103,17 @@ public class CorporateProjectPanelSizing : MonoBehaviour
         .SetEase(ease)
         .OnComplete(onComplete ?? (() => { }))
         .SetId(this);
+    }
+
+    private void ToggleTextExpansionButtonText()
+    {
+        if (isExpanded)
+        {
+            toggleButtonText.StringReference = readmoreText;
+        }
+        else
+        {
+            toggleButtonText.StringReference = readlessText;
+        }
     }
 }

@@ -20,7 +20,7 @@ public class CoinRewardSpawner : MonoBehaviour
     private void SpawnCoins()
     {
         int count = Random.Range(minCoins, maxCoins + 1);
-        Vector3 target = CoinManager.Instance.coinTargetPosition;
+        Vector3 target = CoinManager.Instance.CoinTargetPosition;
 
         for (int i = 0; i < count; i++)
         {

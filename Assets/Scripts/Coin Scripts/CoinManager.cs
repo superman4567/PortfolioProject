@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -8,7 +9,9 @@ public class CoinManager : MonoBehaviour
     public RectTransform coinTarget;
 
     private int totalCoins;
-    public Vector3 coinTargetPosition => coinTarget.position;
+    public Vector3 CoinTargetPosition => coinTarget.position;
+
+    public static event Action<int> OnCoinCollected;
 
     void Awake()
     {
@@ -26,5 +29,6 @@ public class CoinManager : MonoBehaviour
     {
         totalCoins += amount;
         coinText.text = totalCoins.ToString();
+        OnCoinCollected?.Invoke(totalCoins);
     }
 }
