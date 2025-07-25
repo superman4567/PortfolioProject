@@ -45,8 +45,12 @@ public class WarningPopup : MonoBehaviour
 
     private void DestroyThisObject()
     {
-        canvasGroup.DOFade(0f, 1f).SetEase(Ease.InOutQuad);
-        canvasGroup.DOKill();
-        Destroy(gameObject, 1f);
+        canvasGroup.DOFade(0f, 1f)
+            .SetEase(Ease.InOutQuad)
+            .OnComplete(() =>
+            {
+                canvasGroup.DOKill();
+                Destroy(gameObject);
+            });
     }
 }
