@@ -20,14 +20,18 @@ public class GamingSceneHandler : MonoBehaviour
 
     private void OnEnable()
     {
-        ModeSelectController.OnModeSelected += OnShowCategoies_Callback;
-        ReturnButton.OnReturnToModeSelect += OnHideCategories_Callback;
+        ModeSelectController.OnModeSelected += OnModeSelected_Callback;
+        ReturnButton.OnReturnToModeSelect += OnReturnToModeSelect_Callback;
+        ReturnButton.OnReturnTocategory += OnReturnTocategory_Callback;
+        CategoryManager.OnCategoryClicked += OnCategoryClicked_Callback;
     }
 
     private void OnDisable()
     {
-        ModeSelectController.OnModeSelected += OnShowCategoies_Callback;
-        ReturnButton.OnReturnToModeSelect -= OnHideCategories_Callback;
+        ModeSelectController.OnModeSelected -= OnModeSelected_Callback;
+        ReturnButton.OnReturnToModeSelect -= OnReturnToModeSelect_Callback;
+        ReturnButton.OnReturnTocategory -= OnReturnTocategory_Callback;
+        CategoryManager.OnCategoryClicked -= OnCategoryClicked_Callback;
     }
 
     void Start()
@@ -38,7 +42,7 @@ public class GamingSceneHandler : MonoBehaviour
         PlayIdleAnims();
     }
 
-    public void OnShowCategoies_Callback(bool isCorperate)
+    public void OnModeSelected_Callback(bool isCorperate)
     {
         if (isCorperate)
             return;
@@ -46,7 +50,17 @@ public class GamingSceneHandler : MonoBehaviour
         StartCoroutine(Fade(categoryGroup, true));
     }
 
-    public void OnHideCategories_Callback()
+    public void OnReturnTocategory_Callback()
+    {
+        StartCoroutine(Fade(categoryGroup, true));
+    }
+
+    public void OnReturnToModeSelect_Callback()
+    {
+        StartCoroutine(Fade(categoryGroup, false));
+    }
+
+    public void OnCategoryClicked_Callback()
     {
         StartCoroutine(Fade(categoryGroup, false));
     }

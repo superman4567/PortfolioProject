@@ -8,6 +8,7 @@ public class CategoryManager : MonoBehaviour
     [SerializeField] private PlayableDirector returnToMainDirector;
 
     public static Action<bool> OnShowBlackBars;
+    public static Action OnCategoryClicked;
 
 
     [Serializable]
@@ -42,6 +43,7 @@ public class CategoryManager : MonoBehaviour
             director.Play();
 
         OnShowBlackBars?.Invoke(true);
+        OnCategoryClicked?.Invoke();
     }
 
     public void ShowCategoryUI(int index)
