@@ -285,6 +285,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1333431253465197149}
+  - component: {fileID: 1935273130125710173}
   - component: {fileID: 5155574330327057145}
   - component: {fileID: 2601416243717010889}
   m_Layer: 5
@@ -314,6 +315,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1935273130125710173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431423392383569599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee226b430355e0f48bc7b4b6665bc473, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5155574330327057145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -389,8 +402,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 380, y: -100.49}
-  m_SizeDelta: {x: 760, y: 200.98}
+  m_AnchoredPosition: {x: 380, y: -203.725}
+  m_SizeDelta: {x: 760, y: 407.45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2322969307995792030
 CanvasRenderer:
@@ -420,11 +433,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Building the quest system taught me end-to-end ownership and tight iteration
-    with designers\u2014using tweened transitions to prototype pacing and flow instantly,
-    and embedding debug menus so I could spawn, cancel, or advance quests on the
-    fly for rapid testing. These tools kept designers in the loop, sped up bug hunts,
-    and reinforced the value of flexible systems and clear in-engine tooling."
+  m_text: "During a two-month engagement at Netcompany stepping in for the absent
+    UX/UI designer, I not only maintained but significantly expanded the existing
+    Figma design system\u2014creating a suite of reusable components, documenting
+    best-practice usage guidelines, and ensuring visual consistency across every
+    screen\u2014but also led the end-to-end design and prototyping of a robust \u201Cschool-to-school\u201D
+    administration interface. By conducting rapid user research with platform administrators,
+    defining clear information architecture with faceted search, paginated lists,
+    and contextual action menus, and iterating closely with developers on responsive
+    prototypes, I delivered an intuitive, scalable solution that empowered administrators
+    to search, filter, and connect thousands of schools efficiently while meeting
+    all project deadlines."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 60f0c7f4e5bc1de44a406cbd1d18c49e, type: 2}
   m_sharedMaterial: {fileID: -1971814388318366541, guid: 60f0c7f4e5bc1de44a406cbd1d18c49e,
@@ -2328,6 +2347,7 @@ GameObject:
   - component: {fileID: 4931173342850998039}
   - component: {fileID: 713441427993386173}
   - component: {fileID: 1275465333850371150}
+  - component: {fileID: 5773948040551881754}
   m_Layer: 5
   m_Name: Corperate_ROOT_Collection
   m_TagString: Untagged
@@ -2385,13 +2405,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a98353c2b240a1345a305a2bff06ed84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layoutElement: {fileID: 461559258275891363}
+  collectionHeight: {fileID: 1935273130125710173}
   rectContent: {fileID: 1333431253465197149}
   toggleButton: {fileID: 626946693450555654}
   toggleButtonText: {fileID: 7870880626580031316}
   tweenDuration: 0.5
   ease: 4
-  readmoreText:
+  readMoreText:
     m_TableReference:
       m_TableCollectionName: GUID:02c366dea64bf15489baa07518ede7ea
     m_TableEntryReference:
@@ -2400,7 +2420,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
-  readlessText:
+  readLessText:
     m_TableReference:
       m_TableCollectionName: GUID:02c366dea64bf15489baa07518ede7ea
     m_TableEntryReference:
@@ -2409,6 +2429,7 @@ MonoBehaviour:
     m_FallbackState: 0
     m_WaitForCompletion: 0
     m_LocalVariables: []
+  layoutElement: {fileID: 461559258275891363}
   references:
     version: 2
     RefIds: []
@@ -2482,6 +2503,26 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &5773948040551881754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8538285582712366117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306cc8c2b49d7114eaa3623786fc2126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  m_MinWidth: -1
+  m_MinHeight: -1
+  m_PreferredWidth: -1
+  m_PreferredHeight: -1
+  m_FlexibleWidth: -1
+  m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!1 &8868192895420030301
 GameObject:
   m_ObjectHideFlags: 0

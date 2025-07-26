@@ -1,5 +1,4 @@
 using DG.Tweening;
-using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -7,90 +6,65 @@ using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(LayoutElement))]
 public class CorporateProjectPanelSizing : MonoBehaviour
 {
-    [SerializeField] private LayoutElement layoutElement;
+    [Header("References")]
+    [SerializeField] private CorperateProjectCollectionHeight collectionHeight;
     [SerializeField] private RectTransform rectContent;
     [SerializeField] private Button toggleButton;
     [SerializeField] private LocalizeStringEvent toggleButtonText;
+
+    [Header("Animation")]
     [SerializeField] private float tweenDuration = 0.5f;
-    [SerializeField] Ease ease = Ease.InOutSine;
+    [SerializeField] private Ease ease = Ease.InOutSine;
 
-    [Space]
-
-    [SerializeField] private LocalizedString readmoreText;
-    [SerializeField] private LocalizedString readlessText;
-
-    readonly float collapsedHeight = 82f;
-
-    private float expandedHeight;
+    [Header("Localized Text")]
+    [SerializeField] private LocalizedString readMoreText;
+    [SerializeField] private LocalizedString readLessText;
+    [SerializeField] private LayoutElement layoutElement;
+    
     private bool isExpanded;
+    private const float CollapsedHeight = 82f;
 
-    void Awake()
+    private void Awake()
     {
         toggleButton.onClick.AddListener(Toggle);
     }
 
-    void OnEnable()
+    private void OnEnable()
     {
         LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
     }
 
-    void OnDisable()
+    private void OnDisable()
     {
         LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
     }
 
-    void Start()
+    private void Start()
     {
-        toggleButtonText.StringReference = readmoreText;
-        StartCoroutine(Measure());
-    }
-
-    private IEnumerator Measure()
-    {
-        yield return null;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(rectContent);
-        expandedHeight = rectContent.rect.height;
-       
-        layoutElement.preferredHeight = collapsedHeight;
-
-        StartCoroutine(ReMeasureAndToggle());
+        UpdateToggleText();
     }
 
     private void Toggle()
     {
-        ToggleTextExpansionButtonText();
+        isExpanded = !isExpanded;
+        float targetHeight = isExpanded ? collectionHeight.ContentHeight : CollapsedHeight;
 
-        StartCoroutine(ReMeasureAndToggle());
-        DOTween.Kill(this);
-        float target = isExpanded ? collapsedHeight : expandedHeight;
-        TweenHeight(target, () => isExpanded = !isExpanded);
+        TweenHeight(targetHeight);
+        UpdateToggleText();
     }
 
     private void OnLocaleChanged(UnityEngine.Localization.Locale _)
     {
-        StartCoroutine(ReMeasureAndToggle());
+        if (isExpanded)
+        {
+            TweenHeight(collectionHeight.ContentHeight);
+        }
     }
 
-    private IEnumerator ReMeasureAndToggle()
-    {
-        yield return null;
-
-        LayoutRebuilder.ForceRebuildLayoutImmediate(rectContent);
-        float newExpanded = rectContent.rect.height;
-
-        expandedHeight = newExpanded;
-        float target = isExpanded ? collapsedHeight : expandedHeight;
-
-        if (!isExpanded)
-            yield break;
-
-        DOTween.Kill(this);
-        TweenHeight(target, () => isExpanded = !isExpanded);
-    }
-
-    private void TweenHeight(float targetHeight, TweenCallback onComplete)
+    private void TweenHeight(float targetHeight)
     {
         DOTween.To(
             () => layoutElement.preferredHeight,
@@ -103,19 +77,11 @@ public class CorporateProjectPanelSizing : MonoBehaviour
             tweenDuration
         )
         .SetEase(ease)
-        .OnComplete(onComplete ?? (() => { }))
         .SetId(this);
     }
 
-    private void ToggleTextExpansionButtonText()
+    private void UpdateToggleText()
     {
-        if (isExpanded)
-        {
-            toggleButtonText.StringReference = readmoreText;
-        }
-        else
-        {
-            toggleButtonText.StringReference = readlessText;
-        }
+        toggleButtonText.StringReference = isExpanded ? readLessText : readMoreText;
     }
 }
