@@ -54,6 +54,8 @@ public class CorporateProjectPanelSizing : MonoBehaviour
         expandedHeight = rectContent.rect.height;
        
         layoutElement.preferredHeight = collapsedHeight;
+
+        StartCoroutine(ReMeasureAndToggle());
     }
 
     private void Toggle()
